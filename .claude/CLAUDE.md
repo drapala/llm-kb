@@ -10,6 +10,20 @@ interligada baseada nas fontes em raw/.
 3. Use wikilinks [[conceito]] para interligar artigos
 4. Cite com links relativos para raw/ (ex: [fonte](../../raw/articles/x.md))
 5. Cada artigo wiki segue o template abaixo
+6. _index.md é PONTEIRO, não conteúdo: max ~150 chars por linha
+   (título + contexto mínimo). Nunca despeje resumos longos no índice.
+
+## Disciplina de Escrita
+- Sempre: escreva/atualize o artigo PRIMEIRO → depois atualize _index.md
+- Nunca: dump de conteúdo no _index.md (previne entropia)
+- Se algo é derivável (pode ser recalculado), não persista no wiki
+
+## Retrieval (3 camadas)
+O /ask segue esta hierarquia de leitura:
+- Layer 1: _index.md — SEMPRE lido (leve, ponteiros)
+- Layer 2: wiki/concepts/*.md — lido ON-DEMAND quando relevante
+- Layer 3: raw/ — NUNCA lido inteiro, só consultado para verificação pontual
+Wiki é hint, não verdade. Se wiki contradiz raw/, raw/ VENCE.
 
 ## Granularidade (heurísticas, não leis)
 - 1 conceito = 1 arquivo

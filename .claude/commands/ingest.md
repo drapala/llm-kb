@@ -11,10 +11,11 @@ Compare raw/ com wiki/_registry.md. Para cada fonte nova:
    - Se não justifica artigo próprio: mencione como seção em artigo existente mais próximo
 4. Classifique a fonte: type (article/paper/repo/note/dataset) e quality (primary/secondary/tertiary)
 5. Verifique: algum artigo existente agora tem overlap >60% com outro? Se sim, sugira merge
-6. Adicione entrada no _registry.md:
-   - path | data processamento | type | quality | conceitos extraídos | status (processed)
-7. Atualize _index.md (1 linha por artigo: título + resumo curto)
-8. Processe quaisquer blocos > [!patch] encontrados nos artigos tocados
+6. Processe quaisquer blocos > [!patch] encontrados nos artigos tocados
+7. DEPOIS de todos os artigos escritos/atualizados, atualize:
+   - _registry.md: path | data | type | quality | conceitos | status
+   - _index.md: 1 ponteiro por artigo (~150 chars: título + contexto mínimo)
+   Ordem importa: artigo primeiro → índice depois. Nunca o contrário.
 
 Reporte: X fontes processadas, Y artigos criados, Z atualizados, W patches resolvidos.
 Se encontrar fontes com problemas (vazio, ilegível, duplicata exata): reporte sem processar.

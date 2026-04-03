@@ -1,13 +1,19 @@
 # /ask
 
-O usuário faz uma pergunta. Para responder:
+O usuário faz uma pergunta. Para responder, siga as 3 camadas de retrieval:
 
-1. Leia wiki/_index.md inteiro
-2. Identifique os 5-10 artigos mais relevantes
-3. Leia esses artigos
-4. Para claims importantes: vá à fonte original em raw/ para verificar
-   antes de incluir na resposta. Prefira citar raw/ quando disponível.
-5. Sintetize resposta
+Layer 1 — Orientação:
+1. Leia wiki/_index.md inteiro (~150 chars por artigo, leve)
+2. Identifique os 5-10 artigos mais relevantes pelos ponteiros
+
+Layer 2 — Profundidade:
+3. Leia esses artigos em wiki/concepts/
+4. Trate o wiki como HINT, não como verdade
+
+Layer 3 — Verificação:
+5. Para claims importantes: vá à fonte original em raw/ para verificar.
+   Se wiki contradiz raw/, raw/ vence.
+6. Sintetize resposta
 
 Formato obrigatório:
 - **Resposta** — direto ao ponto
