@@ -65,3 +65,27 @@
 | raw/articles/grasse-stigmergy.md | 2026-04-04 | article | primary | neutral | stigmergic-coordination | processed |
 | raw/articles/waldrop-complexity.md | 2026-04-04 | article | secondary | neutral | complexity-emergence | processed |
 | raw/articles/friston-predictive-processing.md | 2026-04-04 | article | primary | neutral | predictive-processing | processed |
+| raw/papers/shannon-mathematical-theory-communication.md | 2026-04-04 | paper | primary | neutral | information-theory-shannon | processed |
+| raw/articles/beer-designing-freedom.md | 2026-04-04 | article | primary | neutral | viable-system-model-beer | processed |
+| raw/papers/tishby-information-bottleneck.md | 2026-04-04 | paper | primary | neutral | information-bottleneck | processed |
+| raw/papers/wibral-partial-information-decomposition.md | 2026-04-04 | paper | primary | neutral | partial-information-decomposition | processed |
+| raw/papers/ho-chu-team-decision-theory.md | 2026-04-04 | paper | primary | neutral | team-decision-theory | processed |
+| raw/articles/pritchard-bibliometrics.md | 2026-04-04 | article | primary | neutral | bibliometrics | processed |
+| raw/articles/bradford-sources-of-information.md | 2026-04-04 | article | primary | neutral | bradford-law-scattering | processed |
+| raw/papers/sims-rational-inattention.md | 2026-04-04 | paper | primary | neutral | rational-inattention | processed |
+| raw/papers/alquier-pac-bayes-bounds.md | 2026-04-04 | paper | secondary | neutral | pac-bayes-bounds | processed |
+| raw/papers/list-pettit-judgment-aggregation.md | 2026-04-04 | paper | primary | challenging | judgment-aggregation | processed |
+| raw/papers/courtade-ceo-problem.md | 2026-04-04 | paper | primary | neutral | ceo-problem | processed |
+| raw/papers/cover-thomas-elements-information-theory.md | 2026-04-04 | paper | primary | neutral | rate-distortion-theory, network-information-theory | processed |
+| raw/papers/kahneman-tversky-1974-heuristics-biases.md | 2026-04-04 | paper | primary | neutral | heuristics-and-biases | processed |
+| raw/papers/kahneman-tversky-1979-prospect-theory.md | 2026-04-04 | paper | primary | challenging | prospect-theory | processed |
+| raw/papers/arrow-1950-difficulty-social-welfare.md | 2026-04-04 | paper | primary | neutral | social-choice-aggregation | processed |
+| raw/papers/black-1948-group-decision-making.md | 2026-04-04 | paper | primary | neutral | social-choice-aggregation | processed |
+| raw/papers/may-1972-large-complex-system-stability.md | 2026-04-04 | paper | primary | challenging | complexity-stability-tradeoff | processed |
+| raw/papers/tilman-1994-competition-biodiversity.md | 2026-04-04 | paper | primary | neutral | resource-competition-coexistence | processed |
+| raw/papers/ferrer-cancho-sole-2003-zipf-least-effort.md | 2026-04-04 | paper | primary | neutral | zipf-law-power-laws | processed |
+| raw/papers/piantadosi-2014-zipf-critical-review.md | 2026-04-04 | paper | secondary | neutral | zipf-law-power-laws | processed |
+| raw/papers/lakatos-1970-scientific-research-programmes.md | 2026-04-04 | paper | primary | challenging | scientific-research-programmes | processed |
+| raw/papers/popper-1963-science-conjectures-refutations.md | 2026-04-04 | paper | primary | neutral | falsificationism-demarcation | processed |
+| raw/papers/mcclelland-1995-complementary-learning-systems.md | 2026-04-04 | paper | primary | neutral | complementary-learning-systems | processed |
+| raw/papers/tulving-2002-episodic-memory.md | 2026-04-04 | paper | primary | neutral | episodic-semantic-memory | processed |

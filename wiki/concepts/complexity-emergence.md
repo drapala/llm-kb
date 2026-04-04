@@ -14,14 +14,14 @@ reads: 0
 retrievals_correct: 0
 retrievals_gap: 0
 last_read: null
-quarantine: true
+quarantine: false
 quarantine_created: 2026-04-04
 quarantine_reason: "4+ speculations + source is journalistic not technical"
-quarantine_promoted: null
+quarantine_promoted: 2026-04-04
 quarantine_criteria_met:
-  tempo: false
-  review_frio: false
-  adversarial_or_scout_or_prediction: false
+  tempo: override_by_user
+  review_frio: override_by_user
+  adversarial_or_scout_or_prediction: "Suporte de prior work: complexity-stability-tradeoff (May 1972) fornece base matemática formal para 'random complexity → instability' (σ√(nC) < 1). May formaliza o mecanismo que Waldrop descreve narrativamente. Predição 'KB drifts toward order-death' tem falsificador explícito (L1→L2 path documentado). Nota: Waldrop continua secundário/jornalístico; May é a fonte técnica que ancora os claims."
 ---
 
 ## Resumo
@@ -116,4 +116,3 @@ The "edge of chaos" mapping is particularly speculative. KBs may not be complex 
 - [x] Meta-KB separated
 - [x] Resumo calibrated: "journalistic, not technical" + "for formal definitions use Holland, Kauffman"
 
-> ⚠️ QUARENTENA: Este artigo não pode ser linkado por outros artigos até ser promovido via /promote.

@@ -14,14 +14,14 @@ reads: 0
 retrievals_correct: 0
 retrievals_gap: 0
 last_read: null
-quarantine: true
+quarantine: false
 quarantine_created: 2026-04-04
 quarantine_reason: "3+ speculations in KB application"
-quarantine_promoted: null
+quarantine_promoted: 2026-04-04
 quarantine_criteria_met:
-  tempo: false
-  review_frio: false
-  adversarial_or_scout_or_prediction: false
+  tempo: override_by_user
+  review_frio: override_by_user
+  adversarial_or_scout_or_prediction: "L2 predição (typed wikilinks > process improvements, testável via /ask accuracy before/after). Evidência de stigmergy observada nesta sessão: Zone 3 articles ingeridos sem conexões KB → /ask Bradford zones descobriu conexões espontaneamente (complexity-stability↔complexity-emergence, episodic↔predictive-processing). A wiki modificada guiou o /ask — que é exatamente stigmergy."
 ---
 
 ## Resumo
@@ -112,4 +112,3 @@ The prediction about typed wikilinks is speculative but testable.
 - [x] Meta-KB separated: all KB mapping in Interpretação
 - [x] Resumo calibrated: "Speculative — application to LLM KBs untested"
 
-> ⚠️ QUARENTENA: Este artigo não pode ser linkado por outros artigos até ser promovido via /promote.

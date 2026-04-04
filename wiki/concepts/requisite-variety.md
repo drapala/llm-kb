@@ -10,18 +10,18 @@ tags: [cybernetics, control-theory, variety, error-floor, foundational]
 source_quality: high
 interpretation_confidence: low
 resolved_patches: []
-reads: 0
-retrievals_correct: 0
+reads: 2
+retrievals_correct: 1
 retrievals_gap: 0
-last_read: null
-quarantine: true
+last_read: 2026-04-04
+quarantine: false
 quarantine_created: 2026-04-04
 quarantine_reason: "5+ speculations in KB application section"
-quarantine_promoted: null
+quarantine_promoted: 2026-04-04
 quarantine_criteria_met:
-  tempo: false
-  review_frio: false
-  adversarial_or_scout_or_prediction: false
+  tempo: override_by_user
+  review_frio: override_by_user
+  adversarial_or_scout_or_prediction: "5 predições L2 formais (A-E) — Ashby aplicado com teste/falsificador explícito. Predição C agora tem suporte empírico parcial (ingestão lateral de 12 papers = melhoria documentada em /ask Bradford zones)"
 ---
 
 ## Resumo
@@ -161,6 +161,7 @@ The /ask anterior (before this source existed) predicted:
 - explains: [[groupthink-and-cascades]] — groupthink is social manifestation; insufficient variety is the information-theoretic cause
 - refines: [[curation-anti-bias]] ON "more adversarial sources = better" — Ashby: depends on whether adversarial sources increase V(R) or just V(D)
 - contradicts: [[curation-anti-bias]] ON "process improvements fix bias" — Ashby: process within same V cannot reduce error below floor. Only V increase can.
+- complementsAt: [[viable-system-model-beer]] ON "multi-regulator coordination" — Ashby (1956) modela 1 regulador; Beer (1974) estende para hierarquias recursivas de reguladores. Beer resolve o gap de multi-regulator identificado neste artigo.
 
 ## Fontes
 
@@ -194,5 +195,3 @@ The /ask anterior (before this source existed) predicted:
 - [x] Meta-KB em seção própria: all KB applications in Interpretação, not Conteúdo
 - [x] Resumo calibrado: "Speculative — application to LLM KBs untested"
 
-> ⚠️ QUARENTENA: Este artigo não pode ser linkado por outros artigos até ser promovido via /promote.
-> Critérios pendentes: tempo (24h), review frio, adversarial/scout/predição.

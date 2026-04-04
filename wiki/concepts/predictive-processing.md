@@ -14,14 +14,14 @@ reads: 0
 retrievals_correct: 0
 retrievals_gap: 0
 last_read: null
-quarantine: true
+quarantine: false
 quarantine_created: 2026-04-04
 quarantine_reason: "5+ speculations, controversial framework, LLM application untested"
-quarantine_promoted: null
+quarantine_promoted: 2026-04-04
 quarantine_criteria_met:
-  tempo: false
-  review_frio: false
-  adversarial_or_scout_or_prediction: false
+  tempo: override_by_user
+  review_frio: override_by_user
+  adversarial_or_scout_or_prediction: "L2 prediction (external/internal error ratio, testável via raw/ verification rate). Suporte de prior work: episodic-semantic-memory (Tulving 2002) e complementary-learning-systems (McClelland 1995) fornecem base neurocientífica para distinção entre sistemas de update rápido (episódico, error-driven) e lento (semântico, consolidated). Friston's active inference = mecanismo explicativo do que McClelland descreveu como replay."
 ---
 
 ## Resumo
@@ -134,4 +134,3 @@ The "active convergence toward self-consistency" claim is the strongest inferenc
 - [x] Meta-KB separated
 - [x] Resumo calibrated: "Controversial framework" + "L1 analogy, untested"
 
-> ⚠️ QUARENTENA: Este artigo não pode ser linkado por outros artigos até ser promovido via /promote.

@@ -34,10 +34,10 @@ tags: [meta-kb, failure-analysis, safety, original-insight]
 source_quality: high
 interpretation_confidence: medium
 resolved_patches: []
-reads: 0
+reads: 1
 retrievals_correct: 0
 retrievals_gap: 0
-last_read: null
+last_read: 2026-04-04
 quarantine: true
 quarantine_created: 2026-04-04
 quarantine_reason: "retrofit — speculative synthesis"
@@ -172,6 +172,7 @@ Du et al. (2023) propose a fourth option: multiagent debate. Multiple LLM instan
 - No empirical data on actual KB degradation rates exists
 - Whether multiagent debate actually mitigates self-enhancement in KB review is untested
 - The 40-60 ERL threshold is extrapolated from agent tasks to wiki management — domain transfer not validated
+- **[patch: novo failure mode — List & Pettit 2002]** Majority voting on individual claims cannot simultaneously satisfy (a) anonymity, (b) systematicity, and (c) logical consistency of collective judgments (Theorem 1, judgment-aggregation). Multi-compiler KB using claim-by-claim voting can be internally inconsistent even when each compiler is individually consistent — structural impossibility, not fixable by better prompting.
 
 ## Conexões
 
@@ -182,6 +183,7 @@ Du et al. (2023) propose a fourth option: multiagent debate. Multiple LLM instan
 - [[kb-architecture-patterns]] — all 4 patterns assume human-in-the-loop for quality; none designed for full autonomy
 - [[raptor-vs-flat-retrieval]] — ERL's 40-60 item selection limit applies to both semantic convergence detection and index scaling thresholds
 - [[reflexion-weighted-knowledge-graphs]] — adaptive topology could mitigate failure mode 1 if edge weights incorporate external signal
+- contradicts: [[judgment-aggregation]] ON "claim-level voting in multi-compiler KB → structural logical inconsistency (Theorem 1)"
 
 
 ## Fontes

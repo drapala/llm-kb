@@ -13,6 +13,14 @@ interligada baseada nas fontes em raw/.
 6. _index.md é PONTEIRO, não conteúdo: max ~150 chars por linha
    (título + contexto mínimo). Nunca despeje resumos longos no índice.
 
+## Fontes Zone 3 (domínios laterais)
+
+Ao ingerir fontes de domínios distantes do core (AI/ML):
+- Descreva o campo como ele é, nos seus próprios termos
+- NÃO conecte ao design da KB durante o /ingest
+- Conexões emergem no /ask — não no /ingest
+- Seção "Interpretação" pode ficar vazia; artigo puramente factual é o objetivo
+
 ## Disciplina de Escrita
 - Sempre: escreva/atualize o artigo PRIMEIRO → depois atualize _index.md
 - Nunca: dump de conteúdo no _index.md (previne entropia)
