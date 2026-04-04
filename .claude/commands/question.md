@@ -23,11 +23,13 @@ Antes de rodar /ask, sugere qual tipo de pergunta geraria o insight mais fértil
    | 2+ artigos discordam | CONTRADIÇÃO | Tensão existe, resolva-a |
    | Só fontes confirming | TRANSFERÊNCIA | Aplique conceito a domínio diferente |
    | Só fontes challenging | ESCALA | Busque onde o desafio quebra |
+   | Claim aceito como verdade | FALSIFICAÇÃO (Popper) | O que provaria isso errado? |
+   | Últimos 5 /ask = mesmo tipo | DEGENERESCÊNCIA (Lakatos) | KB confirmando a si mesma? |
 
 4. **Gere 3 perguntas candidatas** usando o tipo selecionado:
    - Uma pergunta direta (o que parece óbvio)
-   - Uma pergunta oblíqua (reframe: "e se o oposto fosse verdade?")
-   - Uma pergunta de ausência ("o que ninguém perguntou?")
+   - Uma pergunta oblíqua (reframe via Popper: "e se o oposto fosse verdade?")
+   - Uma pergunta PICOS (estruturada: Population, Intervention, Comparison, Outcome, Setting)
 
 5. **Apresente ao usuário** com justificativa:
    ```
