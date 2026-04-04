@@ -1,5 +1,38 @@
-promoted_since_last_emerge: []
+promoted_since_last_emerge:
+  - procurement-variety-gap  # promovido 2026-04-04: 3 patches (0 refutações), raw/ ingerido, predição L2 ativa
 sessions_since_last_dream: 0
 ingest_count_since_last_lint: 0
-emerge_top_pairs: []
-last_updated: null
+slow_cycle:
+  lint:
+    last_run: 2026-04-04
+    alerts: []  # sem alertas activos — stance ok, bradford pausa, quarantine 13%, sem over-synthesis
+    findings:
+      hub_health: "85.5% artigos reads=0 — KB construída mas pouco usada"
+      quarantine_discrepancy: "9 quarantenados encontrados vs 7 em memória — causal-reasoning-pearl e binding-attention-regime não rastreados"
+      stance_watch: "2026-04-04 a 23% challenging (margem estreita) — monitorar próxima ingestão"
+    report: outputs/reports/epistemic-lint-2026-04-04.md  # +2: raw/lei/lei-14133-2021-artigos-chave.md + procurement-variety-gap promovido
+ask:
+  articles_with_recent_gaps:
+    - burocracia-publica-incentivos-auditores  # pressão TCU como contra-incentivo a V(R) — gap conceitual ainda sem raw/
+  last_session: outputs/logs/sessions/2026-04-04/ask-18-33.md
+ingest_queue_priority:
+  - source: "TCU — Manual de Licitações e Contratos 5ª Ed. (2024)"
+    why: "Verificar jurisprudência TCU sobre anteprojetos funcionais vs superespecificação — mecanismo de segunda ordem em procurement-variety-gap.md"
+    url_hint: "licitacoesecontratos.tcu.gov.br/wp-content/uploads/sites/11/2024/09/Licitacoes-e-Contratos-Orientacoes-e-Jurisprudencia-do-TCU-5a-Edicao-29-08-2024.pdf"
+synthesize:
+  pending_from_ask: []
+  completed:
+    - pair: [procurement-contract-design, requisite-variety]
+      article: wiki/concepts/procurement-variety-gap.md
+      ask_session: outputs/logs/sessions/2026-04-04/ask-18-33.md
+      status: promoted
+emerge_top_pairs:
+  # sessão 1 (pré-B2G)
+  - self-improving-agents x falsificationism-demarcation  # L2, gradient asymmetry principle
+  - scientific-research-programmes x complementary-learning-systems  # L2, dual-rate consolidation
+  - rational-inattention x fast-frugal-heuristics  # L1, Take-the-Best = solução ótima de Sims
+  # sessão 2 (pós-B2G cluster)
+  - procurement-contract-design x requisite-variety  # L2, Lei 8.666 viola Ashby → aditivos = error floor
+  - audit-deterrence-corruption x heuristics-and-biases  # L2, visibilidade > frequência de auditoria
+  - procurement-manipulation-signals x stigmergic-coordination  # L2, bid rigging = stigmergy sematectônica
+last_updated: 2026-04-04

@@ -1,0 +1,90 @@
+# Zelox Context — B2G Procurement Fraud Detection
+# Usado por /prioritize zelox
+
+name: zelox
+description: "Priorização para feature engineering do Zelox Risk Score V1.1"
+
+# ─── GATE CRITERIA ───────────────────────────────────────────────────────────
+# Candidatos que não passam QUALQUER gate vão para backlog-zelox.md
+
+gate_criteria:
+
+  # Gate 1: Dados disponíveis
+  dados_disponiveis:
+    description: "A conexão pode ser testada com dados que o Zelox tem acesso?"
+    sources_available:
+      - PNCP (Portal Nacional de Contratações Públicas) — contratos, licitações, aditivos
+      - CGU audit findings — irregularidades documentadas (via Ferraz & Finan ground truth)
+      - CNPJ data — sócios, endereços, telefones de empresas
+      - Dados eleitorais TSE — mandato/reeleição de prefeitos
+    fail_condition: "A conexão requer dados não listados acima e sem rota clara de obtenção"
+
+  # Gate 2: Consequência acionável
+  consequencia_acionavel:
+    description: "A conexão gera mudança concreta no Risk Score ou feature engineering?"
+    acceptable_actions:
+      - Novo sinal/feature no Risk Score
+      - Ajuste de peso de sinal existente
+      - Nova condição de segmentação (ex: por modalidade contratual, por município)
+      - Nova variável de contexto (ex: flag de prefeito em último mandato)
+      - Validação ou refutação de sinal existente
+    fail_condition: "Conexão é teoricamente interessante mas não mapeia para nenhuma feature computável nos dados disponíveis"
+
+  # Gate 3: Rota de validação
+  rota_de_validacao:
+    description: "Existe rota clara para testar a conexão nos dados do Zelox?"
+    acceptable_routes:
+      - Análise estatística nos dados PNCP (correlação, regressão, z-score)
+      - Comparação de grupos (ex: contratação integrada vs tradicional)
+      - Validação cruzada com achados CGU como label
+      - /ask interno que não requer dados externos
+    fail_condition: "Validação requer RCT, experimento de campo, ou dados institucionais não públicos"
+
+# ─── IMPACTO WEIGHTS ─────────────────────────────────────────────────────────
+
+impacto_weights:
+  feature_utility:
+    description: "O quanto a conexão melhora um sinal existente ou cria um sinal novo?"
+    weight: 0.40
+    scoring:
+      alto: "Novo sinal de alta precisão ou ajuste de peso com base teórica sólida"
+      médio: "Refinamento de sinal existente ou nova variável de contexto"
+      baixo: "Validação de sinal já contemplado ou conexão muito indireta"
+
+  validability_pncp:
+    description: "O quanto é fácil testar com PNCP + CGU?"
+    weight: 0.35
+    scoring:
+      alto: "Testável com query SQL no PNCP + label de auditoria CGU"
+      médio: "Requer join com dados externos (TSE, CNPJ) mas acessíveis"
+      baixo: "Requer coleta manual, scraping, ou dados não estruturados"
+
+  signal_robustness:
+    description: "Resistência ao signal decay (Niehaus-Sukhtankar) — sinal difícil de manipular?"
+    weight: 0.25
+    scoring:
+      alto: "Baseado em dados de registro (CNPJ, endereço) ou historico — difícil de manipular"
+      médio: "Parcialmente manipulável mas com lag temporal"
+      baixo: "Facilmente contornável quando fornecedor souber que é monitorado"
+
+# ─── JANELA ATUAL ────────────────────────────────────────────────────────────
+
+janela_atual:
+  description: "Risk Score V1.1 em desenvolvimento ativo"
+  multipliers:
+    urgente: 1.4   # Feature diretamente implementável agora (V1.1 scope)
+    relevante: 1.0  # Feature para V1.2+ ou validação futura
+    fora_de_janela: 0.6  # Teoricamente interessante mas fora do roadmap atual
+
+  current_scope: "V1.1"
+  in_scope_features:
+    - aditivo_teto (condicionado por modalidade contratual)
+    - rede_empresas_score
+    - z_score_aditivo_por_tipo
+    - flag_prefeito_ultimo_mandato
+
+# ─── OUTPUT PATHS ────────────────────────────────────────────────────────────
+
+output:
+  priority_report: "outputs/reports/priority-zelox-{date}.md"
+  backlog: "outputs/reports/backlog-zelox-{date}.md"

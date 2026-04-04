@@ -144,6 +144,7 @@ O /ask tem circuit breaker: se nenhum dos 5-10 artigos candidatos for relevante,
 
 ## Conexões
 
+- emerge-para: [[modular-escape-principle]] ON "Zone 3 disjuntos como escape de rendimento decrescente — isomorfismo com escapes de May e Judgment Aggregation"
 - partOf: [[bibliometrics]] — Bradford's Law é um dos fundamentos empíricos que Pritchard reconhecia ao cunhar o campo
 - complementsAt: [[curation-anti-bias]] ON "source diversity" — Bradford: concentração de sinal em zona core; curation-anti-bias: diversidade de stance para combater viés
 - validates: [[variety-gap-analysis]] ON "Bradford zones como proxy V gap" — ⚠️ nossa interpretação, não verificada

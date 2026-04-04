@@ -118,6 +118,11 @@ O CEO problem (Courtade 2014) generaliza rational inattention para L agentes par
 
 Sims formaliza V(R) em termos de Shannon channel capacity C. A Predição D de Ashby (error floor mensurável via V gap) torna-se operacionalizável: o error floor de cada compilador LLM = Var(X)/e^{2C_LLM} — mas C_LLM não é medida diretamente. A analogia é sugestiva, não mensurável sem empirismo adicional.
 
+## Conexões
+
+- instancia: [[fast-frugal-heuristics]] ON "⚠️ regime onde heurísticas frugais ganham = regime onde constraint I(X;Y)≤C é binding; ecological rationality ≈ optimal attention allocation (nossa interpretação, L1)"
+- emerge-para: [[binding-attention-regime]] ON "binding regime como conceito unificador entre Sims e Gigerenzer"
+
 ## Verificação adversarial
 
 **Claim mais fraco:** A derivação da price stickiness endógena depende de C pequeno — se C é alto (agente muito atento), o modelo colapsa para rational expectations. Sims não estima C empiricamente; a calibração é qualitativa.

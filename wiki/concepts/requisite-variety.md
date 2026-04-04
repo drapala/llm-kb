@@ -163,6 +163,7 @@ The /ask anterior (before this source existed) predicted:
 
 ## Conexões
 
+- emerge-para: [[procurement-variety-gap]] ON "V(R) < V(D) → error floor irreduível; tipo de contrato = tipo de regulador de Ashby aplicado ao procurement"
 - explains: [[autonomous-kb-failure-modes]] — all 5 failure modes are symptoms of V(compiler) < V(domain)
 - explains: [[fast-frugal-heuristics]] ON "more is worse" — Gigerenzer = statistical mechanism (bias-variance); Ashby = control-theoretic mechanism (variety gap). Complementary.
 - explains: [[groupthink-and-cascades]] — groupthink is social manifestation; insufficient variety is the information-theoretic cause

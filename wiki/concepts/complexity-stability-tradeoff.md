@@ -73,6 +73,7 @@ May estende o resultado numérico de Gardner & Ashby (computacional, n=4,7,10) p
 
 ## Conexões
 
+- emerge-para: [[modular-escape-principle]] ON "modularidade como escape de σ√(nC) > 1 — isomorfismo com escapes de Judgment Aggregation e Bradford"
 - contradicts: [[complexity-emergence]] ON "edge of chaos narrative" — Waldrop (1992) popularizou a ideia de que complexidade → riqueza funcional; May (1972) mostra que complexidade aleatória → instabilidade. A tensão é real: sistemas biológicos reais contornam o tradeoff via estrutura não-aleatória
 - complementsAt: [[requisite-variety]] ON "variety and complexity" — Ashby: mais variedade no regulador melhora controle; May: mais variedade (conectância) no sistema regulado piora estabilidade. Domínios diferentes mas tensão conceitual
 - complementsAt: [[resource-competition-coexistence]] ON "ecology of structured competition" — May (1972) = instabilidade de redes aleatórias; Tilman (1994) = como estrutura competitiva permite coexistência estável

@@ -123,6 +123,8 @@ The prediction "compression advantage reverses at scale" is novel — neither ER
 
 ## Conexões
 
+- instancia: [[rational-inattention]] ON "⚠️ regime less-is-more = regime onde I(X;Y)≤C é binding; Take-the-Best ≈ solução ótima de Sims para C=1 bit (nossa interpretação, L1)"
+- emerge-para: [[binding-attention-regime]] ON "Take-the-Best como instância de optimal attention allocation com C=1 bit"
 - validates: [[question-taxonomy]] — Simon's satisficing (stop when good enough) is a Gigerenzer heuristic applied to search. Gigerenzer provides the formal mechanism Simon lacks.
 - explains: [[self-improving-agents]] ON "heuristics > trajectories (ERL)" — bias-variance trade-off IS the mechanism behind ERL's result.
 - refines: [[autonomous-kb-failure-modes]] ON "semantic convergence" — convergence isn't just self-enhancement bias; it's also variance reduction. Some convergence is GOOD (reduces noise). Over-convergence crosses the bias-dominance threshold.

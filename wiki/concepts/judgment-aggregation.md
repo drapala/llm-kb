@@ -149,6 +149,7 @@ A solução de Janis (devil's advocate, voto secreto) não resolve o impossibili
 
 ## Conexões
 
+- emerge-para: [[modular-escape-principle]] ON "premise-based procedure como escape de impossibilidade U+A+S — isomorfismo com escapes de May e Bradford"
 - contradicts: [[multi-agent-orchestration]] ON "voting por claim isolado viola deductive closure coletiva (⚠️ nossa interpretação de Theorem 1)"
 - complementsAt: [[groupthink-and-cascades]] ON "impossibility estrutural (List & Pettit) vs pressão social (Janis) — mesmo sem pressão, agregação de julgamentos lógicos é problemática"
 - complementsAt: [[curation-anti-bias]] ON "anonymity preserva fairness mas não garante consistência lógica coletiva"

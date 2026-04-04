@@ -1,0 +1,102 @@
+# Research Context — KB Epistemic Expansion
+# Usado por /prioritize research
+
+name: research
+description: "Priorização para expansão epistêmica da KB — novas sínteses e artigos de emergência"
+
+# ─── GATE CRITERIA ───────────────────────────────────────────────────────────
+
+gate_criteria:
+
+  # Gate 1: Dados disponíveis
+  dados_disponiveis:
+    description: "A conexão pode ser verificada com fontes já no raw/ ou via /ask interno?"
+    sources_available:
+      - wiki/concepts/*.md — artigos existentes (Layer 2)
+      - raw/**/* — fontes primárias ingeridas
+      - outputs/reports/emerge-*.md — pares já identificados
+    acceptable_verification:
+      - /ask cross-domain usando artigos existentes
+      - Ingestão de 1-2 fontes identificadas (custo: médio)
+      - Verificação contra raw/ existente
+    fail_condition: "Verificação requer paper não disponível publicamente OU experimento que não pode ser simulado internamente"
+
+  # Gate 2: Consequência acionável
+  consequencia_acionavel:
+    description: "A conexão produz um artefato epistêmico concreto na KB?"
+    acceptable_actions:
+      - Novo artigo de emergência (provenance: emergence)
+      - Promoção de artigo em quarentena
+      - Conexão cross-cluster documentada (wikilinks tipados)
+      - Novo cluster identificado ou cluster existente ampliado
+      - Refutação ou confirmação de claim existente
+    fail_condition: "Conexão é interessante mas não gera artigo, wikilink, nem modifica nenhum claim existente"
+
+  # Gate 3: Rota de validação
+  rota_de_validacao:
+    description: "Existe rota clara para transformar a conexão em conhecimento persistido?"
+    acceptable_routes:
+      - /ask seguido de /synthesize (rota padrão)
+      - /ingest de fonte + /ask + /synthesize
+      - /challenge de artigo existente usando a conexão como evidência adversarial
+      - /promote de artigo em quarentena usando conexão como 4ª instância
+    fail_condition: "Rota de validação requer expertise de domínio externo não disponível nesta KB"
+
+# ─── IMPACTO WEIGHTS ─────────────────────────────────────────────────────────
+
+impacto_weights:
+  novelty:
+    description: "O quanto o conceito emergido seria genuinamente novo (ausente em toda a KB)?"
+    weight: 0.35
+    scoring:
+      alto: "Conceito ausente em qualquer artigo — nova entrada no grafo"
+      médio: "Refinamento ou instância de conceito existente — adiciona evidência"
+      baixo: "Redundante com artigo existente — apenas adiciona wikilink"
+
+  cross_cluster_bridge:
+    description: "O quanto a conexão une clusters até agora isolados?"
+    weight: 0.30
+    scoring:
+      alto: "Primeira conexão entre dois clusters (gap de grafo eliminado)"
+      médio: "Segunda ou terceira conexão entre clusters já parcialmente conectados"
+      baixo: "Conexão intra-cluster ou cluster já densamente conectado"
+
+  quarantine_unlock:
+    description: "A conexão permite promover um artigo em quarentena de alto in-degree?"
+    weight: 0.20
+    scoring:
+      alto: "Desbloqueia artigo com ≥10 citações (ex: autonomous-kb-failure-modes)"
+      médio: "Desbloqueia artigo com 5-9 citações"
+      baixo: "Desbloqueia artigo com <5 citações ou sem impacto no grafo"
+
+  pearl_upgrade:
+    description: "A conexão eleva o nível causal de um claim existente (L1→L2, L2→L3)?"
+    weight: 0.15
+    scoring:
+      alto: "Claim existente sobe de L1 para L2 (ganha intervenção testável)"
+      médio: "Novo L2 que ainda não existe na KB"
+      baixo: "Novo L1 (associação) — menor valor epistêmico"
+
+# ─── JANELA ATUAL ────────────────────────────────────────────────────────────
+
+janela_atual:
+  description: "KB em modo uso (Bradford pause ativa, não expandir Zone 3)"
+  multipliers:
+    urgente: 1.3   # Conexão que desbloqueia uso real imediato (ex: responde /ask pendente)
+    relevante: 1.0  # Conexão que enriquece grafo existente
+    fora_de_janela: 0.5  # Requer ingestão de novo cluster (Bradford pause — penaliza fortemente)
+
+  current_mode: "uso_real"  # não expansão — Bradford Zone3/Zone2 ≈ 1.05
+  in_scope:
+    - Conexões entre clusters existentes (não requer ingestão)
+    - Promoção de quarentenas existentes
+    - /ask sobre B2G cluster (recém adicionado)
+  out_of_scope:
+    - Novos clusters Zone 3 não justificados por problema real
+    - Ingestão de mais de 2 fontes por conexão
+
+# ─── OUTPUT PATHS ────────────────────────────────────────────────────────────
+
+output:
+  priority_report: "outputs/reports/priority-research-{date}.md"
+  backlog: "outputs/reports/backlog-research-{date}.md"

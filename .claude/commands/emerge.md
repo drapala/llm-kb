@@ -19,6 +19,7 @@ Leia `wiki/_index.md` para listar todos os artigos. Classifique cada um por clus
 - **cognitivo**: heuristics-and-biases, prospect-theory, fast-frugal-heuristics, episodic-semantic-memory, complementary-learning-systems, predictive-processing
 - **sistemas**: requisite-variety, viable-system-model-beer, complexity-emergence, complexity-stability-tradeoff, stigmergic-coordination, resource-competition-coexistence
 - **epistemológico**: falsificationism-demarcation, scientific-research-programmes, causal-reasoning-pearl, judgment-aggregation, social-choice-aggregation, zipf-law-power-laws, team-decision-theory
+- **b2g-economics**: market-for-lemons, corruption-audits-brazil, platform-economics, jobs-to-be-done, procurement-renegotiation, incentive-theory-procurement, electoral-accountability-corruption, audit-deterrence-corruption, corruption-dynamics, audit-risk-rent-extraction, procurement-contract-design, procurement-manipulation-signals, procurement-variety-gap
 
 Para cada par de artigos de **clusters diferentes** que **não se citam** (verificar seção `## Conexões` de cada um):
 
@@ -30,33 +31,52 @@ Leia artigos em lotes de 10. Não tente ler todos de uma vez. Circuit breaker: s
 
 ## Passo 2 — Gera candidatos de conexão
 
-Para cada par com isomorfismo detectado, gera:
+Para cada par com isomorfismo detectado, gera um bloco estruturado:
 
 ```
 CONEXÃO CANDIDATA:
 - Artigo A: [nome] — mecanismo: [X causa Y via Z]
 - Artigo B: [nome] — mecanismo: [análogo em domínio diferente]
 - Tipo de relação: ANÁLOGO-A | INSTANCIA | EMERGE-DE
-- Nível Pearl: L1 (associação) | L2 (intervenção) | L3 (contrafactual)
-- Pergunta falsificável que testaria a conexão: [pergunta]
-- Valor de ingerir fonte que conecta os dois: [alto/médio/baixo + justificativa]
+- Pearl level: L1 | L2 | L3
+- Pergunta falsificável: [a pergunta que testaria a conexão]
+- Espúrio check: baixo | médio | alto
+  Razão: [por que a conexão pode ser aparente, não real — confounding, superficial similarity, etc.]
+- Custo de verificação: baixo | médio | alto
+  Razão: [o que seria necessário para confirmar — /ask interno, dados externos, paper novo, experimento]
+- Pergunta /ask recomendada:
+  "[Artigo A] propõe [mecanismo X]. [Artigo B] propõe [mecanismo análogo Y].
+  O que emerge da combinação que nenhum dos dois articula individualmente?"
 ```
 
-## Passo 3 — Prioriza por ROI
+### Critérios de espúrio check
 
-Ordena candidatos por:
-1. Nível Pearl mais alto (L2 > L1)
-2. Artigos com `provenance: emergence` já existente (conexão já emergiu uma vez — mais fértil)
-3. Conexão que habilitaria promoção de artigo em quarentena (verifica frontmatter `quarantine: true`)
+**Baixo risco de espúrio:** mecanismo A e mecanismo B são estruturalmente idênticos com variáveis mapeáveis 1:1, domínios independentes, conexão não-óbvia.
 
-## Passo 4 — Gera /ask recomendados
+**Médio risco:** similaridade plausível mas mecanismos têm assimetrias importantes; ou os domínios não são tão independentes quanto parecem.
 
-Para os top 3 candidatos, gera o /ask que exploraria a conexão sem ingestão nova:
+**Alto risco:** conexão baseada em metáfora superficial; variáveis não mapeiam limpamente; ou ambos os artigos poderiam citar um terceiro artigo que os conecta (conexão não-emergente).
 
-```
-"[Artigo A] propõe [mecanismo X]. [Artigo B] propõe [mecanismo análogo Y].
-O que emerge da combinação que nenhum dos dois articula individualmente?"
-```
+### Critérios de custo de verificação
+
+**Baixo:** um /ask cross-domain resolve (sem dados externos, sem ingestão nova).
+
+**Médio:** requer ingestão de 1-2 fontes adicionais OU análise de dados existentes.
+
+**Alto:** requer dados externos não disponíveis atualmente, experimento, ou paper que ainda não existe no raw/.
+
+## Passo 3 — Ordena candidatos
+
+Ordena por prioridade de verificação (não por impacto contextual — isso é tarefa do /prioritize):
+
+1. **Pearl level mais alto** (L2 > L1 > L3)
+2. **Espúrio mais baixo** (baixo antes de alto)
+3. **Custo mais baixo** (baixo antes de alto)
+4. Desempate: artigos com `provenance: emergence` já existente (conexão já emergiu uma vez — mais fértil)
+
+## Passo 4 — Identifica quarentenas desbloqueáveis
+
+Verifica artigos com `quarantine: true`. Para cada um: a conexão identificada seria uma nova instância do claim quarentenado? Se sim, lista como "desbloqueável se conexão confirmada."
 
 ## Passo 5 — Salva
 
@@ -72,20 +92,15 @@ date: YYYY-MM-DD
 - N conexões candidatas encontradas
 - N artigos com provenance: emergence no corpus atual
 
-## Top 3 Candidatos
+## Candidatos (ordenados por prioridade de verificação)
 
 ### 1. [Artigo A] × [Artigo B]
-[conteúdo estruturado conforme Passo 2]
-
-/ask recomendado:
-> "[prompt gerado]"
+[bloco estruturado do Passo 2]
 
 ### 2. ...
 
-### 3. ...
-
 ## Artigos em quarentena desbloqueáveis
-[lista artigos quarentena que seriam promovidos se conexão for confirmada]
+[lista artigos quarentena que seriam promovidos se conexão confirmada]
 
 ## Estado do grafo
 [N artigos por cluster, N conexões cross-cluster existentes vs. candidatas]
@@ -93,22 +108,22 @@ date: YYYY-MM-DD
 
 ## O que NÃO faz
 
+- Não avalia impacto contextual (Zelox, research, produto) — isso é /prioritize
 - Não cria wikilinks automaticamente
 - Não modifica artigos
 - Não ingere fontes
-- Apenas mapeia e sugere — humano decide o que conectar
+- Apenas mapeia e ordena por verificabilidade — humano decide o que conectar
 
 ## Filosofia
 
 Conexões cross-domain emergem no /ask, não no /ingest.
 O /emerge é o catalisador: encontra onde o /ask deveria ser rodado a seguir.
-O ponto de equilíbrio Bradford é exatamente quando você tem fontes suficientes
-de domínios diferentes para que conexões não-óbvias existam — mas ainda não
-foram descobertas porque o /ask não foi rodado nos pares certos.
+A ordenação é por custo de verificação e qualidade epistêmica — sem contexto externo.
+Contexto (Zelox, research) é injetado pelo /prioritize sobre o output do /emerge.
 
 ## Após /emerge completar
 
 Atualize `outputs/state/kb-state.yaml`:
 1. `promoted_since_last_emerge: []` ← reset
-2. `emerge_top_pairs: [novos pares encontrados]` ← lista dos top 3 pares identificados
+2. `emerge_top_pairs: [novos pares encontrados]` ← lista dos top pares identificados
 3. `last_updated` com data atual
