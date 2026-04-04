@@ -465,3 +465,65 @@ Ninguém fez este experimento. É a contribuição experimental mais valiosa que
 
 **Fontes:** LMs Know, ERL, Model Collapse, Wikipedia Risks, Tim Kellogg (todos verificados)
 **Gaps:** 0 fontes sobre bias-variance em knowledge compilation. Gigerenzer fast-and-frugal nunca testado em LLM KB context.
+
+---
+
+# Relatório Meta: Viés Sistemático do Corpus
+
+date: 2026-04-04
+query: "Quais domínios aparecem repetidamente como ausentes? O padrão revela viés sistemático?"
+confidence: alta (contagens verificáveis)
+
+---
+
+## Dados: 3 Gaps Formais + 12 Informais
+
+### Gaps por tipo
+
+| Tipo | Count | Exemplos |
+|------|-------|---------|
+| Domínio ausente | 5 | Imunologia, bias-variance, Gigerenzer, Peirce, Lipton |
+| Conceito adjacente | 3 | FaithfulRAG, convergence metrics, adversarial curation methods |
+| Ferramenta/aplicação | 2 | Marp, quality scoring calibration |
+| Ponteiro ruim | 2 | formal-ontology (corrigido), TextGrad (corrigido) |
+
+### Composição do Corpus (o viés)
+
+| Domínio | Fontes | % | Quando |
+|---------|--------|---|--------|
+| AI/ML agent memory | 33 | 59% | Início |
+| AI/ML evaluation | 8 | 14% | Início |
+| Epistemologia | 7 | 12.5% | Tardio |
+| Ontologia | 5 | 9% | Tardio |
+| Causalidade | 1 | 1.8% | Tardio |
+| Biologia computacional | 1 | 1.8% | Muito tardio |
+| Estatística clássica | 0 | 0% | Nunca |
+| Psicologia cognitiva/social | 0 | 0% | Nunca |
+
+**73% AI/ML. As fontes mais férteis (Pearl, AIS, Lakatos) vieram dos 27% restantes.**
+
+## O Viés Sistemático
+
+A KB olha pra CIMA (abstrato: epistemologia) e pra DENTRO (detalhes: benchmarks). **Nunca olha pro LADO** (domínios paralelos que resolvem os mesmos problemas por caminhos diferentes).
+
+### O que o viés esconde
+
+1. Credit assignment existe em RL (temporal difference), ecologia, economia — KB só conhece versão LLM
+2. Semantic convergence = groupthink (Janis, 1972). Authority cascade = information cascade (Banerjee, 1992). Fenômenos estudados há DÉCADAS — re-descobertos como se fossem novos
+3. Frameworks de avaliação de fora do ML: reproducibility, effect size, inter-rater reliability — nenhum no corpus
+
+## Recomendação
+
+AIS (1 fonte lateral) produziu o insight mais fértil da sessão. ROI de fontes laterais >> fontes do mesmo campo.
+
+**Simon:** 1-2 domínios laterais bem escolhidos > 10 superficiais.
+
+**Candidatos de maior ROI lateral:**
+- Psicologia social: groupthink + information cascade (fundamenta 2 failure modes)
+- RL clássico: temporal difference learning (alternativa a credit assignment)
+- Gigerenzer: fast-and-frugal heuristics (fundamenta anomalia "more is worse")
+
+---
+
+**Fontes:** logs de occurrent + contagens de corpus
+**Gaps:** 0 groupthink, 0 information cascade, 0 temporal difference learning
