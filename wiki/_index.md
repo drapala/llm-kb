@@ -27,6 +27,9 @@
 - [Question Taxonomy](concepts/question-taxonomy.md) — 7 frameworks (Miles, Socratic, Oblique, Popper, Lakatos, AHRQ, Simon). 10 question types + stopping rule
 - [Fast-and-Frugal Heuristics (Gigerenzer)](concepts/fast-frugal-heuristics.md) — EXPLAINS "compression > raw": bias-variance trade-off. Less-is-more in small samples. PREDICTS reversal at scale (500+ articles)
 - [Requisite Variety (Ashby)](concepts/requisite-variety.md) — ⏳QUARANTINED. "Only variety can destroy variety." V(compiler) < V(domain) → irreducible error floor. All 5 failure modes = 1 cause. 5 testable predictions.
+- [Stigmergic Coordination (Grassé)](concepts/stigmergic-coordination.md) — ⏳QUARANTINED. KB = stigmergic system: wiki is environment, wikilinks are pheromones. Typed links = better coordination.
+- [Complexity and Emergence (Waldrop)](concepts/complexity-emergence.md) — ⏳QUARANTINED. VOCABULARY: emergence, edge of chaos, fitness landscape, path dependence. KB drifting toward order-death?
+- [Predictive Processing (Friston)](concepts/predictive-processing.md) — ⏳QUARANTINED. Supersedes "LLM as amplifier": prediction error minimizer. Self-assessment = convergence to minimum surprise.
 - [Causal Reasoning (Pearl)](concepts/causal-reasoning-pearl.md) — CAUSAL LEVELS: association (seeing), intervention (doing), contrafactual (imagining). KB has 8 L1, 5 L2, 0 L3 claims
 - [Formal Ontology for KBs](concepts/formal-ontology-for-kbs.md) — STRUCTURAL GAPS: untyped wikilinks, no hierarchy, no competency questions. 5 typed relations, continuant/occurrent, adoption path
 - [Obsidian as Agent Wiki](concepts/obsidian-agent-workflow.md) — Default frontend for LLM KBs, vault separation pattern, 4-piece stack (app+clipper+CLI+skills)

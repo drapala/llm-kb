@@ -62,3 +62,6 @@
 | raw/articles/janis-groupthink.md | 2026-04-04 | article | primary | challenging | groupthink-and-cascades | processed |
 | raw/articles/banerjee-information-cascade.md | 2026-04-04 | article | primary | challenging | groupthink-and-cascades | processed |
 | raw/articles/ashby-requisite-variety.md | 2026-04-04 | article | primary | challenging | requisite-variety | processed |
+| raw/articles/grasse-stigmergy.md | 2026-04-04 | article | primary | neutral | stigmergic-coordination | processed |
+| raw/articles/waldrop-complexity.md | 2026-04-04 | article | secondary | neutral | complexity-emergence | processed |
+| raw/articles/friston-predictive-processing.md | 2026-04-04 | article | primary | neutral | predictive-processing | processed |
