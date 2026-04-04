@@ -2,16 +2,54 @@
 
 Audita saúde epistêmica da KB. Computa 4 métricas e gera relatório.
 
-## Passo 1 — Stance ratio por mês
+## Passo 1 — Stance ratio por tipo de fonte
 
-Leia `wiki/_registry.md`. Para cada linha com `| processed |`:
-- Extraia data (coluna 2) e stance (coluna 5)
-- Agrupe por mês (YYYY-MM)
-- Compute: confirming / neutral / challenging por mês e total
+O threshold adversarial se aplica diferentemente a fontes core vs. laterais.
 
-**Threshold de alerta:** se challenging < 20% em qualquer mês com ≥5 fontes ingeridas → marcar `⚠️ ALERTA`.
+### Classificação core vs. lateral
 
-Nota: fontes laterais (domínios não-AI/ML) tendem a ser neutral por construção — não confundir com ausência de adversarial sourcing. Se a proporção de neutral for alta num mês, verifique se é por ingestão lateral (Bradford Zone 3) antes de alertar.
+Fonte é **lateral** se seus concepts no _registry.md mapeiam para qualquer artigo
+da lista de domínios Zone 3:
+
+```
+heuristics-and-biases, prospect-theory, social-choice-aggregation,
+complexity-stability-tradeoff, resource-competition-coexistence,
+zipf-law-power-laws, falsificationism-demarcation, scientific-research-programmes,
+episodic-semantic-memory, complementary-learning-systems, stigmergic-coordination,
+complexity-emergence, predictive-processing, requisite-variety,
+viable-system-model-beer, bibliometrics, bradford-law-scattering,
+fast-frugal-heuristics, groupthink-and-cascades, immune-inspired-credit-assignment,
+causal-reasoning-pearl, formal-ontology-for-kbs
+```
+
+Tudo que não mapeiar para essa lista é **core** (AI/ML + Info Theory + Meta-KB).
+
+Quando ambíguo (e.g., fonte que alimentou tanto artigo core quanto lateral): classifique como core.
+
+### Cálculo separado
+
+**Fontes core:**
+- Compute challenging / total_core por mês
+- **Threshold de alerta:** challenging < 20% em mês com ≥5 fontes core → `⚠️ ALERTA adversarial`
+
+**Fontes laterais:**
+- Threshold de stance NÃO se aplica
+- Compute Bradford Zone3/Zone2: `(fontes laterais acumuladas) / (fontes Zone 2 acumuladas)`
+- **Threshold de alerta:** Zone3/Zone2 < 0.8 → `⚠️ ALERTA cobertura lateral`
+- Atual referência: Zone3/Zone2 = 1.05 → pausa (não expandir Zone 3)
+
+### Output desta seção
+
+```
+## Stance Ratio
+
+### Fontes Core
+| Mês | Confirming | Neutral | Challenging | Total | % Challenging | Status |
+...
+
+### Fontes Laterais (Bradford)
+Zone3/Zone2 atual: X.XX → [expandir / pausa / ok]
+```
 
 ## Passo 2 — Synthesis ratio
 
@@ -53,10 +91,13 @@ Salve em `outputs/reports/epistemic-lint-YYYY-MM-DD.md` com:
 date: YYYY-MM-DD
 ---
 
-## Stance Ratio
+## Stance Ratio — Fontes Core
+[tabela por mês: confirming/neutral/challenging/total/% challenging/status]
+[⚠️ ALERTA se challenging < 20% em mês com ≥5 fontes core]
 
-[tabela por mês]
-[alerta se < 20% challenging]
+## Bradford Coverage — Fontes Laterais
+Zone3/Zone2: X.XX → expandir (<0.8) | pausa (0.8–1.2) | ok (>1.2)
+[lista de domínios Zone 3 cobertos e descobertos]
 
 ## Synthesis Ratio
 
