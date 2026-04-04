@@ -33,6 +33,15 @@ Avaliação adversarial de um artigo wiki antes de usá-lo como fonte ou publica
    - Existe? Está separada de ## Conteúdo?
    - Claims interpretativos estão na seção certa?
 
+6. **Web search por prior work:**
+   Para cada claim central, busque:
+   - "[conceito central] agent memory 2024 2025 2026 arxiv"
+   - "[conceito central] limitations OR criticism"
+   - "[conceito central] benchmark OR evaluation"
+   Liste os 3-5 papers mais relevantes que a KB NÃO contém.
+   Para cada um: título, URL, qual claim do artigo afeta.
+   Se encontrar paper que invalida um claim, marcar como RISCO ALTO.
+
 ## Formato de report
 
 ```
@@ -51,6 +60,10 @@ CLAIM 3: ...
 
 CLASSIFICAÇÃO GERAL: PUBLICÁVEL / PRECISA CORREÇÃO / RISCO ALTO
 AÇÃO RECOMENDADA: [o que fazer antes de usar como fonte]
+
+PRIOR WORK (web search):
+  1. [Título] — URL — afeta claim N — INVALIDA/REFINA/CONFIRMA
+  2. ...
 ```
 
 ## Quando rodar
