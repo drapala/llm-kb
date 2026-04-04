@@ -65,7 +65,44 @@ Compare raw/ com wiki/_registry.md. Para cada fonte nova:
     uma linha na seção `## Prior work que pode invalidar` de cada
     artigo de síntese afetado. Se o artigo de síntese não tem essa
     seção, adicione-a.
-12. DEPOIS de todos os artigos escritos/atualizados, atualize:
+12. **ONTOLOGICAL QUALITY GATE** (antes de salvar o artigo final):
+
+    **CHECK 1 — WIKILINKS TIPADOS**
+    Para cada [[wikilink]] no artigo, substitua por relação tipada:
+    `[conceito] [TIPO] [[artigo]]`
+    Tipos: partOf, contradicts, derivedFrom, validates, supersedes.
+    Se o tipo não existe em wiki/meta/ontology.md, proponha em
+    outputs/inbox/ontology-proposals.md e use o mais próximo com ⚠️.
+    Wikilinks planos são proibidos no artigo final.
+
+    **CHECK 2 — INSTANCE→CLASS ESCALATION**
+    Para cada claim numérico/estatístico: de qual paper? qual dataset?
+    está apresentado como verdade geral ou dado pontual?
+    ❌ "self-enhancement bias causa 16.1% de erro"
+    ✅ "self-enhancement bias causa até 16.1% de erro em Qwen2 (CALM benchmark)"
+
+    **CHECK 3 — META-KB SEPARATION**
+    Referências a /ask, /ingest, /challenge, /scout, /review, "nosso KB",
+    "nossa arquitetura" NUNCA pertencem a ## Conteúdo.
+    Mova para ## Aplicação à KB ou ## Interpretação.
+
+    **CHECK 4 — RESUMO CALIBRADO**
+    O resumo (_index.md, ~150 chars) não pode ser mais confiante que o corpo.
+    Se o corpo tem gaps, especulações, ou caveats significativos, o resumo
+    deve refletir.
+    ❌ "HippoRAG + Reflexion + MemGPT = adaptive retrieval"
+    ✅ "Síntese especulativa: feedback de falha poderia modificar topologia — não implementado"
+
+    Salve no final do artigo:
+    ```
+    ## Quality Gate
+    - [ ] Wikilinks tipados: [N substituições, N tipos novos]
+    - [ ] Instance→class: [N claims verificados, N qualificados]
+    - [ ] Meta-KB separado: [sim/não — N referências movidas]
+    - [ ] Resumo calibrado: [sim/não — alterado/mantido]
+    ```
+
+13. DEPOIS de todos os artigos escritos/atualizados, atualize:
     - _registry.md: path | data | type | quality | stance | conceitos | status
     - _index.md: 1 ponteiro por artigo (~150 chars: título + contexto mínimo)
     Ordem importa: artigo primeiro → índice depois. Nunca o contrário.

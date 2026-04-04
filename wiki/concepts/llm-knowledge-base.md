@@ -23,7 +23,7 @@ resolved_patches: []
 
 ## Resumo
 
-An LLM Knowledge Base is a personal knowledge system where raw sources are "compiled" by an LLM into an interlinked markdown wiki, then queried via the same LLM for Q&A with source citation. The pattern emerged in April 2026 from practitioners (Karpathy, Elvis/DAIR.ai) who independently converged on the same architecture: raw/ → ingest → wiki/ → ask.
+An LLM Knowledge Base compiles raw sources into an interlinked markdown wiki via LLM, then queries it for Q&A with source citation. The pattern was described in April 2026 by practitioners (Karpathy, Elvis — not independent: Elvis references Karpathy, Kepano references both). Empirical evidence of quality at scale is limited to Karpathy's anecdote (~100 articles, ~400K words). Risks of LLM-compiled knowledge documented: AI-revised content lowers RAG performance (Wikipedia study), recursive self-consumption destroys diversity (Model Collapse, Nature 2024).
 
 ## Conteúdo
 

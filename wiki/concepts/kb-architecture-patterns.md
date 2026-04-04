@@ -29,7 +29,7 @@ resolved_patches: []
 
 ## Resumo
 
-Four distinct architectural patterns for LLM-powered knowledge bases have emerged from practitioners and research. They differ in who controls synthesis (LLM vs human), how retrieval scales (index vs search vs RAG), and where the bottleneck sits (ingest quality vs context budget vs editorial judgment).
+Four architectural patterns for LLM-powered KBs identified from practitioners and research (Karpathy, Elvis, Silveira, Claude Code internals). Pattern 4 (Bandwidth-Aware Retrieval) is a meta-pattern/role, not an architecture — it applies across the other three. The taxonomy is our synthesis; no source proposes all four. Scale thresholds (~200 articles, etc.) are extrapolated, not empirically measured. ERL's validation of concept articles > raw dumps is from Gaia2 agent tasks, not KB benchmarks.
 
 ## Conteúdo
 
