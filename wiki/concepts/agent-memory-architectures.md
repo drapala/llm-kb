@@ -22,6 +22,15 @@ sources:
   - path: raw/papers/em-llm-human-episodic-memory.md
     type: paper
     quality: primary
+  - path: raw/papers/hindsight-agent-memory-retain-recall-reflect.md
+    type: paper
+    quality: primary
+  - path: raw/papers/zep-graphiti-temporal-knowledge-graph.md
+    type: paper
+    quality: primary
+  - path: raw/papers/arigraph-episodic-semantic-graph.md
+    type: paper
+    quality: primary
 created: 2026-04-03
 updated: 2026-04-03
 tags: [memory, architecture, agent-design, cognitive-science]
@@ -158,6 +167,34 @@ HippoRAG (NeurIPS 2024) models memory as a knowledge graph with Personalized Pag
 
 **Analogy (⚠️ our interpretation):** Our wiki's `[[wikilinks]]` loosely resemble a manually-built knowledge graph — articles as nodes, links as edges. This is an architectural analogy, not a claim supported by HippoRAG's paper.
 
+### Pattern 5: Epistemically Separated Networks (Hindsight)
+
+Hindsight (2025) organizes memory into 4 logical networks with explicit epistemic separation:
+
+| Network | Stores | Epistemic status |
+|---------|--------|-----------------|
+| World (𝒲) | Objective environment facts | Facts |
+| Experience (ℬ) | Agent's own activities (first person) | Biographical |
+| Opinion (𝒪) | Subjective judgments with confidence c∈[0,1] | Beliefs (evolving) |
+| Observation (𝒮) | Preference-neutral entity summaries | Synthesis |
+
+3 operations: **Retain** (extract + entity resolution + 4 link types), **Recall** (semantic + BM25 + graph + temporal via RRF), **Reflect** (disposition-parameterized response).
+
+Key innovation: Opinion Network with confidence scores that update via reinforcement when new evidence arrives. 83.6% on LongMemEval with 20B model (vs 39% baseline, vs 71.2% for Zep with GPT-4o).
+
+### Pattern 6: Temporal Knowledge Graph (Zep/Graphiti)
+
+Zep (2025) uses Graphiti, a temporally-aware KG with 3 hierarchical subgraphs:
+- **Episodes** (raw input, non-lossy) → **Entities** (extracted, resolved) → **Communities** (clustered summaries)
+
+Key innovation: **bi-temporal modeling** — each fact tracks 4 timestamps (created, expired, valid_from, valid_until). Contradictions don't delete old facts — they set validity end dates, preserving complete history.
+
+94.8% on DMR (vs MemGPT 93.4%). On LongMemEval: +18.5% accuracy with 90% latency reduction and 99% context reduction (1.6k vs 115k tokens).
+
+### Pattern 7: Online Graph Updates (AriGraph)
+
+AriGraph (IJCAI 2025) constructs AND updates a knowledge graph online during environment exploration — integrating semantic and episodic memories. Unlike HippoRAG (static post-indexing), AriGraph restructures graph topology based on new observations: adding/removing nodes and edges, not just modifying weights.
+
 ### Decision Framework: Compression vs. Associative Structure (⚠️ our synthesis)
 
 When should an agent compress aggressively vs. preserve associative structure? The following axes are our synthesis across patterns, not a framework from any single paper:
@@ -243,3 +280,6 @@ EM-LLM's finding: concepts could be refined using surprise as a secondary signal
 - [HippoRAG](../../raw/papers/hipporag-neurobiological-memory.md) — KG + PageRank retrieval: incremental, 10-30× cheaper, wikilinks as manual KG
 - [CoALA](../../raw/papers/coala-cognitive-architectures-language-agents.md) — cognitive architecture framework: bridges SOAR/ACT-R with LLM agents, formalizes memory types from cognitive science
 - [EM-LLM](../../raw/papers/em-llm-human-episodic-memory.md) — surprise-based segmentation aligned with human event perception, 40% retrieval improvement, 25-35x better boundary alignment
+- [Hindsight](../../raw/papers/hindsight-agent-memory-retain-recall-reflect.md) — 4 epistemic networks (world/experience/opinion/observation) + retain/recall/reflect ops. 83.6% LongMemEval with 20B model
+- [Zep/Graphiti](../../raw/papers/zep-graphiti-temporal-knowledge-graph.md) — temporal KG with bi-temporal edge modeling. 94.8% DMR, +18.5% LongMemEval, 90% latency reduction
+- [AriGraph](../../raw/papers/arigraph-episodic-semantic-graph.md) — online graph structure updates during exploration (add/remove nodes+edges). IJCAI 2025

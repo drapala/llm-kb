@@ -19,6 +19,9 @@ sources:
   - path: raw/papers/absolute-zero-reinforced-self-play.md
     type: paper
     quality: primary
+  - path: raw/papers/rmm-reflective-memory-management.md
+    type: paper
+    quality: primary
 created: 2026-04-03
 updated: 2026-04-03
 tags: [agent-architecture, self-improvement, reflection, learning]
@@ -89,6 +92,7 @@ Heuristics provide "distilled strategic principles that generalize across tasks.
 | Reflexion | Verbal self-reflections | Per-failure | Same task (retry) |
 | ERL | Abstracted heuristics | Per-outcome | Cross-task |
 | Agent KB | Structured experiences | Per-trajectory | Cross-framework |
+| RMM | Prospective + retrospective reflection | Per-interaction | Long-term dialogue |
 | KAIROS/Dream | Memory consolidation | Per-session | Cross-session |
 
 ### TextGrad: Optimizing via Textual Feedback
@@ -139,6 +143,14 @@ Models autonomously generate training tasks and improve reasoning via RL. Code e
 
 **Relevance:** A self-improving KB could use self-play: agent generates questions about its own wiki → attempts to answer → evaluates against raw/ → uses feedback to improve articles and retrieval. This would automate the /ask → evaluate → /review cycle entirely.
 
+### RMM: Reflective Memory Management via Online RL
+
+RMM (ACL 2025) combines two reflection types for long-term dialogue:
+- **Prospective reflection**: dynamically summarizes interactions across granularities into a memory bank (analogous to /ingest)
+- **Retrospective reflection**: iteratively refines retrieval via online RL based on LLM's cited evidence (analogous to experience-weighted retrieval)
+
++10% accuracy over baseline on LongMemEval. Key difference from Reflexion: RMM uses formal RL optimization with reward signals, not verbal reflection stored as flat text. This is a more principled mechanism for retrieval adaptation from failure feedback.
+
 ## Interpretação
 
 Our pipeline loosely parallels self-improvement patterns:
@@ -164,3 +176,4 @@ Our pipeline loosely parallels self-improvement patterns:
 - [TextGrad](../../raw/papers/textgrad-automatic-differentiation-text.md) — textual gradients as optimization: PyTorch-style feedback loop, +20% coding gains
 - [Promptbreeder](../../raw/papers/promptbreeder-self-referential-improvement.md) — self-referential prompt evolution: evolves both task prompts and mutation prompts
 - [Absolute Zero](../../raw/papers/absolute-zero-reinforced-self-play.md) — self-play reasoning with zero data: code execution as reward signal, surpasses human-annotated baselines
+- [RMM](../../raw/papers/rmm-reflective-memory-management.md) — prospective + retrospective reflection via online RL: +10% LongMemEval, formal optimization for retrieval adaptation
