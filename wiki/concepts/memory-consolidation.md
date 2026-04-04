@@ -27,7 +27,7 @@ LLM agents forget everything between sessions. Without consolidation, users repe
 
 ### The KAIROS Auto-Dreaming System
 
-KAIROS is Claude Code's internal mechanism for background memory consolidation, running as a forked subagent.
+KAIROS is an alternate UX mode where Claude functions as a long-lived autonomous agent persisting across sessions. Memory consolidation (auto-dreaming) is its most concrete subsystem, running as a forked subagent. KAIROS is broader than just memory — but the consolidation cycle is what's relevant here.
 
 **Trigger Gates** (evaluated in cost-reducing order):
 1. Time-based: hours since last consolidation (default 24h)
@@ -54,7 +54,7 @@ KAIROS is Claude Code's internal mechanism for background memory consolidation, 
 
 ### Index Architecture
 
-`MEMORY.md` (~25KB max) serves as the table of contents, loaded into every conversation. It contains only pointers (~150 chars per entry), not content.
+`MEMORY.md` (~25KB max) serves as the table of contents, loaded into every conversation. It contains pointers, not full content. (Note: the "~150 chars per entry" convention is from THIS KB's design rules, not from KAIROS documentation. The KAIROS source specifies the 25KB cap but not per-entry size.)
 
 **Recall mechanism:** A Sonnet-powered relevance selector scans up to 200 memory files and returns the 5 most relevant to the current query. Demand-driven, not static.
 

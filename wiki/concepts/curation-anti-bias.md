@@ -55,7 +55,7 @@ Every source gets `stance: confirming | challenging | neutral` in frontmatter. A
 **2. Split Confidence Scoring**
 Replace single `confidence` with two independent signals:
 - `source_quality: high|medium|low` — objective, based on source type+quality count (reliable)
-- `interpretation_confidence: medium|medium|low` — subjective, LLM self-assessment (unreliable on hard claims)
+- `interpretation_confidence: high|medium|low` — subjective, LLM self-assessment (unreliable on hard claims)
 
 When they diverge (source_quality:high but interpretation_confidence:medium), flag for human review.
 

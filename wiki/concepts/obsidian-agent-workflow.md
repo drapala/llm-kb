@@ -20,7 +20,7 @@ resolved_patches: []
 
 ## Resumo
 
-Obsidian is emerging as the default frontend/IDE for LLM-compiled knowledge bases. Three independent practitioners (Karpathy, Elvis, Kepano) converge on the same setup: a local-first markdown editor with graph view, backlinks, and plugin ecosystem — where the LLM writes the wiki and the human reads it in Obsidian. Kepano (CEO of Obsidian) endorses vault separation as the recommended pattern.
+Obsidian is used as frontend/IDE for LLM-compiled knowledge bases by several practitioners. Karpathy described his setup; Elvis uses a similar approach; Kepano (CEO of Obsidian) endorsed the pattern citing Karpathy's setup directly. They are not independent — Kepano explicitly references Karpathy. Kepano expresses personal preference for vault separation ("I prefer," "I like"), not an official Obsidian recommendation.
 
 ## Conteúdo
 
@@ -65,7 +65,7 @@ This separation prevents LLM-generated content from contaminating the human's tr
 
 ## Interpretação
 
-Nenhuma interpretação significativa neste artigo — conteúdo é factual direto das fontes.
+"Default frontend/IDE" is extrapolated from 3 practitioners — a small sample. "Graph view" and "community plugins for visualization" are general Obsidian features not mentioned by the cited sources. The "agent vault" framing is our design choice, not Kepano's terminology.
 
 ## Conexões
 

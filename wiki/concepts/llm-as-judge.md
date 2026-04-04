@@ -44,7 +44,7 @@ Modes exhibit inconsistencies: pointwise scores don't consistently yield equival
 
 | Bias | Description | Impact on KB |
 |------|-------------|-------------|
-| **Self-Enhancement** | Favors own outputs (up to 16.1% error) | LLM prefers its own wiki articles in /review |
+| **Self-Enhancement** | Favors own outputs (up to 16.1% error on Qwen2; varies by model — Claude-3.5 most resilient) | LLM prefers its own wiki articles in /review |
 | **Position** | Favors answers at certain positions | /ask may prefer articles listed first in _index.md |
 | **Verbosity** | Prefers longer responses | /ingest may over-value verbose sources |
 | **Authority** | Favors cited answers (even fake citations) | /ask may over-trust wiki claims with raw/ links |

@@ -44,7 +44,7 @@ RAPTOR (tree-organized retrieval) and the flat 3-layer pattern used in this KB s
 
 **2. Layer 1→2→3 escalation ≈ collapsed tree.** RAPTOR's collapsed tree (which outperforms tree traversal) selects nodes from any level by relevance. Our /ask does the same manually: start at index, descend to articles, verify in raw/ when needed.
 
-**3. Concept-based > chunk-based.** RAPTOR outperforms chunk-based retrievers (38.5% vs 20-22%). Our /ingest groups by concept, not by source — exactly what RAPTOR does via clustering. The difference: our "clustering" is semantic (LLM decides), not statistical (GMM decides).
+**3. Summarization-based outperforms chunk-based.** RAPTOR outperforms chunk-based retrievers (38.5% vs 20-22% — note: this figure is from the LC vs RAG evaluation paper, not RAPTOR's own benchmarks). Our /ingest groups by concept, which is a different mechanism than RAPTOR's statistical clustering (GMM on embeddings). The parallel is structural (both produce multi-level abstractions) but the methods differ fundamentally.
 
 ### Exploitable Gaps (No Infrastructure Required)
 
@@ -87,12 +87,32 @@ No single strategy dominates. The practical implication: our concept-based appro
 
 ### What NOT to Import
 
-- **GMM clustering**: LLM-guided concept extraction is more precise for knowledge bases than statistical embedding clustering. RAPTOR needs GMM because it operates on raw chunks without semantics; we operate on sources the LLM already comprehends.
+- **GMM clustering**: We use LLM-guided concept extraction; RAPTOR uses statistical GMM clustering on embeddings. Whether one is "more precise" for knowledge bases is untested — no source compares them. We chose concept extraction for pragmatic reasons (no embedding infrastructure), not because it's proven superior.
 - **Embeddings for Layer 1 retrieval**: at ~9 articles, reading _index.md whole is more efficient than any embedding pipeline. At ~200 articles, [[hybrid-search|QMD]] solves this better than DIY embeddings.
 
-## Interpretação
+## Níveis epistêmicos
 
-Ver seções marcadas com (⚠️) no Conteúdo acima — conteúdo interpretativo está inline por razões de coesão narrativa.
+### Descrição (verificado nas fontes)
+- RAPTOR: 0.28 compression, 23-57% non-leaf contribution, 4% hallucination (RAPTOR paper)
+- RAPTOR 38.5% vs chunk-based 20-22% (from LC vs RAG paper, NOT RAPTOR's own benchmarks)
+- NVIDIA: page-level chunking won at 0.648 accuracy (chunking benchmarks)
+- 9% recall variation across chunking methods (Chroma research)
+- ERL: random selection degrades at 40-60 items (ERL paper, on Gaia2 agent tasks)
+
+### Interpretação (inferido, não declarado pelos autores)
+- "_index.md is a RAPTOR root node" — structural analogy, not validated
+- "Layer 1→2→3 escalation ≈ collapsed tree" — structurally different (sequential vs simultaneous), analogy only
+- "Concept-based > chunk-based" — RAPTOR uses summarization, not concept extraction. Different mechanisms.
+
+### Especulação (proposto pela KB, sem evidência empírica)
+- Sub-indices as RAPTOR mid-level nodes — proposed architecture, untested
+- "50-80 articles" as real degradation threshold — extrapolated from ERL's agent task benchmark, NOT validated for wiki _index.md selection
+- "Two-step selection stays within ERL-validated window" — combining ERL + RAPTOR to justify sub-indices is novel reasoning without empirical backing
+- "QMD solves this better than DIY embeddings at ~200 articles" — unsupported claim
+
+### Gaps não resolvidos
+- No direct comparison of concept-based vs chunk-based vs surprise-based segmentation for KB retrieval
+- The 50-80 article threshold is theoretically derived, not empirically observed
 
 ## Conexões
 

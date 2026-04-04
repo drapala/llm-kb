@@ -27,20 +27,20 @@ LLMs have fixed context windows. As conversations grow, agents must decide what 
 
 ### Claude Code's 4-Layer Compaction Hierarchy
 
-Claude Code implements progressively aggressive strategies, triggered in order:
+Claude Code implements multiple compaction strategies. The query loop applies them as: snip → microcompact → context collapse → API call. They are NOT a sequential cascade where each triggers the next — they are independent mechanisms applied during the loop.
 
-**1. Microcompaction** (lightest)
+**Microcompaction** (lightweight, tool-specific)
 - Time-based: clear tool results older than a TTL
 - Size-based: truncate when accumulated tokens exceed threshold
 - Tool-specific: only compacts FileRead, Bash, Grep, Glob, WebSearch, WebFetch, FileEdit, FileWrite
 - Cache-aware: preserves prompt cache integrity
 
-**2. Snip Compaction**
+**Snip Compaction** (history truncation, feature-gated)
 - History truncation preserving the assistant's "protected tail"
 - Non-destructive: full history kept in REPL for scrollback
 - Tracks tokens freed for accurate budget calculations
 
-**3. Auto-Compaction** (triggered at `context_window - 13,000` tokens)
+**Auto-Compaction** (triggered at `context_window - 13,000` tokens)
 1. Strip images/documents from older messages
 2. Group messages by API round
 3. Call compaction model for summary
@@ -48,7 +48,7 @@ Claude Code implements progressively aggressive strategies, triggered in order:
 5. Re-inject up to 5 files + skills post-compaction (50K for files, 25K for skills)
 - Circuit breaker: max 3 consecutive failures
 
-**4. Context Collapse** (heaviest, lazy)
+**Context Collapse** (heaviest, lazy)
 - Committed only when API returns 413 (prompt too long)
 - Cascade: collapse drain → reactive compact → surface error
 

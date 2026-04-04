@@ -34,7 +34,7 @@ Two paradigms:
 - **Reward-optimized** (RL-based): DeepResearcher, Search-R1, ZeroSearch. Format rewards enforce syntax; answer rewards (F1-based) improve relevance.
 - **Supervision-driven**: ManuSearch, Search-o1. Multi-agent systems with separate planning, searching, extraction agents. More controllable but limited by demonstration quality.
 
-**Open challenge:** Generated queries are too narrow for open-ended problems.
+**Open challenges:** (1) Generated queries rely too heavily on clarity of subgoals — vague subgoals degrade query quality. (2) Lack of contextual coherence; repetitive or redundant questions across iterations. (3) Poor performance on open-ended problems; overly narrow queries limit exploratory capabilities.
 
 #### 3. Web Exploration
 Retrieving relevant information from online sources.
@@ -87,7 +87,7 @@ Karpathy's follow-up tweet captures the connection: "every question to a frontie
 
 ## Interpretação
 
-Nenhuma interpretação significativa neste artigo — conteúdo é factual direto das fontes.
+Karpathy's follow-up tweet ("every question spawns a team of LLMs to construct an ephemeral wiki") is from a separate source, not the survey. The claim "an LLM knowledge base is a persistent instance of what deep research agents do ephemerally" is our analogy — plausible but not stated by either source.
 
 ## Conexões
 

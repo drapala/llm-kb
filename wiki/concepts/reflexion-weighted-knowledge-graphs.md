@@ -69,9 +69,34 @@ CALM bias research adds a critical warning: the Reflexion feedback that modifies
 
 **Practical implication:** /review should prioritize articles involved in /ask failures — not sweep uniformly. If /ask answered poorly and user corrected, those articles get priority in next /review. This is Reflexion-weighted review.
 
-## Interpretação
+## Níveis epistêmicos
 
-Ver seções marcadas com (⚠️) no Conteúdo acima — conteúdo interpretativo está inline por razões de coesão narrativa.
+### Descrição (verificado nas fontes)
+- MemGPT eviction is FIFO/pressure-based (confirmed in paper)
+- Reflexion stores reflections as flat list bounded to 1-3 experiences (confirmed)
+- HippoRAG graph is static post-indexing, incrementally adds edges (confirmed)
+- Synapse uses temporal decay ρ=0.01 (confirmed), not experience-based
+
+### Interpretação (inferido, não declarado pelos autores)
+- The gap analysis ("each paper solves one layer") is our framing — no paper positions itself relative to the others
+- "Adaptive retrieval topology" as a unified concept is our synthesis
+
+### Especulação (proposto pela KB, sem evidência empírica)
+- The entire "Reflexion-Weighted Knowledge Graphs" concept is speculative — no implementation exists
+- Edge weight modification via verbal feedback is proposed, not tested
+- "Topological eviction" has no empirical validation
+- The PoC we ran tested ONE wikilink addition, not the full proposed mechanism
+- Whether self-enhancement bias would create degenerative feedback loops in edge weight modification is theoretical
+
+### Prior work que pode invalidar
+- Synapse's spreading activation + lateral inhibition may already achieve similar results through different means
+- Graph neural networks with attention mechanisms (not surveyed here) may cover this territory
+- não verificado — rodar /curate antes de publicar
+
+### Gaps não resolvidos
+- Credit assignment: how to determine WHICH edge caused a retrieval failure
+- Computational cost of re-propagating PageRank after each edge weight change
+- Scale: untested beyond trivial example (1 wikilink in PoC)
 
 ## Conexões
 

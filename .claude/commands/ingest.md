@@ -33,7 +33,17 @@ Compare raw/ com wiki/_registry.md. Para cada fonte nova:
 9. **Ingest threshold** (quando wiki > 40 artigos): exigir que fonte nova
    contribua conceito não coberto OU contradiga claim existente.
    Quando wiki > 80 artigos: exigir sub-índices antes de continuar crescendo.
-10. DEPOIS de todos os artigos escritos/atualizados, atualize:
+10. **Verificação adversarial** (antes de finalizar cada artigo):
+    Para cada artigo criado ou significativamente atualizado, responda:
+    a. **Claim mais fraco:** qual afirmação seria mais fácil de refutar?
+    b. **O que o paper NÃO diz:** 2-3 coisas que o resumo poderia sugerir
+       mas a fonte não afirma
+    c. **Simplificações feitas:** onde o artigo perdeu nuance importante?
+    d. **Prior work:** a fonte cita trabalhos anteriores no mesmo terreno?
+    Salve como seção `## Verificação adversarial` no artigo wiki gerado.
+    Se o claim mais fraco é uma ESPECULAÇÃO não marcada, mova pra
+    ## Interpretação antes de publicar.
+11. DEPOIS de todos os artigos escritos/atualizados, atualize:
     - _registry.md: path | data | type | quality | stance | conceitos | status
     - _index.md: 1 ponteiro por artigo (~150 chars: título + contexto mínimo)
     Ordem importa: artigo primeiro → índice depois. Nunca o contrário.

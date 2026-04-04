@@ -29,7 +29,7 @@ resolved_patches: []
 
 ## Resumo
 
-Tension resolution is the process of detecting and contextualizing contradictions between wiki articles. Five mechanisms from ingested papers inform the design: Reflexion (grounded verification required), CALM (self-enhancement bias makes self-judgment unreliable), ERL (resolutions should become reusable heuristics), CARMO (dynamic criteria beat static rubrics), Synapse (graph topology discovers non-obvious conflicts). Key principle: real tensions should be documented with conditional resolution, not forcefully harmonized.
+Tension resolution is the process of detecting and contextualizing contradictions between wiki articles. Six mechanisms from ingested papers inform the design: Reflexion (grounded verification required), CALM (self-enhancement bias makes self-judgment unreliable), ERL (resolutions should become reusable heuristics), CARMO (dynamic criteria beat static rubrics), Synapse (graph topology discovers non-obvious conflicts). Key principle: real tensions should be documented with conditional resolution, not forcefully harmonized.
 
 ## Conteúdo
 
@@ -41,7 +41,7 @@ A /tensions command is the same pipeline as /review with "contradiction" instead
 
 **1. Reflexion → Grounded Verification Required**
 
-Self-reflection without grounded feedback degrades to 52% (ablation). Tension resolution that relies purely on LLM judgment (without checking raw/) will fail. The LLM may "resolve" contradictions by picking the claim that sounds more plausible, not the one that's actually supported.
+Reflexion's ablation showed self-reflection without automated test generation degrades to 52% on HumanEval (a programming benchmark). Note: "test generation" (executable pass/fail) is a much stronger form of grounding than "reading raw/ sources" (interpretive). The transfer to KB verification is plausible but not directly validated — raw/ verification is weaker grounding than unit tests. The LLM may "resolve" contradictions by picking the claim that sounds more plausible, not the one that's actually supported.
 
 **Rule:** Every tension resolution MUST verify against raw/ sources. If raw/ sources themselves disagree, the tension is real and should be documented, not forcefully resolved. Note: raw/ verification provides data grounding but not interpretation grounding — the same LLM reading raw/ may confirm its own misinterpretation (see [[autonomous-kb-failure-modes]] "The Layer 3 Circularity Problem").
 

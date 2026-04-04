@@ -84,7 +84,7 @@ Code fence protection: break points inside code blocks are ignored.
 | qwen3-reranker-0.6b-q8_0 | Re-ranking | ~640MB |
 | qmd-query-expansion-1.7B-q4_k_m | Query expansion (fine-tuned) | ~1.1GB |
 
-All auto-downloaded, cached in `~/.cache/qmd/models/`. No cloud dependency.
+All auto-downloaded from HuggingFace on first use, cached in `~/.cache/qmd/models/`. Runs locally after initial download — but first run requires internet access.
 
 ### Integration Modes
 

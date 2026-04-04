@@ -67,16 +67,6 @@ Three isolation levels in Claude Code:
 - **Worktree** — isolated git branch copy, changes merged on exit
 - **Remote (CCR)** — runs on a separate machine
 
-### The Deep Research Pipeline Parallel
-
-The Deep Research survey identifies the same 4-phase pattern at the research level:
-1. Planning → Research
-2. Question Developing → Synthesis
-3. Web Exploration → Implementation (gathering)
-4. Report Generation → Verification (output)
-
-The convergence suggests this is a fundamental pattern for agent coordination, not specific to code or research.
-
 ### Task System Internals
 
 Background tasks use file-based IPC with concurrent-session locking:
@@ -85,7 +75,9 @@ Background tasks use file-based IPC with concurrent-session locking:
 
 ## Interpretação
 
-Nenhuma interpretação significativa neste artigo — conteúdo é factual direto das fontes.
+The Deep Research survey's 4-stage pipeline (plan → question → explore → report) loosely parallels Coordinator Mode's 4 phases (research → synthesis → implementation → verification). However, the mapping is imprecise: "Web Exploration" is information retrieval, not implementation; "Report Generation" is synthesis, not verification. This analogy is ours — neither source draws this parallel.
+
+"Context pollution" (single-agent weakness) is terminology from Claude Code coordinator docs, not from the Deep Research survey. The survey describes single-agent limitations as less flexible, not as context pollution specifically.
 
 ## Conexões
 

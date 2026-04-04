@@ -126,9 +126,31 @@ Du et al. (2023) propose a fourth option: multiagent debate. Multiple LLM instan
 
 **Tension with single-agent:** Tim Kellogg documents Cognition's critique that multi-agent creates "fragile systems" with "dispersed decision-making." Multiagent debate fixes bias but adds coordination cost and context fragmentation. Neither single-agent nor multi-agent /review dominates — the choice depends on whether bias risk (single) or coordination fragility (multi) is the bigger threat for the specific article being reviewed.
 
-## Interpretação
+## Níveis epistêmicos
 
-Ver seções marcadas com (⚠️) no Conteúdo acima — conteúdo interpretativo está inline por razões de coesão narrativa.
+### Descrição (verificado nas fontes)
+- Self-enhancement bias up to 16.1% on Qwen2 (CALM)
+- Self-reflection without test generation degrades to 52% on HumanEval (Reflexion)
+- GPT-4o near random on hard evaluation tasks (JudgeBench)
+- Random heuristic inclusion degrades after 40-60 items (ERL, on Gaia2)
+- Model collapse: recursive self-consumption destroys distributional diversity (Shumailov et al., Nature)
+- AI-revised Wikipedia content lowered RAG performance (Huang et al.)
+
+### Interpretação (inferido, não declarado pelos autores)
+- The 4 failure modes (semantic convergence, authority cascade, index bloat, forced tension) are our framework — no source describes these specific modes for knowledge bases
+- "Layer 3 Circularity Problem" is our analysis applying Reflexion's test-generation finding to raw/ verification. Note: executable tests are stronger grounding than reading raw/
+- The 16.1% figure is used as general indicator but is Qwen2-specific; Claude-3.5 is more resilient
+
+### Especulação (proposto pela KB, sem evidência empírica)
+- The ~30 day degradation timeline (Day 1-7 honeymoon, etc.) has NO empirical basis — day ranges are invented
+- The 4 mitigation proposals are untested design recommendations
+- "KB equivalent of reward hacking" is an analogy, not a demonstrated phenomenon
+- "External ground truth" as the fix is our prescription, not from any source
+
+### Gaps não resolvidos
+- No empirical data on actual KB degradation rates exists
+- Whether multiagent debate actually mitigates self-enhancement in KB review is untested
+- The 40-60 ERL threshold is extrapolated from agent tasks to wiki management — domain transfer not validated
 
 ## Conexões
 
@@ -139,6 +161,7 @@ Ver seções marcadas com (⚠️) no Conteúdo acima — conteúdo interpretati
 - [[kb-architecture-patterns]] — all 4 patterns assume human-in-the-loop for quality; none designed for full autonomy
 - [[raptor-vs-flat-retrieval]] — ERL's 40-60 item selection limit applies to both semantic convergence detection and index scaling thresholds
 - [[reflexion-weighted-knowledge-graphs]] — adaptive topology could mitigate failure mode 1 if edge weights incorporate external signal
+
 
 ## Fontes
 
