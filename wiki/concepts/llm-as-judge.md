@@ -26,6 +26,13 @@ reads: 0
 retrievals_correct: 0
 retrievals_gap: 0
 last_read: null
+provenance: synthesis
+synthesis_sources:
+  - wiki/concepts/self-improving-agents.md
+  - wiki/concepts/kb-architecture-patterns.md
+  - wiki/concepts/context-management.md
+  - wiki/concepts/memory-consolidation.md
+  - wiki/concepts/tension-resolution.md
 ---
 
 ## Resumo

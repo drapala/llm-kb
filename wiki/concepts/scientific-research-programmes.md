@@ -15,6 +15,7 @@ tags: [philosophy-of-science, lakatos, research-programme, hard-core, protective
 source_quality: high
 interpretation_confidence: high
 resolved_patches: []
+provenance: source
 reads: 0
 retrievals_correct: 0
 retrievals_gap: 0

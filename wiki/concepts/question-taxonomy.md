@@ -32,6 +32,14 @@ reads: 0
 retrievals_correct: 0
 retrievals_gap: 0
 last_read: null
+provenance: synthesis
+synthesis_sources:
+  - wiki/concepts/tension-resolution.md
+  - wiki/concepts/curation-anti-bias.md
+  - wiki/concepts/autonomous-kb-failure-modes.md
+  - wiki/concepts/llm-as-judge.md
+  - wiki/concepts/kb-architecture-patterns.md
+  - wiki/concepts/reflexion-weighted-knowledge-graphs.md
 ---
 
 ## Resumo

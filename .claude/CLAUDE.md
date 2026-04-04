@@ -67,6 +67,33 @@ Se encontrar bloco > [!patch] num artigo wiki:
    com data, texto original substituído, e fonte do patch
 3. Remova o bloco > [!patch] do corpo
 
+## Provenance de Artigos
+
+Todo artigo wiki tem campo `provenance` que classifica sua origem:
+
+- **source** → resume principalmente 1 fonte raw/ (pode citar 2+ fontes se redundantes)
+- **synthesis** → combina 2+ fontes raw/ sem gerar conceito novo além do que as fontes dizem
+- **emergence** → propõe conceito ausente em qualquer fonte individual; emergiu de /ask cross-domain
+
+Artigos com `provenance: emergence` recebem campos adicionais:
+```yaml
+provenance: emergence
+emergence_trigger:
+  pair: [artigo-A, artigo-B]        # par que originou a conexão
+  ask_session: outputs/logs/...     # log do /ask que confirmou
+  connection_type: ANÁLOGO-A | INSTANCIA | EMERGE-DE
+  pearl_level: L1 | L2 | L3
+emerged_on: YYYY-MM-DD
+```
+
+Artigos com `provenance: synthesis` registram as fontes wiki:
+```yaml
+provenance: synthesis
+synthesis_sources:
+  - wiki/concepts/artigo-A.md
+  - wiki/concepts/artigo-B.md
+```
+
 ## Template de Artigo
 ---
 title: "Nome do Conceito"
@@ -83,6 +110,9 @@ tags: []
 source_quality: high|medium|low
 interpretation_confidence: high|medium|low
 resolved_patches: []
+provenance: source | synthesis | emergence
+# se emergence, adicionar emergence_trigger (ver seção Provenance de Artigos)
+# se synthesis, adicionar synthesis_sources
 ---
 
 ## Resumo

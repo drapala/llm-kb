@@ -79,3 +79,31 @@ Salve resultado em `outputs/logs/sessions/YYYY-MM-DD/challenge-[artigo]-HH-MM.md
 segundo schema em `wiki/meta/process-log.md`.
 Campos: claims_challenged, claims_survived, claims_weakened, claims_invalidated,
 prior_work_found, verdict.
+
+---
+
+## Pipeline — kb-state.yaml
+
+### Lê (início)
+- `corpus.quarantined_list` — se artigo está em quarentena, o challenge pode satisfazer critério 3 do /promote
+- `active_triggers` — imprima qualquer trigger `priority: high` antes de começar
+
+### Escreve (final)
+```yaml
+updated: YYYY-MM-DD
+challenge:
+  challenged_since_last_promote:
+    - artigo: [nome]
+      verdict: PUBLICÁVEL | PRECISA_CORREÇÃO | RISCO_ALTO
+      data: YYYY-MM-DD
+      claims_survived: N
+      claims_total: N
+```
+
+### Gatilhos — verifique ao final
+
+| Condição | Gatilho |
+|----------|---------|
+| Artigo está em quarentena E verdict ≠ RISCO_ALTO | `💡 /promote [artigo] — critério 3 satisfeito pelo challenge. Verifique critérios 1 e 2.` |
+| Verdict = RISCO_ALTO em artigo com in-degree alto | `⚠️ Propagação — [artigo] tem alto in-degree e claims em risco. Verifique artigos que o citam.` |
+| Prior work encontrado que invalida claim central | `💡 /ingest [paper] — paper externo invalida claim. Ingira para atualizar a KB.` |

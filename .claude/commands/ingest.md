@@ -1,5 +1,40 @@
 # /ingest
 
+## Pre-check de contexto
+
+Execute este script bash e leia o resultado:
+
+```bash
+SESSION=$(ls -t ~/.claude/projects/-Users-drapala-projects-llm-kb/*.jsonl 2>/dev/null | head -1)
+python3 -c "
+import json
+entries = []
+try:
+    with open('$SESSION') as f:
+        for line in f:
+            try:
+                obj = json.loads(line)
+                u = obj.get('message',{}).get('usage',{})
+                if u: entries.append(u)
+            except: pass
+except: pass
+if entries:
+    u = entries[-1]
+    t = u.get('input_tokens',0)+u.get('cache_read_input_tokens',0)+u.get('cache_creation_input_tokens',0)
+    print(round(t/200000*100,1))
+else:
+    print('0')
+"
+```
+
+Se resultado >= 70%:
+  Imprima: `⚠️ Contexto em [N]%. /ingest pode causar auto-compact durante processamento. /dream recomendado primeiro.`
+  Não processa automaticamente — aguarda confirmação explícita do usuário.
+
+Se resultado < 70%: silêncio — processa normalmente.
+
+---
+
 ## Modo especial: Ontologia Formal
 
 Se a fonte é um paper de ontologia formal (BFO, DOLCE, OWL, Relation Ontology,
@@ -129,3 +164,10 @@ Compare raw/ com wiki/_registry.md. Para cada fonte nova:
 
 Reporte: X fontes processadas, Y artigos criados, Z atualizados, W patches resolvidos.
 Se encontrar fontes com problemas (vazio, ilegível, duplicata exata): reporte sem processar.
+
+## Após processar (antes do log de occurrent)
+
+Atualize `outputs/state/kb-state.yaml`:
+1. `ingest_count_since_last_lint += 1`
+2. `sessions_since_last_dream += 1`
+3. `last_updated` com data atual

@@ -14,6 +14,7 @@ quarantine: true
 quarantine_created: 2026-04-04
 quarantine_reason: "interpretation_confidence: low — aplicação a multi-compiler é interpretação nossa; 3+ especulações"
 resolved_patches: []
+provenance: source
 ---
 
 > ⚠️ QUARENTENA: artigo não pode ser linkado por outros até /promote.

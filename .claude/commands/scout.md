@@ -63,7 +63,7 @@ Descobre papers adjacentes que a KB não contém. Olha pra fora via web search.
 - Antes de publicar qualquer síntese (LinkedIn post, report externo)
 - Mensalmente como manutenção
 - Quando /challenge encontrar "Prior work não verificado"
-- Após ingerir 5+ papers novos (o landscape pode ter mudado)
+- Quando `fast_cycle.ingest_count_since_last_scout >= 10` em kb-state.yaml
 
 ## Utility Analysis (roda junto com scout periódico)
 
@@ -82,3 +82,35 @@ Classifique:
 | ALTO GAP | retrievals_gap >= 3 | Existe mas retrieval não chega — melhorar ponteiro ou wikilinks |
 
 Salve análise em `outputs/reports/utility-YYYY-MM-DD.md`
+
+---
+
+## Pipeline — kb-state.yaml
+
+### Lê (início)
+- `fast_cycle.ingest_count_since_last_scout` — para contextualizar escopo do scout (quanto mudou desde o último)
+- `slow_cycle.emerge.top_pairs` — se /emerge identificou pares com alto potencial, inclua os artigos desses pares no escopo da busca
+- `challenge.recent_verdicts` — artigos com prior_work_found=true são candidatos prioritários para scout
+
+### Escreve (final)
+```yaml
+updated: YYYY-MM-DD
+fast_cycle:
+  ingest_count_since_last_scout: 0  # reset
+slow_cycle:
+  scout:
+    last_run: YYYY-MM-DD
+    candidates_pending:
+      - title: [título]
+        url: [url]
+        impact: INVALIDA | REFINA | CONFIRMA
+        article: [artigo wiki afetado]
+```
+
+### Gatilhos — verifique ao final
+
+| Condição | Gatilho |
+|----------|---------|
+| `candidates_pending` contém artigos com `impact: INVALIDA` | `⚠️ /ingest urgente — paper encontrado que invalida claim. Artigo: [nome]` |
+| Artigo com `provenance: emergence` tem prior work que subsome | `⚠️ /challenge [artigo] — prior work pode subsumir emergência. Verifique antes de publicar.` |
+| Utility analysis revela artigos com `reads=0` e in-degree ≥5 | `💡 Hub não utilizado: [artigo]. Melhore ponteiro em _index.md.` |

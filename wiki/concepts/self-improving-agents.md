@@ -32,6 +32,15 @@ reads: 0
 retrievals_correct: 0
 retrievals_gap: 0
 last_read: null
+provenance: synthesis
+synthesis_sources:
+  - wiki/concepts/memory-consolidation.md
+  - wiki/concepts/kb-architecture-patterns.md
+  - wiki/concepts/autonomous-research-agents.md
+  - wiki/concepts/context-management.md
+  - wiki/concepts/llm-as-judge.md
+  - wiki/concepts/agent-memory-architectures.md
+  - wiki/concepts/multi-agent-orchestration.md
 ---
 
 ## Resumo

@@ -38,6 +38,13 @@ reads: 1
 retrievals_correct: 0
 retrievals_gap: 0
 last_read: 2026-04-04
+provenance: emergence
+emergence_trigger:
+  pair: [llm-as-judge, self-improving-agents]
+  ask_session: null
+  connection_type: EMERGE-DE
+  pearl_level: L2
+emerged_on: 2026-04-04
 quarantine: true
 quarantine_created: 2026-04-04
 quarantine_reason: "retrofit — speculative synthesis"

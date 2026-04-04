@@ -11,6 +11,7 @@ tags: [bibliometrics, information-scattering, power-law, source-distribution, br
 source_quality: medium
 interpretation_confidence: medium
 resolved_patches: []
+provenance: source
 reads: 1
 retrievals_correct: 1
 retrievals_gap: 0

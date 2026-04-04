@@ -124,3 +124,52 @@ Zone3/Zone2: X.XX → expandir (<0.8) | pausa (0.8–1.2) | ok (>1.2)
 - Circuit breaker: se _registry.md tiver > 200 linhas, não leia inteiro — use Bash/awk para extrair stances
 - Não modifique nenhum artigo durante o lint — é operação read-only
 - Se algum metric não for computável (dados ausentes), reporte como "não mensurável" em vez de estimar
+
+---
+
+## Pipeline — kb-state.yaml
+
+### Lê (início)
+- `fast_cycle.ingest_count_since_last_lint` — para contextualizar quantas fontes foram adicionadas desde o último lint
+- `promote.promoted_since_last_lint` — artigos promovidos desde o último lint (podem afetar quarantine_rate)
+
+### Escreve (final)
+```yaml
+updated: YYYY-MM-DD
+fast_cycle:
+  ingest_count_since_last_lint: 0   # reset
+promote:
+  promoted_since_last_lint: []      # reset
+slow_cycle:
+  lint:
+    last_run: YYYY-MM-DD
+    alerts:
+      # se challenging < 20% em mês com ≥5 fontes core:
+      - type: adversarial_gap
+        value: X%
+        threshold: 20%
+        message: "Mês YYYY-MM: X% challenging (abaixo de 20%)"
+      # se Zone3/Zone2 < 0.8:
+      - type: bradford_coverage
+        value: X.XX
+        threshold: 0.8
+        message: "Zone3/Zone2=X.XX abaixo de 0.8: expandir fontes laterais"
+      # se quarantine_rate > 15%:
+      - type: quarantine_rate
+        value: X%
+        threshold: 15%
+        message: "X% dos artigos em quarentena (acima de 15%)"
+```
+
+Atualize também `corpus.quarantined_articles` se o lint revelou discrepância com o valor atual.
+
+### Gatilhos — verifique ao final
+
+| Condição | Gatilho |
+|----------|---------|
+| `alerts` contém `adversarial_gap` | `⚠️ /curate ou /ingest — déficit adversarial em fontes core. Busque fonte challenging.` |
+| `alerts` contém `quarantine_rate` alto | `⚠️ /challenge ou /promote — muitos artigos em quarentena. Priorize autonomous-kb-failure-modes.` |
+| Hubs com `reads=0` e in-degree ≥5 detectados | `💡 /ask — hubs nunca lidos diretamente: [lista]. Rode /ask para validar utilidade.` |
+| synthesis_ratio > 50% em ≥3 artigos | `⚠️ Over-synthesis estrutural. /review com foco em seção Especulação desses artigos.` |
+
+Adicione alertas e gatilhos a `active_triggers` com prioridades correspondentes.

@@ -17,6 +17,13 @@ reads: 0
 retrievals_correct: 0
 retrievals_gap: 0
 last_read: null
+provenance: emergence
+emergence_trigger:
+  pair: [self-improving-agents, autonomous-kb-failure-modes]
+  ask_session: null
+  connection_type: ANÁLOGO-A
+  pearl_level: L2
+emerged_on: 2026-04-04
 ---
 
 ## Resumo

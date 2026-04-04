@@ -10,6 +10,7 @@ tags: [complexity, emergence, edge-of-chaos, vocabulary, lateral-domain]
 source_quality: medium
 interpretation_confidence: low
 resolved_patches: []
+provenance: source
 reads: 0
 retrievals_correct: 0
 retrievals_gap: 0

@@ -11,6 +11,7 @@ tags: [memory, hippocampus, neocortex, learning, interleaved-learning, catastrop
 source_quality: high
 interpretation_confidence: high
 resolved_patches: []
+provenance: source
 reads: 0
 retrievals_correct: 0
 retrievals_gap: 0

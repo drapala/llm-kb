@@ -18,6 +18,7 @@ quarantine_criteria_met:
   tempo: override_by_user
   review_frio: override_by_user
   adversarial_or_scout_or_prediction: "Predição L1→L2 explícita: error floor ≈ H(raw)−H(wiki) via embedding diversity. IB e rate-distortion são derivados de Shannon (prior work confirma autoridade, não subsume). 11 artigos já citavam como hub fundacional do cluster info-theory — evidência de utilidade estrutural."
+provenance: source
 resolved_patches: []
 ---
 

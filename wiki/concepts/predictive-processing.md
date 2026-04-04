@@ -10,6 +10,13 @@ tags: [neuroscience, prediction-error, free-energy, lateral-domain]
 source_quality: high
 interpretation_confidence: low
 resolved_patches: []
+provenance: emergence
+emergence_trigger:
+  pair: [self-improving-agents, llm-as-judge]
+  ask_session: null
+  connection_type: EMERGE-DE
+  pearl_level: L2
+emerged_on: 2026-04-04
 reads: 0
 retrievals_correct: 0
 retrievals_gap: 0

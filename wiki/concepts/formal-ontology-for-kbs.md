@@ -26,6 +26,13 @@ reads: 0
 retrievals_correct: 0
 retrievals_gap: 0
 last_read: null
+provenance: emergence
+emergence_trigger:
+  pair: [question-taxonomy, kb-architecture-patterns]
+  ask_session: null
+  connection_type: EMERGE-DE
+  pearl_level: L2
+emerged_on: 2026-04-04
 ---
 
 ## Resumo

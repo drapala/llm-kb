@@ -20,6 +20,10 @@ retrievals_correct: 0
 retrievals_gap: 0
 last_read: 2026-04-04
 quarantine: false
+provenance: synthesis
+synthesis_sources:
+  - wiki/concepts/judgment-aggregation.md
+  - wiki/concepts/prospect-theory.md
 ---
 
 ## Resumo

@@ -12,6 +12,7 @@ source_quality: medium
 interpretation_confidence: medium
 quarantine: false
 resolved_patches: []
+provenance: source
 ---
 
 ## Resumo

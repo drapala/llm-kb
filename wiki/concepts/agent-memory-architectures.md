@@ -47,6 +47,15 @@ reads: 0
 retrievals_correct: 0
 retrievals_gap: 0
 last_read: null
+provenance: synthesis
+synthesis_sources:
+  - wiki/concepts/context-management.md
+  - wiki/concepts/tension-resolution.md
+  - wiki/concepts/memory-consolidation.md
+  - wiki/concepts/hybrid-search.md
+  - wiki/concepts/retrieval-augmented-generation.md
+  - wiki/concepts/self-improving-agents.md
+  - wiki/concepts/raptor-vs-flat-retrieval.md
 ---
 
 ## Resumo

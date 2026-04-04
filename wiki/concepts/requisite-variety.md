@@ -10,6 +10,13 @@ tags: [cybernetics, control-theory, variety, error-floor, foundational]
 source_quality: high
 interpretation_confidence: low
 resolved_patches: []
+provenance: emergence
+emergence_trigger:
+  pair: [autonomous-kb-failure-modes, curation-anti-bias]
+  ask_session: null
+  connection_type: EMERGE-DE
+  pearl_level: L2
+emerged_on: 2026-04-04
 reads: 2
 retrievals_correct: 1
 retrievals_gap: 0

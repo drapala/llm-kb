@@ -84,3 +84,32 @@ Para CADA artigo modificado, salve log seguindo `.claude/hooks/review-logger.md`
 
 Inclua propagation check: quais artigos downstream são afetados pela mudança?
 Adicione afetados em `outputs/inbox/propagation-review.md`.
+
+---
+
+## Pipeline — kb-state.yaml
+
+### Lê (início)
+- `fast_cycle.ingest_count_since_last_review` — escopo: quanto mais alto, mais completo o review precisa ser
+- `slow_cycle.lint.alerts` — se há alertas de lint ativos, priorize artigos relacionados
+- `promote.promoted_since_last_lint` — artigos promovidos recentemente são candidatos prioritários para review frio (critério 2 do /promote)
+
+### Escreve (final)
+```yaml
+updated: YYYY-MM-DD
+fast_cycle:
+  ingest_count_since_last_review: 0  # reset
+slow_cycle:
+  review:
+    last_run: YYYY-MM-DD
+    open_patches: N
+    broken_links: N
+```
+
+### Gatilhos — verifique ao final
+
+| Condição | Gatilho |
+|----------|---------|
+| `open_patches > 0` | `💡 Patches pendentes: [N]. Resolva antes da próxima ingestão.` |
+| Artigos quarentenados revisados a frio pela primeira vez | `💡 /promote [artigo] — critério 2 (review frio) satisfeito. Verifique critérios 1 e 3.` |
+| Over-synthesis detectado em artigo com `provenance: emergence` | `⚠️ /challenge [artigo] — over-synthesis em artigo emergido. Challenge antes de /draft-post.` |

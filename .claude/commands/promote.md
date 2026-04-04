@@ -29,3 +29,11 @@ Se TODOS satisfeitos:
 4. Remove aviso de quarentena do final do artigo
 5. Log em `outputs/logs/sessions/YYYY-MM-DD/promote-[artigo]-HH-MM.md`
 6. "Artigo promovido. Pode ser linkado por outros artigos."
+
+## Após promoção bem-sucedida
+
+Atualize `outputs/state/kb-state.yaml`:
+1. Adicione artigo promovido a `promoted_since_last_emerge`
+2. Atualize `last_updated` com data atual
+3. Se `promoted_since_last_emerge` tiver >= 3 artigos após a adição:
+   imprima "⚠️ /emerge recomendado ([N] artigos promovidos desde último /emerge)"

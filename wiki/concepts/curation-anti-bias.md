@@ -26,6 +26,13 @@ reads: 1
 retrievals_correct: 0
 retrievals_gap: 0
 last_read: 2026-04-04
+provenance: emergence
+emergence_trigger:
+  pair: [llm-as-judge, autonomous-kb-failure-modes]
+  ask_session: null
+  connection_type: EMERGE-DE
+  pearl_level: L2
+emerged_on: 2026-04-03
 ---
 
 ## Resumo

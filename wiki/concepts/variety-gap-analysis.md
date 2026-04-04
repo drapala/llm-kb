@@ -14,6 +14,13 @@ resolved_patches:
     patch: "Beer/VSM gap preenchido (viable-system-model-beer.md). Shannon parcialmente preenchido (quarentena). Também ingeridos: information-bottleneck, partial-information-decomposition, team-decision-theory, bibliometrics, bradford-law-scattering."
   - date: 2026-04-04
     patch: "Ingestão lateral: 12 papers seminais em 6 domínios Zone 3. Gaps cognitiva, ecologia, linguística, filosofia, neurociência agora ~0. Predição Ashby C (lateral > same-domain) recebeu suporte empírico parcial. Bradford Zone3/Zone2 subiu de 0.5 → 1.05."
+provenance: emergence
+emergence_trigger:
+  pair: [requisite-variety, autonomous-kb-failure-modes]
+  ask_session: null
+  connection_type: EMERGE-DE
+  pearl_level: L2
+emerged_on: 2026-04-04
 reads: 1
 retrievals_correct: 1
 retrievals_gap: 0

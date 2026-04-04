@@ -23,6 +23,15 @@ reads: 1
 retrievals_correct: 0
 retrievals_gap: 0
 last_read: 2026-04-04
+provenance: synthesis
+synthesis_sources:
+  - wiki/concepts/retrieval-augmented-generation.md
+  - wiki/concepts/hybrid-search.md
+  - wiki/concepts/memory-consolidation.md
+  - wiki/concepts/autonomous-research-agents.md
+  - wiki/concepts/kb-architecture-patterns.md
+  - wiki/concepts/obsidian-agent-workflow.md
+  - wiki/concepts/autonomous-kb-failure-modes.md
 ---
 
 ## Resumo

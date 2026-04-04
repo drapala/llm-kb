@@ -17,6 +17,13 @@ reads: 0
 retrievals_correct: 0
 retrievals_gap: 0
 last_read: null
+provenance: synthesis
+synthesis_sources:
+  - wiki/concepts/memory-consolidation.md
+  - wiki/concepts/hybrid-search.md
+  - wiki/concepts/raptor-vs-flat-retrieval.md
+  - wiki/concepts/kb-architecture-patterns.md
+  - wiki/concepts/agent-memory-architectures.md
 ---
 
 ## Resumo

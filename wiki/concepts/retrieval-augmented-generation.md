@@ -23,6 +23,13 @@ reads: 0
 retrievals_correct: 0
 retrievals_gap: 0
 last_read: null
+provenance: synthesis
+synthesis_sources:
+  - wiki/concepts/llm-knowledge-base.md
+  - wiki/concepts/hybrid-search.md
+  - wiki/concepts/context-management.md
+  - wiki/concepts/raptor-vs-flat-retrieval.md
+  - wiki/concepts/kb-architecture-patterns.md
 ---
 
 ## Resumo
