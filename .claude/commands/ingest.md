@@ -43,7 +43,16 @@ Compare raw/ com wiki/_registry.md. Para cada fonte nova:
     Salve como seção `## Verificação adversarial` no artigo wiki gerado.
     Se o claim mais fraco é uma ESPECULAÇÃO não marcada, mova pra
     ## Interpretação antes de publicar.
-11. DEPOIS de todos os artigos escritos/atualizados, atualize:
+11. **Cross-reference com artigos de síntese** (após verificação adversarial):
+    Antes de finalizar, rode /ask com esta pergunta:
+    "O artigo que acabei de ingerir ([TÍTULO]) cobre terreno similar
+    a algum artigo de síntese existente na KB? Se sim, quais claims
+    dos artigos de síntese esse paper invalida, confirma ou refina?"
+    Salve o output em outputs/reports/prior-work-[slug].md e adicione
+    uma linha na seção `## Prior work que pode invalidar` de cada
+    artigo de síntese afetado. Se o artigo de síntese não tem essa
+    seção, adicione-a.
+12. DEPOIS de todos os artigos escritos/atualizados, atualize:
     - _registry.md: path | data | type | quality | stance | conceitos | status
     - _index.md: 1 ponteiro por artigo (~150 chars: título + contexto mínimo)
     Ordem importa: artigo primeiro → índice depois. Nunca o contrário.
