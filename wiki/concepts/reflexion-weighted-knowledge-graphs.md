@@ -88,10 +88,12 @@ CALM bias research adds a critical warning: the Reflexion feedback that modifies
 - The PoC we ran tested ONE wikilink addition, not the full proposed mechanism
 - Whether self-enhancement bias would create degenerative feedback loops in edge weight modification is theoretical
 
-### Prior work que pode invalidar
-- Synapse's spreading activation + lateral inhibition may already achieve similar results through different means
-- Graph neural networks with attention mechanisms (not surveyed here) may cover this territory
-- não verificado — rodar /curate antes de publicar
+### Prior work que pode invalidar (verified via /scout 2026-04-04)
+- **Hindsight (2025)**: 4-network architecture with Opinion Network + confidence reinforcement = what RWKG proposes (experience-modifying memory) but IMPLEMENTED and benchmarked (83.6% LongMemEval). More structured epistemic separation than RWKG. Verdict: RWKG's "edge weight modification" is a simplified version of Hindsight's opinion reinforcement.
+- **Zep/Graphiti (2025)**: Temporal KG with bi-temporal edge invalidation. Handles contradictions via temporal validity ranges, not weight modification. PRESERVES history (query beliefs at any time T) — RWKG's weight modification would lose temporal history. Verdict: Zep's approach is more principled.
+- **AriGraph (IJCAI 2025)**: Online graph structure updates during exploration — add/remove nodes AND edges based on experience. More radical than RWKG (which only proposes weight changes, not structural changes). Verdict: demonstrates "adaptive graph topology" concept already exists.
+- **RMM (ACL 2025)**: Retrospective reflection via online RL to adapt retrieval — the closest to RWKG's "Reflexion-weighted retrieval." Uses formal RL optimization, not ad-hoc verbal-reflection-to-weight mapping. +10% on LongMemEval. Verdict: more principled mechanism for same goal.
+- Synapse's spreading activation + lateral inhibition may achieve similar results through different means
 
 ### Gaps não resolvidos
 - Credit assignment: how to determine WHICH edge caused a retrieval failure

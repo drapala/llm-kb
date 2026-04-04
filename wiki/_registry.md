@@ -37,3 +37,7 @@
 | raw/papers/model-collapse-recursive-training.md | 2026-04-03 | paper | primary | challenging | autonomous-kb-failure-modes | processed |
 | raw/papers/wikipedia-era-llms-risks.md | 2026-04-03 | paper | primary | challenging | llm-knowledge-base, autonomous-kb-failure-modes | processed |
 | raw/papers/chunking-strategies-rag-comparison.md | 2026-04-03 | paper | primary | challenging | raptor-vs-flat-retrieval | processed |
+| raw/papers/hindsight-agent-memory-retain-recall-reflect.md | 2026-04-04 | paper | primary | challenging | reflexion-weighted-knowledge-graphs, agent-memory-architectures | processed |
+| raw/papers/zep-graphiti-temporal-knowledge-graph.md | 2026-04-04 | paper | primary | challenging | reflexion-weighted-knowledge-graphs, agent-memory-architectures | processed |
+| raw/papers/arigraph-episodic-semantic-graph.md | 2026-04-04 | paper | primary | challenging | reflexion-weighted-knowledge-graphs | processed |
+| raw/papers/rmm-reflective-memory-management.md | 2026-04-04 | paper | primary | challenging | reflexion-weighted-knowledge-graphs, self-improving-agents | processed |
