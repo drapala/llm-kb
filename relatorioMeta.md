@@ -566,3 +566,45 @@ confidence: alta (classificação Pearl), média (predições)
 
 **Fontes:** Reflexion, ERL, Model Collapse, LMs Know, AIS (todos verificados)
 **Gaps:** "Compressão > raw em low-data" nunca testado EXPLICITAMENTE em KB compilation — inferido de 4 domínios.
+
+---
+
+# Relatório Meta: Quality Gate como Weak Supervisor
+
+date: 2026-04-04
+query: "O compilador é mais forte que raw/? Quality gate é weak supervisor?"
+confidence: alta (dimension analysis), baixa (weak-to-strong L0)
+
+---
+
+## Key Insight: Gate Compliance ≠ Quality
+
+Quality Gate (4 checks) tem V(gate) << V(compiler). Compiler satisfaz 4 checks mas é UNCONSTRAINED em tudo mais. Erros vivem no gap entre o que o gate cobre e o que o compiler produz.
+
+**Gate cobre:** wikilink typing, numbers, meta-KB separation, resumo.
+**Gate NÃO cobre:** argument quality, logical consistency, nuance, style diversity, non-numeric accuracy.
+
+## Não É Weak-to-Strong — É Pior
+
+W2S (Burns 2023): student imita erros específicos do teacher (localizados).
+Gate compliance: compiler satisfaz mínimo e erros se distribuem por TODAS as dimensões não-checadas (distribuídos).
+
+O sistema não imita erros do gate — ignora tudo que o gate não checa.
+
+## Compiler vs raw/ — Different Varieties, Not Stronger/Weaker
+
+| Dimension | Compiler | raw/ |
+|-----------|----------|------|
+| Breadth | Enorme | Estreito (64 fontes) |
+| Reasoning | Forte | Zero (texto estático) |
+| Factual specificity | Fraco (hallucina) | Forte |
+| Self-assessment | ≈ random on hard | N/A |
+
+## Fix
+
+Gate como FLOOR não CEILING. Check faltante: "Este artigo é MELHOR do que o compiler produziria SEM o gate?" Se não, gate está restringindo, não elevando.
+
+---
+
+**Fontes:** Ashby V gap, Gigerenzer (heuristic gate appropriate at small scale)
+**Gaps:** 0 fontes sobre weak-to-strong generalization (Burns et al. 2023)
