@@ -58,3 +58,4 @@
 | raw/articles/relation-ontology-obo.md | 2026-04-04 | article | primary | neutral | formal-ontology-for-kbs | processed |
 | raw/papers/pearl-book-of-why-ch1-3.md | 2026-04-04 | article | primary | neutral | causal-reasoning-pearl | processed |
 | raw/articles/artificial-immune-systems-tutorial.md | 2026-04-04 | article | primary | challenging | immune-inspired-credit-assignment | processed |
+| raw/articles/gigerenzer-fast-frugal-heuristics.md | 2026-04-04 | article | primary | confirming | fast-frugal-heuristics | processed |
