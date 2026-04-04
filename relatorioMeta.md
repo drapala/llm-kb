@@ -418,3 +418,50 @@ Esta resposta questiona o hard core USANDO o hard core (verificando claims contr
 
 **Fontes:** Lakatos, Model Collapse (verificados em raw/)
 **Gaps:** Nunca testamos do(editar-raw/) — teríamos L2 evidence. A pergunta que falsificaria: "se editarmos um raw/ pra corrigir WebFetch parcial, /ask quality muda?"
+
+---
+
+# Relatório Meta: A Anomalia "Mais É Pior"
+
+date: 2026-04-04
+query: "Qual é a anomalia mais séria que o corpus não consegue explicar?"
+confidence: alta (7 dados verificados), baixa (unificação teórica)
+
+---
+
+## 7 Observações Documentadas Formando 1 Padrão
+
+| # | Fonte | Observação | Verificado |
+|---|-------|-----------|-----------|
+| 1 | LMs Know | Modelos maiores PIORES em unseen knowledge | ✓ raw/ |
+| 2 | LMs Know | r=0.78-0.81: consistência em certos = consistência em errados | ✓ raw/ |
+| 3 | ERL | Trajectories (mais info) = -1.9%. Heuristics (menos info) = +7.8% | ✓ raw/ |
+| 4 | ERL | Random inclusion degrada após 40-60 items | ✓ raw/ |
+| 5 | Model Collapse | Mais auto-consumo = distribuição mais estreita | ✓ raw/ |
+| 6 | LMs Know | Fine-tuning: melhora unseen, DEGRADA seen | ✓ raw/ |
+| 7 | Wikipedia Risks | AI-revised content BAIXA RAG performance | ✓ raw/ |
+
+## O Padrão: Em Knowledge Compilation, Mais É Frequentemente Pior
+
+Mais modelo, mais dados, mais revisão, mais trajectories, mais heurísticas (>threshold), mais auto-consumo — todos degradam sob condições específicas.
+
+## Por Que É Anomalia (Não Apenas Resultados Negativos)
+
+Cada dado tem explicação LOCAL (over-fitting, feedback loop, distribution shift). Mas nenhum artigo wiki propõe mecanismo UNITÁRIO. O artigo failure-modes lista 4 riscos separados. Simon diz quando parar. Ninguém diz POR QUE mais é pior.
+
+## Teoria Candidata (⚠️ L1, Não Testada)
+
+**Bias-variance trade-off aplicado a knowledge compilation.** KBs operam em regime de Gigerenzer: poucos exemplos, muitas dimensões. Heurísticas (bias alto, variance baixa) outperform trajectories (bias baixo, variance alta) — exatamente como fast-and-frugal heuristics outperform regression em small samples.
+
+Mais dados = mais variance = over-fit. Menos dados mais comprimidos = menos variance = melhor generalização.
+
+## O Experimento Que Testaria (L2)
+
+Variar quantidade de fontes por conceito (1, 5, 20, 50). Medir /ask quality em perguntas in-distribution e out-of-distribution. Se in-distribution melhora mas out-of-distribution DEGRADA após threshold: bias-variance confirmado em KBs.
+
+Ninguém fez este experimento. É a contribuição experimental mais valiosa que esta KB poderia propor.
+
+---
+
+**Fontes:** LMs Know, ERL, Model Collapse, Wikipedia Risks, Tim Kellogg (todos verificados)
+**Gaps:** 0 fontes sobre bias-variance em knowledge compilation. Gigerenzer fast-and-frugal nunca testado em LLM KB context.
