@@ -57,3 +57,4 @@
 - [Scientific Research Programmes](concepts/scientific-research-programmes.md) — Lakatos (1970): hard core + protective belt + heurísticas. Progressivo (novas predições) vs. degenerativo (só acomoda). Responde à crítica Duhem-Quine a Popper.
 - [Episodic and Semantic Memory](concepts/episodic-semantic-memory.md) — Tulving (2002): episódica = autonoética, temporal, 1ª pessoa; semântica = noética, atemporal. Hipocampo crítico para episódica. Mental time travel.
 - [Complementary Learning Systems](concepts/complementary-learning-systems.md) — McClelland (1995): catastrophic interference → dois sistemas. Hipocampo (rápido/esparso) + neocórtex (lento/distribuído). Replay durante sono = consolidação sistêmica.
+- [Epistemic Maintenance](concepts/epistemic-maintenance.md) — ⏳QUARANTINED. 3 failure modes (curation bias, over-synthesis, self-confirming review) + 6 protocols. KB já implementa 5/6 — gap: epistemic lint como operação computável.

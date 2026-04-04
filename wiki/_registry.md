@@ -89,3 +89,4 @@
 | raw/papers/popper-1963-science-conjectures-refutations.md | 2026-04-04 | paper | primary | neutral | falsificationism-demarcation | processed |
 | raw/papers/mcclelland-1995-complementary-learning-systems.md | 2026-04-04 | paper | primary | neutral | complementary-learning-systems | processed |
 | raw/papers/tulving-2002-episodic-memory.md | 2026-04-04 | paper | primary | neutral | episodic-semantic-memory | processed |
+| raw/articles/epistemic-maintenance.md | 2026-04-04 | article | primary | neutral | epistemic-maintenance | processed |
