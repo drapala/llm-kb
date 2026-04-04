@@ -19,6 +19,18 @@ sources:
   - path: raw/papers/raptor-recursive-abstractive-retrieval.md
     type: paper
     quality: primary
+  - path: raw/papers/erl-experiential-reflective-learning.md
+    type: paper
+    quality: primary
+  - path: raw/papers/wikipedia-era-llms-risks.md
+    type: paper
+    quality: primary
+  - path: raw/papers/model-collapse-recursive-training.md
+    type: paper
+    quality: primary
+  - path: raw/papers/chunking-strategies-rag-comparison.md
+    type: paper
+    quality: primary
 created: 2026-04-03
 updated: 2026-04-03
 tags: [taxonomy, architecture, patterns]
@@ -52,7 +64,7 @@ Four architectural patterns for LLM-powered KBs identified from practitioners an
 **Strengths:** Closed loop, incremental, works without RAG at small scale.
 **Weaknesses:** Scale limited by context window. No explicit source verification. Quality depends on ingest prompt.
 
-**When to use:** Solo researcher, <200 articles, single domain.
+**When to use:** Solo researcher, small scale. Karpathy reports ~100 articles working well — upper bound unknown (no data beyond 1 anecdote).
 
 ### Pattern 2: Agent-as-Curator
 
@@ -69,7 +81,7 @@ Four architectural patterns for LLM-powered KBs identified from practitioners an
 **Strengths:** Scales to 100s of papers via semantic search. Automated curation removes human bottleneck. Visual artifacts surface non-obvious patterns.
 **Weaknesses:** Complex setup (QMD, MCP, orchestrator). Depends on external tooling.
 
-**When to use:** Heavy paper consumption, 200+ sources, need for visual exploration.
+**When to use:** Heavy paper consumption. Elvis reports "100s of papers" — no precise threshold stated.
 
 ### Pattern 3: Human-in-the-Loop
 
@@ -88,13 +100,13 @@ Four architectural patterns for LLM-powered KBs identified from practitioners an
 
 **When to use:** Personal brand writing, high-stakes content, when voice matters more than throughput.
 
-### Pattern 4: Bandwidth-Aware Retrieval
+### Cross-Cutting Concern: Bandwidth-Aware Retrieval
 
-**Originator:** Claude Code internals (March 2026)
+**Not a pattern — a constraint.** This applies to ALL three patterns above, not as an alternative. It describes HOW retrieval should work within any architecture, not WHICH architecture to choose.
 
-**Architecture:** `Layered retrieval with progressive escalation + circuit breakers`
+**Source:** Claude Code internals (March 2026)
 
-**Key characteristics:**
+**Mechanism:** Layered retrieval with progressive escalation + circuit breakers:
 - 3+ layers: lightweight index (always loaded) → article content (on-demand) → raw sources (spot-check)
 - Progressive compaction: micro → snip → auto → collapse
 - Circuit breakers prevent thrashing (max 3 consecutive failures)
@@ -103,16 +115,15 @@ Four architectural patterns for LLM-powered KBs identified from practitioners an
 **Strengths:** Token-efficient, production-proven. Graceful degradation under pressure.
 **Weaknesses:** Designed for conversations, not knowledge bases. No notion of source quality.
 
-**When to use:** Any KB retrieval system. This is a universal pattern, not an alternative to the others — it's how retrieval should work within any of the above.
+**Ontological note (BFO):** Patterns 1-3 are Independent Continuants (architectures). Bandwidth-Aware Retrieval is a Role — a function applied to any architecture depending on context. Previously listed as "Pattern 4" which was a category error.
 
 ### Comparison Matrix
 
 | Pattern | Who synthesizes | Retrieval | Scale | Bottleneck |
 |---------|----------------|-----------|-------|------------|
-| LLM-as-Compiler | LLM | Index-based (LC) | ~200 articles | Ingest quality |
-| Agent-as-Curator | LLM + tools | Hybrid search | 1000+ papers | Tooling setup |
-| Human-in-the-Loop | Human | LLM classification | ~50 outputs | Human time |
-| Bandwidth-Aware | (meta-pattern) | Layered escalation | Any | Context budget |
+| LLM-as-Compiler | LLM | Index-based (LC) | ~100 articles (1 anecdote) | Ingest quality |
+| Agent-as-Curator | LLM + tools | Hybrid search | "100s of papers" (1 anecdote) | Tooling setup |
+| Human-in-the-Loop | Human | LLM classification | Unknown (no data) | Human time |
 
 ## Interpretação
 
@@ -140,8 +151,8 @@ The KAIROS cycle (orient → gather → consolidate → prune) resembles a /revi
 - [[hybrid-search]] — Pattern 2's retrieval layer; our Fase 2-3 upgrade path
 - [[context-management]] — Pattern 4 formalized; our /ask already implements 3 layers
 - [[memory-consolidation]] — KAIROS cycle parallels /review; trigger gates transferable
-- [[retrieval-augmented-generation]] — Academic evidence that LC > RAG at small scale (Pattern 1 validated)
-- [[self-improving-agents]] — ERL validates concept articles > raw sources; Reflexion parallels our patch system
+- [[retrieval-augmented-generation]] — LC > RAG at small scale on QA benchmarks (consistent with Pattern 1, not validation)
+- [[self-improving-agents]] — ERL heuristics > trajectories on Gaia2 (consistent with concept articles approach, not direct validation)
 - [[tension-resolution]] — framework for detecting and resolving contradictions between articles, informed by 5 papers
 
 ## Fontes
@@ -150,6 +161,9 @@ The KAIROS cycle (orient → gather → consolidate → prune) resembles a /revi
 - [Elvis — Personal KB for Agents](../../raw/articles/elvis-personal-kb-agents.md) — Pattern 2: automated curation + QMD + visual artifacts
 - [Paulo Silveira — Open Claw](../../raw/articles/paulo-silveira-open-claw-pkm.md) — Pattern 3: human-in-the-loop, anti-slop philosophy
 - [Claude Code Internals](../../raw/articles/claude-code-internals-harness-engineering.md) — Pattern 4: compaction hierarchy, circuit breakers
-- [LC vs RAG Paper](../../raw/papers/long-context-vs-rag-evaluation.md) — Validates Pattern 1 at small scale (LC 56.3% vs RAG 49.0%)
-- [RAPTOR Paper](../../raw/papers/raptor-recursive-abstractive-retrieval.md) — Validates _index.md as manual RAPTOR tree; summary nodes contribute 23-57% of retrieval
-- [ERL](../../raw/papers/erl-experiential-reflective-learning.md) — Heuristics > trajectories: concept articles validated as superior to raw source dumps
+- [LC vs RAG Paper](../../raw/papers/long-context-vs-rag-evaluation.md) — Consistent with Pattern 1 at small scale (LC 56.3% vs RAG 49.0% on QA benchmarks — paper explicitly says "neither universally dominates")
+- [RAPTOR Paper](../../raw/papers/raptor-recursive-abstractive-retrieval.md) — Analogous to _index.md pattern (multi-level summarization helps retrieval). Not a validation — RAPTOR doesn't test wikis or manual pointers.
+- [ERL](../../raw/papers/erl-experiential-reflective-learning.md) — Consistent with concept articles approach (heuristics > trajectories on Gaia2 agent tasks — domain transfer to KB compilation not tested)
+- [Wikipedia Risks](../../raw/papers/wikipedia-era-llms-risks.md) — (challenging) AI-revised content lowers RAG performance. Challenges Pattern 1 core assumption.
+- [Model Collapse](../../raw/papers/model-collapse-recursive-training.md) — (challenging) Recursive self-consumption destroys diversity. Pattern 1 feedback loop is self-consumption.
+- [Chunking Benchmarks](../../raw/papers/chunking-strategies-rag-comparison.md) — (challenging) Page-level chunking won NVIDIA benchmark. Concept-based segmentation may not be optimal.

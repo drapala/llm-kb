@@ -59,12 +59,12 @@ LLM agents make the same mistakes repeatedly across sessions. Traditional RL req
 
 **Key insight:** Converts scalar/binary feedback into verbal feedback — "action A_i led to incorrect A_{i+1}" with suggested alternatives. Mimics human learning from mistakes.
 
-**Results:**
-- HumanEval Python: 80.1% (GPT-4) → 91.0% (Reflexion)
+**Results (GPT-4, 2023 — delta may differ with 2025-2026 frontier models):**
+- HumanEval Python: 80.1% (GPT-4) → 91.0% (Reflexion) — benchmark likely saturated by 2026 models
 - AlfWorld: +22% absolute over ReAct (130/134 tasks in 12 iterations)
 - HotPotQA: CoT 0.61 → 0.75 (+14%)
 
-**Ablation:** Self-reflection without grounded feedback (tests) degrades to 52%. Trajectory replay without reflection: no improvement. Verbal reflection outperforms episodic memory by 8%. Critically, Reflexion's "grounded feedback" means **executable tests** — not document verification by the same LLM. This distinction matters for KB systems where Layer 3 raw/ verification is read by the same model that wrote the wiki (see [[autonomous-kb-failure-modes]] "The Layer 3 Circularity Problem").
+**Ablation (GPT-4, 2023 — mechanism likely robust, specific numbers may vary with newer models):** Self-reflection without grounded feedback (tests) degrades to 52%. Trajectory replay without reflection: no improvement. Verbal reflection outperforms episodic memory by 8%. Critically, Reflexion's "grounded feedback" means **executable tests** — not document verification by the same LLM. This distinction matters for KB systems where Layer 3 raw/ verification is read by the same model that wrote the wiki (see [[autonomous-kb-failure-modes]] "The Layer 3 Circularity Problem").
 
 ### ERL: Heuristics > Trajectories
 
@@ -110,7 +110,7 @@ TextGrad treats LLM-generated textual feedback as "gradients" flowing backward t
 | Gradient | Textual feedback from LLM |
 | Optimizer.step() | Apply feedback to update variable |
 
-Results: +20% relative gains on coding problems, improved GPT-4o zero-shot QA. Applicable beyond agents — optimizes any text-based component.
+Results (GPT-4o, 2024): +20% relative gains on coding problems, improved zero-shot QA. Applicable beyond agents — optimizes any text-based component.
 
 **Relevance:** TextGrad automates the evaluate → feedback → update loop. Our patch system is manual TextGrad; a future /lint could implement automated textual gradient feedback on wiki articles.
 
@@ -181,3 +181,18 @@ Our pipeline loosely parallels self-improvement patterns:
 - [Promptbreeder](../../raw/papers/promptbreeder-self-referential-improvement.md) — self-referential prompt evolution: evolves both task prompts and mutation prompts
 - [Absolute Zero](../../raw/papers/absolute-zero-reinforced-self-play.md) — self-play reasoning with zero data: code execution as reward signal, surpasses human-annotated baselines
 - [RMM](../../raw/papers/rmm-reflective-memory-management.md) — prospective + retrospective reflection via online RL: +10% LongMemEval, formal optimization for retrieval adaptation
+
+## Freshness Note
+
+Benchmarks neste artigo foram medidos com modelos de diferentes eras:
+- **Reflexion (2023):** GPT-4 (original, pre-turbo). HumanEval 91% baseline provavelmente saturado por modelos 2026.
+- **TextGrad (2024):** GPT-4o. Mais recente mas ainda pre-frontier 2026.
+- **ERL (2026):** Claude-3.7 on Gaia2. Atual.
+- **RMM (2025):** LongMemEval. Recente.
+- **Absolute Zero (2025):** Multiple models. Recente.
+
+Claims de **MECANISMO** (como verbal reflection funciona, por que heuristics > trajectories) são provavelmente robustos — o mecanismo não depende do modelo específico.
+
+Claims de **BENCHMARK** (91% HumanEval, +22% AlfWorld, +8pp verbal) podem estar desatualizados — modelos frontier de 2026 têm baselines diferentes. O delta que Reflexion adicionava em 2023 pode ter diminuído se o baseline subiu.
+
+**Antes de citar números em publicações:** rodar `/scout "Reflexion 2025 2026 replication"` para verificar se o mecanismo foi replicado com modelos mais recentes.
