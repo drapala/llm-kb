@@ -14,6 +14,14 @@ reads: 0
 retrievals_correct: 0
 retrievals_gap: 0
 last_read: null
+quarantine: true
+quarantine_created: 2026-04-04
+quarantine_reason: "retrofit — speculative synthesis"
+quarantine_promoted: null
+quarantine_criteria_met:
+  tempo: true
+  review_frio: false
+  adversarial_or_scout_or_prediction: false
 ---
 
 ## Resumo

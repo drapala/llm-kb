@@ -1,5 +1,11 @@
 # /ask
 
+## Leader Impartiality Check (Janis, 1972)
+Antes de processar, verifique: a pergunta pressupõe uma resposta?
+- "Como o RWKG funciona?" → pressupõe que funciona. Reformular: "O RWKG funciona? Sob quais condições?"
+- "Quais melhorias aplicar?" → pressupõe que melhorias são necessárias. Reformular: "A KB precisa de melhorias neste ponto?"
+Se a pergunta é direcional, sugira reformulação aberta antes de processar.
+
 O usuário faz uma pergunta. Para responder, siga as 3 camadas de retrieval:
 
 Layer 1 — Orientação:
@@ -9,6 +15,10 @@ Layer 1 — Orientação:
 Layer 2 — Profundidade:
 3. Leia esses artigos em wiki/concepts/
 4. Trate o wiki como HINT, não como verdade
+4b. **Quarantine check:** Se um artigo selecionado tem `quarantine: true`,
+    leia-o MAS prefixe TODOS os claims dele com "⚠️ artigo em quarentena —
+    claims especulativos." Não ignore — informação especulativa é útil se
+    rotulada. Não trate como igual a artigos promovidos.
 5. **Circuit breaker:** Se nenhum dos 5-10 artigos candidatos for relevante
    para a pergunta, PARE e reporte como gap. Não tente ler raw/ inteiro
    como fallback — isso é desperdício de contexto, não verificação.

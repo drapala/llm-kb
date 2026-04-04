@@ -78,4 +78,39 @@ outputs/logs/sessions/YYYY-MM-DD/
   ingest-[source-slug]-HH-MM.md
   review-[article-slug]-HH-MM.md
   challenge-[article-slug]-HH-MM.md
+  promote-[article-slug]-HH-MM.md
+```
+
+## Quarantine Protocol
+
+Inspired by Janis' "second-chance meeting" prescription: synthesis articles need cooling-off time before being linked by other articles. Prevents groupthink cascade where hot-context synthesis crystallizes before critical evaluation.
+
+### Quando um artigo entra em quarentena
+
+Artigos de síntese com interpretation_confidence: low ou medium entram em quarentena quando criados.
+
+**Trigger automático no /ingest:** se o artigo gerado contém seção "## Níveis epistêmicos" com mais de 3 items em "### Especulação" → `quarantine: true` automático.
+
+### Critérios de promoção (TODOS obrigatórios)
+
+**CRITÉRIO 1 — Tempo:** Mínimo 24h após `quarantine_created`. Janis: "second-chance meeting" — give time for residual doubts to surface.
+
+**CRITÉRIO 2 — Review frio:** /review rodado em sessão DIFERENTE da que criou o artigo. Evidência: log em outputs/logs/sessions/ com data diferente de quarantine_created.
+
+**CRITÉRIO 3 — Um dos três (documentar qual):**
+- a) /challenge externo não destruiu claim central (verdict: solid ou needs-revision, não destroyed)
+- b) /scout não encontrou paper que subsume >80%
+- c) Predição falsificável formulada com nível Pearl L2 mínimo
+
+### Frontmatter de quarentena
+
+```yaml
+quarantine: false          # true quando em quarentena
+quarantine_created: null   # data de entrada
+quarantine_reason: null    # por que entrou
+quarantine_promoted: null  # data de promoção (se promovido)
+quarantine_criteria_met:
+  tempo: false
+  review_frio: false
+  adversarial_or_scout_or_prediction: false
 ```

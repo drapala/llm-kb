@@ -102,12 +102,28 @@ Compare raw/ com wiki/_registry.md. Para cada fonte nova:
     - [ ] Resumo calibrado: [sim/não — alterado/mantido]
     ```
 
-13. DEPOIS de todos os artigos escritos/atualizados, atualize:
+13. **Quarantine Check** (após Quality Gate):
+    Conte items em "### Especulação" na seção "## Níveis epistêmicos".
+    Se count >= 3 OU interpretation_confidence: low:
+    - Adicione ao frontmatter: `quarantine: true`,
+      `quarantine_created: [data]`, `quarantine_reason: "[N] especulações"`
+    - Adicione aviso ao final:
+      `> ⚠️ QUARENTENA: artigo não pode ser linkado por outros até /promote.`
+    Se count < 3 E confidence high/medium: `quarantine: false` (padrão).
+    Inspirado em Janis (1972): "second-chance meeting" — síntese precisa
+    de cooling-off antes de cristalizar no grafo.
+
+14. **Quarantine cross-check:** Após gerar artigo novo, verifique:
+    "Algum artigo em quarentena tem claims que este novo paper confirma?"
+    Se sim: atualize `quarantine_criteria_met` do artigo em quarentena
+    e notifique via `outputs/inbox/quarantine-update-[artigo].md`.
+
+15. DEPOIS de todos os artigos escritos/atualizados, atualize:
     - _registry.md: path | data | type | quality | stance | conceitos | status
     - _index.md: 1 ponteiro por artigo (~150 chars: título + contexto mínimo)
     Ordem importa: artigo primeiro → índice depois. Nunca o contrário.
 
-14. **Log de occurrent:** Salve log da sessão em
+16. **Log de occurrent:** Salve log da sessão em
     `outputs/logs/sessions/YYYY-MM-DD/ingest-[source-slug]-HH-MM.md`
     segundo schema em `wiki/meta/process-log.md`.
 
