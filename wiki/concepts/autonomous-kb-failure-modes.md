@@ -85,6 +85,10 @@ An LLM-operated KB without human intervention degrades silently over ~30 days th
 ### Degradation Timeline
 
 ```
+(⚠️ SPECULATIVE: these day ranges have NO empirical basis.
+No study has measured KB degradation timelines. The ordering
+of failure modes is our hypothesis, not observed data.)
+
 Day 1-7:   Works well. Same phase benchmarks measure. (Honeymoon)
 Day 7-14:  Semantic convergence starts. Invisible to automated metrics.
 Day 14-21: Authority bias crystallizes errors. Tensions force-resolved.
@@ -93,9 +97,9 @@ Day 21-30: Wiki looks healthy (0 warnings) but /ask answers are generic
            without external ground truth test.
 ```
 
-### The Core Problem
+### The Core Problem (⚠️ our framework, not from sources)
 
-The system optimizes visible metrics (0 warnings, correct links, cited sources) while real quality erodes. This is the KB equivalent of reward hacking documented by CARMO.
+The system optimizes visible metrics (0 warnings, correct links, cited sources) while real quality erodes. We frame this as analogous to reward hacking — but no source has documented this specific phenomenon in knowledge bases.
 
 ### Mitigations
 
@@ -106,9 +110,9 @@ The system optimizes visible metrics (0 warnings, correct links, cited sources) 
 | Index bloat | Human quality gate on /ingest, or hard cap on articles per week | Partially — cap is automatic, judgment is not |
 | Forced tension | Require human `> [!patch]` before any tension resolution is applied | Yes — rule change in /review |
 
-### The Layer 3 Circularity Problem
+### The Layer 3 Circularity Problem (⚠️ our analysis)
 
-The /ask protocol treats raw/ verification (Layer 3) as grounded feedback: "Para claims importantes: vá à fonte original em raw/ para verificar." But this conflates two types of grounding:
+The /ask protocol treats raw/ verification (Layer 3) as grounded feedback. But this conflates two types of grounding:
 
 - **Data grounding** (what raw/ provides): the original text is immutable and available
 - **Interpretation grounding** (what raw/ does NOT provide): the same LLM that wrote the wiki reads raw/ and evaluates its own interpretation

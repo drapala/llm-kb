@@ -38,13 +38,13 @@ RAPTOR (tree-organized retrieval) and the flat 3-layer pattern used in this KB s
 | Compression | 0.28 ratio per level (72% compression) | Variable: _index ~150 chars/article, articles ~500-1500 words |
 | Infrastructure | SBERT embeddings + GMM + LLM summarization pipeline | Zero — just .md files and an LLM |
 
-### What Already Works (Validated by RAPTOR)
+### Structural Parallels with RAPTOR (⚠️ analogies, not validation)
 
-**1. _index.md is a RAPTOR root node.** RAPTOR's summary nodes contribute 23-57% of useful retrieved content. Our _index with ~150 char pointers serves the same function: fast orientation without loading content. Blueprint principle 7 ("Index = pointers, not content") is academically validated.
+**1. _index.md resembles a RAPTOR root node.** RAPTOR's summary nodes contribute 23-57% of useful retrieved content. Our _index with ~150 char pointers serves a similar function (fast orientation), but the mechanism differs: RAPTOR uses embedding-based retrieval across all levels simultaneously; we use sequential LLM reading. The parallel is functional, not mechanical.
 
-**2. Layer 1→2→3 escalation ≈ collapsed tree.** RAPTOR's collapsed tree (which outperforms tree traversal) selects nodes from any level by relevance. Our /ask does the same manually: start at index, descend to articles, verify in raw/ when needed.
+**2. Layer 1→2→3 escalation loosely parallels collapsed tree.** RAPTOR's collapsed tree selects nodes from any level by cosine similarity. Our /ask escalates sequentially (index → articles → raw/). Structurally different despite the analogy.
 
-**3. Summarization-based outperforms chunk-based.** RAPTOR outperforms chunk-based retrievers (38.5% vs 20-22% — note: this figure is from the LC vs RAG evaluation paper, not RAPTOR's own benchmarks). Our /ingest groups by concept, which is a different mechanism than RAPTOR's statistical clustering (GMM on embeddings). The parallel is structural (both produce multi-level abstractions) but the methods differ fundamentally.
+**3. Summarization-based outperforms chunk-based in multi-hop QA benchmarks.** RAPTOR outperforms chunk-based retrievers (38.5% vs 20-22% — from the LC vs RAG paper, not RAPTOR's own benchmarks). Our /ingest groups by concept, which is a different mechanism than RAPTOR's GMM clustering. Both produce multi-level abstractions but through fundamentally different methods. Note: the LC vs RAG paper concludes "neither approach universally dominates" — this heading should not be read as universal superiority.
 
 ### Exploitable Gaps (No Infrastructure Required)
 
@@ -66,7 +66,7 @@ RAPTOR generates N levels based on document depth. Our KB has exactly 3 fixed le
 
 1. **Token capacity limit (~200 articles):** At ~150 chars/article, 200 articles ≈ 30K chars ≈ 7.5K tokens. This fits in context, so ~200 is not a hard limit but an orientation budget.
 
-2. **Selection accuracy limit (~50-80 articles):** [[self-improving-agents|ERL]] shows that random heuristic inclusion degrades after 40-60 items, and LLM-based selective retrieval (k=20) peaks at 56.1%. When /ask reads _index.md and selects 5-10 candidates from 200 entries, it's doing LLM-based selection from a flat list — the same task ERL benchmarked. The degradation signal is not running out of tokens, but the LLM failing to select the right articles. This suggests real degradation starts at **50-80 articles**, well before the ~200 token limit.
+2. **(⚠️ speculative extrapolation) Selection accuracy limit:** [[self-improving-agents|ERL]] shows random heuristic inclusion degrades after 40-60 items on Gaia2 agent tasks. We extrapolate this to _index.md selection, but the domain transfer is NOT validated — _index.md entries (~150 chars, homogeneous) differ from ERL heuristics (multi-sentence, with trigger conditions). The actual threshold for _index.md could be higher (200+ if pointers are well-written) or lower (20 if pointers are vague). The number "50-80" gives false precision. The observable signal (Layer 1 misses relevant articles) is more reliable than a speculative threshold.
 
 **Observable degradation signal:** /ask should track when Layer 1 selection misses relevant articles (detectable when Layer 2 reading reveals that a non-selected article would have been more relevant, or when the user corrects an answer). A pattern of misses indicates _index.md has exceeded the LLM's reliable selection capacity.
 
