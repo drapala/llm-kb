@@ -16,7 +16,8 @@ sources:
 created: 2026-04-03
 updated: 2026-04-03
 tags: [synthesis, architecture, adaptive-retrieval, original-insight]
-confidence: medium
+source_quality: high
+interpretation_confidence: medium
 resolved_patches: []
 ---
 

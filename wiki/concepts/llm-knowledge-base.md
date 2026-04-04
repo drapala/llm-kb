@@ -13,6 +13,8 @@ sources:
 created: 2026-04-03
 updated: 2026-04-03
 tags: [core-concept, knowledge-management, wiki, obsidian]
+source_quality: medium
+interpretation_confidence: high
 resolved_patches: []
 ---
 

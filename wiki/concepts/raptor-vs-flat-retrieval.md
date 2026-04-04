@@ -13,7 +13,8 @@ sources:
 created: 2026-04-03
 updated: 2026-04-03
 tags: [retrieval, comparison, architecture]
-confidence: high
+source_quality: high
+interpretation_confidence: high
 resolved_patches: []
 ---
 
@@ -58,9 +59,15 @@ RAPTOR measures 0.28 ratio (72% compression) per level. We have no compression t
 
 **Gap 3: Adaptive depth (3 fixed levels → sub-indices).**
 
-RAPTOR generates N levels based on document depth. Our KB has exactly 3 fixed levels. At 9 articles this is perfect. At 200+, an intermediate level may be needed.
+RAPTOR generates N levels based on document depth. Our KB has exactly 3 fixed levels. The _index.md comment says "~200 entries" as migration trigger, but this number conflates two different limits:
 
-**Improvement (Fase 2):** Group articles into thematic sub-indices: `_index-agents.md`, `_index-retrieval.md`. Each sub-index is a RAPTOR mid-level node. The main _index.md points to sub-indices instead of individual articles. This is "Option A" from the blueprint's _index migration plan, now with theoretical justification from RAPTOR.
+1. **Token capacity limit (~200 articles):** At ~150 chars/article, 200 articles ≈ 30K chars ≈ 7.5K tokens. This fits in context, so ~200 is not a hard limit but an orientation budget.
+
+2. **Selection accuracy limit (~50-80 articles):** [[self-improving-agents|ERL]] shows that random heuristic inclusion degrades after 40-60 items, and LLM-based selective retrieval (k=20) peaks at 56.1%. When /ask reads _index.md and selects 5-10 candidates from 200 entries, it's doing LLM-based selection from a flat list — the same task ERL benchmarked. The degradation signal is not running out of tokens, but the LLM failing to select the right articles. This suggests real degradation starts at **50-80 articles**, well before the ~200 token limit.
+
+**Observable degradation signal:** /ask should track when Layer 1 selection misses relevant articles (detectable when Layer 2 reading reveals that a non-selected article would have been more relevant, or when the user corrects an answer). A pattern of misses indicates _index.md has exceeded the LLM's reliable selection capacity.
+
+**Improvement (Fase 2):** Group articles into thematic sub-indices: `_index-agents.md`, `_index-retrieval.md`. Each sub-index is a RAPTOR mid-level node. The main _index.md points to sub-indices instead of individual articles. This creates a 2-step selection: first select the right sub-index (from ~5-10 sub-indices), then select articles within it (from ~20-40). Both steps stay well within the ERL-validated selection window. This is "Option A" from the blueprint's _index migration plan, now with theoretical justification from both RAPTOR (mid-level node contribution 23-57%) and ERL (selection degrades at 40-60 items).
 
 ### What NOT to Import
 

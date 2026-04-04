@@ -37,7 +37,16 @@ Wiki é hint, não verdade. Se wiki contradiz raw/, raw/ VENCE.
 Ao registrar fontes no frontmatter e _registry.md, classifique:
 - type: article | paper | repo | note | dataset
 - quality: primary (dados originais, paper) | secondary (análise, review) | tertiary (resumo, opinião)
+- stance: confirming | challenging | neutral (em relação às premissas do wiki)
 O /ask deve preferir evidência primary > secondary > tertiary.
+
+## Confidence Scoring (dois eixos)
+Cada artigo wiki tem dois scores independentes no frontmatter:
+- **source_quality: high|medium|low** — objetivo, baseado em fontes:
+  high = 2+ primary concordam, medium = 1 primary ou 2+ secondary, low = apenas tertiary
+- **interpretation_confidence: high|medium|low** — subjetivo, auto-avaliação:
+  high = claim factual direto, medium = síntese moderada, low = insight novel/cross-paper
+Quando divergem (ex: source_quality:high mas interpretation_confidence:low), flag com ⚠️.
 
 ## Patch System
 Se encontrar bloco > [!patch] num artigo wiki:
@@ -59,6 +68,8 @@ sources:
 created: YYYY-MM-DD
 updated: YYYY-MM-DD
 tags: []
+source_quality: high|medium|low
+interpretation_confidence: high|medium|low
 resolved_patches: []
 ---
 

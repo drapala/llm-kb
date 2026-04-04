@@ -16,10 +16,14 @@ sources:
   - path: raw/papers/synapse-episodic-semantic-memory.md
     type: paper
     quality: primary
+  - path: raw/papers/multiagent-debate-factuality.md
+    type: paper
+    quality: primary
 created: 2026-04-03
 updated: 2026-04-03
 tags: [meta-kb, failure-analysis, safety, original-insight]
-confidence: high
+source_quality: high
+interpretation_confidence: high
 resolved_patches: []
 ---
 
@@ -35,7 +39,7 @@ An LLM-operated KB without human intervention degrades silently over ~30 days th
 
 **Why invisible:** Wiki gets *more consistent*, not less. All /review metrics stay green. Problem is qualitative: wiki loses perspective diversity that justifies having multiple sources.
 
-**Evidence:** ERL shows random heuristic inclusion degrades after 40-60 items. When all articles use same formulations, _index.md loses discriminative power.
+**Evidence:** ERL shows random heuristic inclusion degrades after 40-60 items. When all articles use same formulations, _index.md loses discriminative power. Note: this 40-60 threshold also applies to _index.md scaling — see [[raptor-vs-flat-retrieval]] Gap 3 for the connection between ERL's selection limit and the practical threshold for sub-index migration.
 
 **Breaks:** /ask on subtle topics returns generic answers. Distinctions from original sources (Karpathy writes differently than an academic paper) are lost.
 
@@ -87,11 +91,30 @@ The system optimizes visible metrics (0 warnings, correct links, cited sources) 
 | Index bloat | Human quality gate on /ingest, or hard cap on articles per week | Partially — cap is automatic, judgment is not |
 | Forced tension | Require human `> [!patch]` before any tension resolution is applied | Yes — rule change in /review |
 
+### The Layer 3 Circularity Problem
+
+The /ask protocol treats raw/ verification (Layer 3) as grounded feedback: "Para claims importantes: vá à fonte original em raw/ para verificar." But this conflates two types of grounding:
+
+- **Data grounding** (what raw/ provides): the original text is immutable and available
+- **Interpretation grounding** (what raw/ does NOT provide): the same LLM that wrote the wiki reads raw/ and evaluates its own interpretation
+
+In Reflexion's terms, grounded feedback means **executable tests** — unit tests that pass or fail independently of the agent's judgment. raw/ read by the same LLM is closer to self-reflection without tests (the 52% degradation case). The data is external; the interpretation is not.
+
+This means Layer 3 is necessary but insufficient. It catches factual errors (wrong numbers, misattributed claims) but cannot catch interpretive errors (correct facts assembled into wrong conclusions). The /ask protocol should be understood as: Layer 3 provides data verification, not interpretation verification. See [[llm-as-judge]] for why the same model cannot reliably judge its own interpretive work (self-enhancement bias 16.1%).
+
 ### Architectural Insight
 
 The blueprint's existing mechanisms (raw/ immutable, patches humanos, retrieval cético, confidence scoring) are correct — but they were designed as **guardrails with human in the loop**. Without human, the agent can satisfy all rules while circumventing their intent: verify raw/ and agree with itself, assign high confidence to own work, resolve tensions "following protocol."
 
-The fix is not more rules — it's **external ground truth**. At least one verification channel must be independent of the LLM that maintains the wiki.
+The fix is not more rules — it's **external ground truth**. At least one verification channel must be independent of the LLM that maintains the wiki. Concretely, this means either: (1) a different model for /review than for /ingest, (2) human spot-checks, or (3) executable validation (tests, type-checks, API calls that return ground truth).
+
+### Multiagent Debate as Middle Ground
+
+Du et al. (2023) propose a fourth option: multiagent debate. Multiple LLM instances generate independent evaluations, read each other's responses, and debate across rounds to converge toward consensus. This significantly enhances factual validity and reduces hallucinations.
+
+**Applied to /review:** instead of one LLM evaluating its own wiki, spawn 2-3 independent evaluations of each article, then debate disagreements. This mitigates self-enhancement bias without requiring a human — the "independent evaluator" is another instance of the same model, but with a different conversation history and evaluation context.
+
+**Tension with single-agent:** Tim Kellogg documents Cognition's critique that multi-agent creates "fragile systems" with "dispersed decision-making." Multiagent debate fixes bias but adds coordination cost and context fragmentation. Neither single-agent nor multi-agent /review dominates — the choice depends on whether bias risk (single) or coordination fragility (multi) is the bigger threat for the specific article being reviewed.
 
 ## Conexões
 
@@ -100,6 +123,7 @@ The fix is not more rules — it's **external ground truth**. At least one verif
 - [[tension-resolution]] — forced resolution is failure mode 4; protocol already says "never force" but enforcement requires human
 - [[memory-consolidation]] — /review and /dream operate on the wiki; both susceptible to convergence
 - [[kb-architecture-patterns]] — all 4 patterns assume human-in-the-loop for quality; none designed for full autonomy
+- [[raptor-vs-flat-retrieval]] — ERL's 40-60 item selection limit applies to both semantic convergence detection and index scaling thresholds
 - [[reflexion-weighted-knowledge-graphs]] — adaptive topology could mitigate failure mode 1 if edge weights incorporate external signal
 
 ## Fontes

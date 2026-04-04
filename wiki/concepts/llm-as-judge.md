@@ -13,10 +13,14 @@ sources:
   - path: raw/papers/carmo-context-aware-reward-modelling.md
     type: paper
     quality: primary
+  - path: raw/papers/lm-know-what-they-know.md
+    type: paper
+    quality: primary
 created: 2026-04-03
 updated: 2026-04-03
 tags: [evaluation, bias, reliability, quality]
-confidence: high
+source_quality: high
+interpretation_confidence: high
 resolved_patches: []
 ---
 
@@ -62,6 +66,16 @@ JudgeBench (ICLR 2025) tested LLM judges on genuinely difficult problems:
 - Gap between easy benchmarks (judges appear reliable) and hard benchmarks (near random) suggests reported reliability is inflated by benchmark difficulty
 
 **Implication:** Our /ask confidence scoring may be unreliable for complex queries. The 3-layer retrieval with raw/ verification is more robust than self-assessment alone.
+
+### Tension: "Mostly Calibrated" vs. "Near Random" (Kadavath et al. vs. JudgeBench)
+
+Anthropic's "Language Models (Mostly) Know What They Know" (2022) found that larger models show good calibration — they can estimate P(True) and P(IK) (probability they "know" an answer) reasonably well.
+
+But JudgeBench (2025) found GPT-4o near random on hard tasks.
+
+**Resolution:** Both are correct — calibration degrades as difficulty increases. Models are well-calibrated on easy/medium questions (the bulk of interactions) and poorly calibrated on genuinely hard questions (where calibration matters most). The "mostly" has a long tail.
+
+**Implication for confidence scoring:** Our /ingest confidence system (high/medium/low) is reliable for straightforward factual claims but should NOT be trusted for interpretive synthesis or novel cross-paper insights. Specifically: confidence:high on a claim derived from 2+ primary sources agreeing on facts = trustworthy. confidence:high on a novel insight synthesized by the LLM = unreliable (exactly the hard case where calibration fails).
 
 ### Dynamic Criteria > Static Rubrics (CARMO/SALC)
 
@@ -114,3 +128,4 @@ Claude-3.5 shows greatest overall bias resilience. Advanced models don't automat
 - [CALM — LLM Judge Biases](../../raw/papers/calm-llm-judge-biases.md) — 12 bias types quantified, self-enhancement up to 16.1% error, Claude-3.5 most resilient
 - [JudgeBench](../../raw/papers/judgebench-evaluating-llm-judges.md) — GPT-4o near random on hard tasks, reliability inflated by benchmark difficulty
 - [CARMO/SALC](../../raw/papers/carmo-context-aware-reward-modelling.md) — dynamic criteria > static rubrics, 13B model outperforms GPT-4o, +12.58% alignment gains
+- [LMs Know What They Know](../../raw/papers/lm-know-what-they-know.md) — "mostly" calibrated: good on easy tasks, degrades on hard ones. Tension with JudgeBench resolves as difficulty-contingent

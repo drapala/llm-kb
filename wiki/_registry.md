@@ -28,3 +28,9 @@
 | raw/papers/calm-llm-judge-biases.md | 2026-04-03 | paper | primary | llm-as-judge | processed |
 | raw/papers/judgebench-evaluating-llm-judges.md | 2026-04-03 | paper | primary | llm-as-judge | processed |
 | raw/papers/carmo-context-aware-reward-modelling.md | 2026-04-03 | paper | primary | llm-as-judge | processed |
+| raw/papers/coala-cognitive-architectures-language-agents.md | 2026-04-03 | paper | primary | agent-memory-architectures | processed |
+| raw/papers/em-llm-human-episodic-memory.md | 2026-04-03 | paper | primary | agent-memory-architectures | processed |
+| raw/papers/knowledge-conflicts-llms-survey.md | 2026-04-03 | paper | primary | tension-resolution | processed |
+| raw/papers/lm-know-what-they-know.md | 2026-04-03 | paper | primary | llm-as-judge | processed |
+| raw/papers/multiagent-debate-factuality.md | 2026-04-03 | paper | primary | autonomous-kb-failure-modes | processed |
+| raw/papers/self-rag-retrieve-generate-critique.md | 2026-04-03 | paper | primary | retrieval-augmented-generation | processed |

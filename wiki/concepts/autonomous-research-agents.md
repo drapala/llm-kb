@@ -7,6 +7,8 @@ sources:
 created: 2026-04-03
 updated: 2026-04-03
 tags: [deep-research, agent-pipeline, survey]
+source_quality: high
+interpretation_confidence: high
 resolved_patches: []
 ---
 

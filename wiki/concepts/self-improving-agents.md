@@ -22,7 +22,8 @@ sources:
 created: 2026-04-03
 updated: 2026-04-03
 tags: [agent-architecture, self-improvement, reflection, learning]
-confidence: high
+source_quality: high
+interpretation_confidence: high
 resolved_patches: []
 ---
 
@@ -56,7 +57,7 @@ LLM agents make the same mistakes repeatedly across sessions. Traditional RL req
 - AlfWorld: +22% absolute over ReAct (130/134 tasks in 12 iterations)
 - HotPotQA: CoT 0.61 → 0.75 (+14%)
 
-**Ablation:** Self-reflection without grounded feedback (tests) degrades to 52%. Trajectory replay without reflection: no improvement. Verbal reflection outperforms episodic memory by 8%.
+**Ablation:** Self-reflection without grounded feedback (tests) degrades to 52%. Trajectory replay without reflection: no improvement. Verbal reflection outperforms episodic memory by 8%. Critically, Reflexion's "grounded feedback" means **executable tests** — not document verification by the same LLM. This distinction matters for KB systems where Layer 3 raw/ verification is read by the same model that wrote the wiki (see [[autonomous-kb-failure-modes]] "The Layer 3 Circularity Problem").
 
 ### ERL: Heuristics > Trajectories
 

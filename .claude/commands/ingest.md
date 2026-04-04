@@ -10,17 +10,33 @@ Compare raw/ com wiki/_registry.md. Para cada fonte nova:
    - Se não existe E o conceito provavelmente será referenciado de outros artigos:
      CRIE seguindo o template (use as heurísticas de granularidade do CLAUDE.md)
    - Se não justifica artigo próprio: mencione como seção em artigo existente mais próximo
-4. Classifique a fonte: type (article/paper/repo/note/dataset) e quality (primary/secondary/tertiary)
+4. Classifique a fonte:
+   - type: article | paper | repo | note | dataset
+   - quality: primary | secondary | tertiary
+   - **stance: confirming | challenging | neutral** — a fonte CONFIRMA, DESAFIA,
+     ou é NEUTRA em relação às premissas existentes no wiki?
 5. Verifique: algum artigo existente agora tem overlap >60% com outro? Se sim, sugira merge
 6. Processe quaisquer blocos > [!patch] encontrados nos artigos tocados
-7. Ao criar/atualizar artigos, atribua confidence no frontmatter:
-   - **high** = 2+ fontes primary concordam
-   - **medium** = 1 fonte primary ou 2+ secondary
-   - **low** = apenas fontes tertiary ou claim não verificado em raw/
-8. DEPOIS de todos os artigos escritos/atualizados, atualize:
-   - _registry.md: path | data | type | quality | conceitos | status
-   - _index.md: 1 ponteiro por artigo (~150 chars: título + contexto mínimo)
-   Ordem importa: artigo primeiro → índice depois. Nunca o contrário.
+7. Ao criar/atualizar artigos, atribua no frontmatter:
+   - **source_quality: high|medium|low** — baseado em fontes:
+     high = 2+ fontes primary concordam, medium = 1 primary ou 2+ secondary,
+     low = apenas tertiary
+   - **interpretation_confidence: high|medium|low** — auto-avaliação da síntese:
+     high = claim factual direto das fontes, medium = síntese moderada,
+     low = interpretação novel ou cross-paper insight
+   - Quando source_quality e interpretation_confidence divergem, flag com ⚠️
+     no report pra revisão humana
+8. **Adversarial quota:** após processar, conte fontes no _registry.md por stance.
+   Se as últimas 5+ fontes são todas "confirming", reporte:
+   "⚠️ Adversarial gap: últimas N fontes são confirming. Considere buscar
+   fonte challenging. Rode /curate pra discovery automático."
+9. **Ingest threshold** (quando wiki > 40 artigos): exigir que fonte nova
+   contribua conceito não coberto OU contradiga claim existente.
+   Quando wiki > 80 artigos: exigir sub-índices antes de continuar crescendo.
+10. DEPOIS de todos os artigos escritos/atualizados, atualize:
+    - _registry.md: path | data | type | quality | stance | conceitos | status
+    - _index.md: 1 ponteiro por artigo (~150 chars: título + contexto mínimo)
+    Ordem importa: artigo primeiro → índice depois. Nunca o contrário.
 
 Reporte: X fontes processadas, Y artigos criados, Z atualizados, W patches resolvidos.
 Se encontrar fontes com problemas (vazio, ilegível, duplicata exata): reporte sem processar.

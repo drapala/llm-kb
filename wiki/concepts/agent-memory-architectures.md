@@ -16,10 +16,17 @@ sources:
   - path: raw/papers/hipporag-neurobiological-memory.md
     type: paper
     quality: primary
+  - path: raw/papers/coala-cognitive-architectures-language-agents.md
+    type: paper
+    quality: primary
+  - path: raw/papers/em-llm-human-episodic-memory.md
+    type: paper
+    quality: primary
 created: 2026-04-03
 updated: 2026-04-03
-tags: [memory, architecture, agent-design]
-confidence: high
+tags: [memory, architecture, agent-design, cognitive-science]
+source_quality: high
+interpretation_confidence: high
 resolved_patches: []
 ---
 
@@ -48,6 +55,8 @@ MemGPT (2023) introduced virtual context management inspired by OS memory hierar
 - Queue eviction at 100%: flush 50%, generate recursive summary
 - Agent decides what to store/retrieve/forget — self-directed, not pipeline-driven
 - Heartbeat events allow autonomous internal processing chains
+
+**Critical limitation:** Eviction is mechanical (FIFO + pressure-based), not experience-driven. A memory that caused 3 consecutive retrieval failures is treated identically to one that never failed. MemGPT has no mechanism to learn from retrieval errors — it manages *space*, not *quality*. See [[reflexion-weighted-knowledge-graphs]] for a proposed architecture that addresses this gap by combining Reflexion's failure feedback with graph topology.
 
 **Evolution to Letta (4 blocks):**
 - Core Memory (always in context) → Working Context
@@ -149,6 +158,52 @@ HippoRAG (NeurIPS 2024) models memory as a knowledge graph with Personalized Pag
 
 **Connection to wikilinks:** Our wiki's `[[wikilinks]]` are a manually-built HippoRAG graph. Entities = articles, edges = links, retrieval = following paths from query-relevant articles.
 
+### Decision Framework: Compression vs. Associative Structure
+
+When should an agent compress aggressively (MemGPT-style) vs. preserve full associative structure (HippoRAG-style)? The papers converge on four decision axes:
+
+| Axis | Compress (MemGPT/Letta) | Preserve (HippoRAG/Synapse) |
+|------|------------------------|----------------------------|
+| **Context budget** | Tight (fixed window, no external storage) | Flexible (can page in from KG) |
+| **Query pattern** | Mostly single-hop, factual recall | Multi-hop reasoning across distant memories |
+| **Knowledge growth** | Slow or batch (can rebuild) | Continuous, incremental (needs edge addition) |
+| **Failure cost** | Low (generic answers acceptable) | High (wrong associations cause cascading errors) |
+
+**Hybrid position (Synapse):** 95% token reduction WITH graph topology preserved. Spreading activation + lateral inhibition achieves compression without losing associative paths. Trade-off: cognitive tunneling — hub nodes suppress minor details (β=0.15).
+
+**Rate-distortion lens (Kellogg):** The decision is fundamentally a rate-distortion trade-off — at what compression ratio does the loss of associative structure exceed the token cost of preserving it? Aggressive compression is correct when the distortion budget is high (generic recall); structure preservation is correct when distortion must be minimized (multi-hop reasoning, causal chains).
+
+**Practical heuristic for this KB:**
+- At current scale (~16 articles): HippoRAG-style — wikilinks preserve full associative structure, context budget is not a constraint
+- At 200+ articles with sub-indices: Synapse-style — spreading activation via index hierarchy provides compression with topology
+- MemGPT-style compression is appropriate for ephemeral conversational memory (KAIROS/Dream), NOT for compiled knowledge (wiki articles)
+
+### Tension: Engineering Taxonomy vs. Cognitive Science Taxonomy
+
+CoALA (Sumers et al., 2023) bridges classical cognitive architectures (SOAR, ACT-R) with modern LLM agents, formalizing memory types from cognitive science:
+
+| Cognitive Science (CoALA) | Engineering (Memory Survey) | Tension |
+|--------------------------|---------------------------|---------|
+| Episodic (specific events) | Experiential (case-based) | Overlapping but not identical — episodic is autobiographical, experiential includes abstract strategies |
+| Semantic (general knowledge) | Factual (world knowledge) | Close match, but semantic memory includes learned associations, not just facts |
+| Procedural (how to do things) | Experiential (skill-based) | Procedural is implicit; engineering "skills" are explicit action sequences |
+| Working (active processing) | Working (current buffer) | Same concept, same name, compatible |
+
+The cognitive science categories have decades of experimental validation. The engineering categories are pragmatic but ungrounded. Neither is wrong — they optimize for different things (explaining cognition vs. building systems).
+
+### Tension: Concept Segmentation vs. Surprise Segmentation
+
+EM-LLM (Fountas et al., 2024) applies human episodic memory principles to segment information not by concept (our /ingest approach) but by Bayesian surprise — points where prediction error exceeds a threshold.
+
+| Segmentation Method | Basis | Validation |
+|--------------------|-------|-----------|
+| Concept-based (our /ingest) | LLM judgment: "is this a new concept?" | Pragmatic, untested against human cognition |
+| Surprise-based (EM-LLM) | Statistical: `-log P(xt\|x1...xt-1) > T` | 25-35x improvement in event boundary alignment with human perception |
+
+EM-LLM's finding: "LLM-perceived surprise can serve as a proxy for cognitive signals that drive human event segmentation." Results: 40% improvement on retrieval tasks, 30.5% over RAG on LongBench.
+
+**Implication for this KB:** Our /ingest segments sources by concept (LLM decides where one idea ends and another begins). EM-LLM suggests segmenting by surprise (where the content shifts unexpectedly) would better match how humans organize information. These aren't mutually exclusive — concepts could be refined using surprise as a secondary signal.
+
 ### Mapping to This Knowledge Base
 
 | Architecture | KB Equivalent |
@@ -165,7 +220,8 @@ HippoRAG (NeurIPS 2024) models memory as a knowledge graph with Personalized Pag
 
 ## Conexões
 
-- [[context-management]] — MemGPT's virtual context is the production implementation of bandwidth-aware retrieval
+- [[context-management]] — MemGPT's virtual context is the production implementation of bandwidth-aware retrieval; compression decision depends on context budget constraints
+- [[tension-resolution]] — the RAPTOR vs HippoRAG tension (architecture-contingent) is one instance of the compress vs. preserve decision
 - [[memory-consolidation]] — consolidation operates on these architectures (KAIROS on MemGPT-like tiers, Dream on file-based memory)
 - [[hybrid-search]] — Synapse's Triple Hybrid Retrieval parallels QMD's BM25+vector+reranking
 - [[retrieval-augmented-generation]] — Synapse solves Contextual Isolation that standard RAG fails on
@@ -179,3 +235,5 @@ HippoRAG (NeurIPS 2024) models memory as a knowledge graph with Personalized Pag
 - [Tim Kellogg — Layers of Memory](../../raw/articles/tim-kellogg-layers-memory-compression.md) — rate-distortion framework, single vs multi-agent compression, "compression is cognition"
 - [Memory in the Age of AI Agents](../../raw/papers/memory-age-ai-agents-survey.md) — canonical taxonomy: forms (token/parametric/latent), functions (factual/experiential/working), dynamics (formation/evolution/retrieval)
 - [HippoRAG](../../raw/papers/hipporag-neurobiological-memory.md) — KG + PageRank retrieval: incremental, 10-30× cheaper, wikilinks as manual KG
+- [CoALA](../../raw/papers/coala-cognitive-architectures-language-agents.md) — cognitive architecture framework: bridges SOAR/ACT-R with LLM agents, formalizes memory types from cognitive science
+- [EM-LLM](../../raw/papers/em-llm-human-episodic-memory.md) — surprise-based segmentation aligned with human event perception, 40% retrieval improvement, 25-35x better boundary alignment

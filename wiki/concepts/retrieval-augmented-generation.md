@@ -10,9 +10,14 @@ sources:
   - path: raw/papers/hipporag-neurobiological-memory.md
     type: paper
     quality: primary
+  - path: raw/papers/self-rag-retrieve-generate-critique.md
+    type: paper
+    quality: primary
 created: 2026-04-03
 updated: 2026-04-03
 tags: [retrieval, rag, long-context, evaluation]
+source_quality: high
+interpretation_confidence: high
 resolved_patches: []
 ---
 
@@ -94,6 +99,26 @@ HippoRAG (NeurIPS 2024) takes a different approach: instead of summarization tre
 
 **Relevance to our wiki:** Our [[wikilinks]] are effectively a manually-built HippoRAG knowledge graph. Entities = concept articles, edges = wikilinks, retrieval = following links from query-relevant articles. PageRank could inform a future /search scoring system.
 
+### Self-RAG: Structured Self-Critique During Retrieval
+
+Self-RAG (Asai et al., 2023) adds reflection tokens inline during generation:
+
+| Token | Question | When |
+|-------|----------|------|
+| [Retrieve] | Should I retrieve now? | Before each generation step |
+| [IsRel] | Is the retrieved passage relevant? | After retrieval |
+| [IsSup] | Is my response supported by the passage? | After generation |
+| [IsUse] | Is the response useful? (1-5) | Final check |
+
+The model learns WHEN to retrieve (not always), WHAT is relevant (not all content), and WHETHER its response is supported (not blindly trusting itself).
+
+**Mapping to our /ask:**
+- After Layer 1: "are these the right articles?" → [IsRel] equivalent
+- After Layer 2: "is my synthesis supported by what I read?" → [IsSup] equivalent
+- After Layer 3: "did raw/ verification change my answer?" → structured reflection
+
+Self-RAG formalizes our circuit breaker as explicit checkpoints rather than implicit judgment. A /ask that logged these reflection decisions would make the retrieval process traceable and debuggable.
+
 ### Error Patterns
 
 **RAG failures:**
@@ -141,3 +166,4 @@ No consensus on what constitutes "long context":
 - [Long Context vs. RAG](../../raw/papers/long-context-vs-rag-evaluation.md) — systematic evaluation: ~13,600 questions, 12 QA datasets, retriever comparison, error analysis
 - [RAPTOR](../../raw/papers/raptor-recursive-abstractive-retrieval.md) — hierarchical tree retrieval: recursive clustering + summarization, +20pp on QuALITY, 4% hallucination rate
 - [HippoRAG](../../raw/papers/hipporag-neurobiological-memory.md) — graph-based retrieval: KG + PageRank, +20% on 2WikiMultiHopQA, 10-30× cheaper than iterative, incremental updates
+- [Self-RAG](../../raw/papers/self-rag-retrieve-generate-critique.md) — structured reflection tokens: [Retrieve], [IsRel], [IsSup], [IsUse] — formalizes retrieval self-critique as traceable checkpoints

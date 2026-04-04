@@ -16,10 +16,14 @@ sources:
   - path: raw/papers/synapse-episodic-semantic-memory.md
     type: paper
     quality: primary
+  - path: raw/papers/knowledge-conflicts-llms-survey.md
+    type: paper
+    quality: primary
 created: 2026-04-03
 updated: 2026-04-03
 tags: [meta-kb, quality, contradictions, design]
-confidence: high
+source_quality: high
+interpretation_confidence: high
 resolved_patches: []
 ---
 
@@ -39,7 +43,7 @@ A /tensions command is the same pipeline as /review with "contradiction" instead
 
 Self-reflection without grounded feedback degrades to 52% (ablation). Tension resolution that relies purely on LLM judgment (without checking raw/) will fail. The LLM may "resolve" contradictions by picking the claim that sounds more plausible, not the one that's actually supported.
 
-**Rule:** Every tension resolution MUST verify against raw/ sources. If raw/ sources themselves disagree, the tension is real and should be documented, not forcefully resolved.
+**Rule:** Every tension resolution MUST verify against raw/ sources. If raw/ sources themselves disagree, the tension is real and should be documented, not forcefully resolved. Note: raw/ verification provides data grounding but not interpretation grounding — the same LLM reading raw/ may confirm its own misinterpretation (see [[autonomous-kb-failure-modes]] "The Layer 3 Circularity Problem").
 
 **2. CALM → Self-Enhancement Bias Is the Central Risk**
 
@@ -65,6 +69,20 @@ Contradictory articles may share no keywords or embedding similarity — they're
 
 **Discovery method:** For each pair of articles sharing 2+ raw/ sources, compare key claims. Graph adjacency (shared wikilinks) surfaces candidates; raw/ verification confirms.
 
+**6. Knowledge Conflicts Survey → Formal Conflict Taxonomy**
+
+The Knowledge Conflicts survey (Xu et al., 2024) provides the academic formalization of our tension types with three categories that map directly:
+
+| Conflict Type | Definition | KB Equivalent |
+|--------------|-----------|---------------|
+| **Context-Memory** | External context contradicts model's parametric knowledge | Wiki article contradicts what the LLM "knows" from training → authority bias risk |
+| **Inter-Context** | Multiple external sources contradict each other | Two wiki articles contradict each other → our tension detection in /review item 9 |
+| **Intra-Memory** | Internal inconsistencies within model parameters | LLM generates different responses to same question phrased differently |
+
+Critical finding: even GPT-4 shows **13% inconsistency rate** on paraphrased queries (intra-memory conflict). This directly validates our circuit breaker: don't trust a single /ask response on important claims.
+
+**LLM behavior under conflict:** models show strong confirmation bias toward parametric knowledge, favor semantically coherent info, and are susceptible to misleading prompts. Implications: our /ask Layer 3 verification may be undermined by the LLM's tendency to confirm its own wiki interpretations.
+
 ### Resolution Protocol
 
 When a tension is detected:
@@ -86,6 +104,8 @@ When a tension is detected:
 | [[self-improving-agents]] vs [[llm-as-judge]] | "Self-reflection improves agents" vs "Self-assessment unreliable (JudgeBench: near random)" | Grounding-contingent: reflection WITH external feedback works (Reflexion +22%); reflection WITHOUT ground truth fails (52%). Our Layer 3 raw/ verification provides the grounding. |
 | [[agent-memory-architectures]] vs [[multi-agent-orchestration]] | "Single-agent maintains coherent reasoning" (Cognition) vs "Multi-agent outperforms on broad queries" (Anthropic) | Task-contingent: single-agent wins for deep sequential reasoning (one context thread); multi-agent wins for broad exploration (parallel compression reduces path-dependence). Coordination cost determines crossover. Verified: tim-kellogg raw/ confirms both claims and the Cognition critique ("too dispersed"). |
 | [[retrieval-augmented-generation]] (RAPTOR) vs [[agent-memory-architectures]] (HippoRAG) | "Summarization tree retrieval" vs "Knowledge graph + PageRank retrieval" | Architecture-contingent: RAPTOR requires tree rebuild on new content; HippoRAG incrementally adds edges. RAPTOR better for static corpora, HippoRAG for evolving KBs. Our /ingest is incremental → HippoRAG pattern closer to our architecture. |
+| [[agent-memory-architectures]] (engineering taxonomy) vs [[agent-memory-architectures]] (CoALA cognitive taxonomy) | "Factual/experiential/working" vs "Episodic/semantic/procedural" | Framework-contingent: engineering categories optimize for building systems; cognitive categories have decades of experimental validation. Neither is wrong. Episodic ≈ experiential-case, semantic ≈ factual, procedural ≈ experiential-skill. Working = working. |
+| [[agent-memory-architectures]] (concept segmentation) vs [[agent-memory-architectures]] (EM-LLM surprise segmentation) | "Segment by concept (LLM judgment)" vs "Segment by Bayesian surprise (statistical signal)" | Method-contingent: surprise-based aligns 25-35x better with human perception; concept-based is pragmatic for KBs. Not exclusive — concepts refined using surprise as secondary signal. |
 
 ## Conexões
 
@@ -100,4 +120,5 @@ When a tension is detected:
 - [CALM](../../raw/papers/calm-llm-judge-biases.md) — self-enhancement bias up to 16.1%; same model writing and judging is unreliable
 - [ERL](../../raw/papers/erl-experiential-reflective-learning.md) — heuristics > trajectories (+7.8% vs -1.9%); resolutions should be reusable
 - [CARMO/SALC](../../raw/papers/carmo-context-aware-reward-modelling.md) — dynamic criteria outperform static rubrics; context-specific evaluation
+- [Knowledge Conflicts Survey](../../raw/papers/knowledge-conflicts-llms-survey.md) — 3 formal conflict types (context-memory, inter-context, intra-memory), GPT-4 13% inconsistency rate
 - [Synapse](../../raw/papers/synapse-episodic-semantic-memory.md) — graph topology discovers non-obvious conflicts (Contextual Isolation problem)
