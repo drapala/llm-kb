@@ -25,6 +25,10 @@ tags: [meta-kb, quality, contradictions, design]
 source_quality: high
 interpretation_confidence: medium
 resolved_patches: []
+reads: 0
+retrievals_correct: 0
+retrievals_gap: 0
+last_read: null
 ---
 
 ## Resumo

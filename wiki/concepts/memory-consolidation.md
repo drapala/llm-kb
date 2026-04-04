@@ -13,6 +13,10 @@ tags: [agent-architecture, memory, persistence]
 source_quality: high
 interpretation_confidence: high
 resolved_patches: []
+reads: 0
+retrievals_correct: 0
+retrievals_gap: 0
+last_read: null
 ---
 
 ## Resumo

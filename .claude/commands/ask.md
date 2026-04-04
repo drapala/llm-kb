@@ -34,3 +34,22 @@ Se a resposta contém taxonomia original, síntese canônica, ou insight
 reutilizável que não existe em nenhum artigo wiki, sugira ao final:
 "Esta resposta contém [descrição]. Quer que eu arquive as partes
 canônicas no wiki?"
+
+## Log de occurrent
+
+Ao final de TODA sessão /ask, salve log seguindo
+`.claude/hooks/ask-logger.md` em:
+`outputs/logs/sessions/YYYY-MM-DD/ask-HH-MM.md`
+
+Campos obrigatórios: query, articles_read, confidence, synthesis_type.
+Retrieval gaps é o campo mais valioso — identifica falhas de retrieval.
+Ver `wiki/meta/process-log.md` para schema completo.
+
+## Utility tracking
+
+Após salvar o log, execute utility-tracker:
+- Incrementa `reads` nos artigos lidos
+- Incrementa `retrievals_correct` se confidence HIGH/MEDIUM (verificados)
+- Incrementa `retrievals_gap` nos artigos identificados como gap
+- Atualiza `last_read` com data da sessão
+Ver `.claude/hooks/utility-tracker.md` para instruções completas.

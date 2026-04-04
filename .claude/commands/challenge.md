@@ -72,3 +72,10 @@ PRIOR WORK (web search):
 - Antes de usar um artigo como base pra novo artigo
 - Quando interpretation_confidence é medium ou low
 - Quando /review flagga over-synthesis
+
+## Log de occurrent
+
+Salve resultado em `outputs/logs/sessions/YYYY-MM-DD/challenge-[artigo]-HH-MM.md`
+segundo schema em `wiki/meta/process-log.md`.
+Campos: claims_challenged, claims_survived, claims_weakened, claims_invalidated,
+prior_work_found, verdict.

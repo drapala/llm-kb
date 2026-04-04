@@ -107,5 +107,9 @@ Compare raw/ com wiki/_registry.md. Para cada fonte nova:
     - _index.md: 1 ponteiro por artigo (~150 chars: título + contexto mínimo)
     Ordem importa: artigo primeiro → índice depois. Nunca o contrário.
 
+14. **Log de occurrent:** Salve log da sessão em
+    `outputs/logs/sessions/YYYY-MM-DD/ingest-[source-slug]-HH-MM.md`
+    segundo schema em `wiki/meta/process-log.md`.
+
 Reporte: X fontes processadas, Y artigos criados, Z atualizados, W patches resolvidos.
 Se encontrar fontes com problemas (vazio, ilegível, duplicata exata): reporte sem processar.

@@ -23,5 +23,6 @@
 - [Autonomous KB Failure Modes](concepts/autonomous-kb-failure-modes.md) — WHAT GOES WRONG without human: 4 silent failures over 30 days. System looks healthy while degrading
 - [Curation Anti-Bias](concepts/curation-anti-bias.md) — HOW TO FIX IT: 3 bias layers + 5 improvements. Adversarial quota, split confidence, style check, multiagent spot-check
 - [Question Taxonomy](concepts/question-taxonomy.md) — 7 frameworks (Miles, Socratic, Oblique, Popper, Lakatos, AHRQ, Simon). 10 question types + stopping rule
+- [Causal Reasoning (Pearl)](concepts/causal-reasoning-pearl.md) — CAUSAL LEVELS: association (seeing), intervention (doing), contrafactual (imagining). KB has 8 L1, 5 L2, 0 L3 claims
 - [Formal Ontology for KBs](concepts/formal-ontology-for-kbs.md) — STRUCTURAL GAPS: untyped wikilinks, no hierarchy, no competency questions. 5 typed relations, continuant/occurrent, adoption path
 - [Obsidian as Agent Wiki](concepts/obsidian-agent-workflow.md) — Default frontend for LLM KBs, vault separation pattern, 4-piece stack (app+clipper+CLI+skills)

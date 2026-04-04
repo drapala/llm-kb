@@ -76,3 +76,11 @@ Para cada artigo tocado:
 - 📐 Over-synthesis: [artigos com interpretação na seção Conteúdo]
 - 🔬 Spot-check prompt: atualizado com artigos [lista] → colar em outro LLM
 - ✏️ Reescritas feitas: [lista de artigos + o que mudou]
+
+## Log de occurrent
+
+Para CADA artigo modificado, salve log seguindo `.claude/hooks/review-logger.md` em:
+`outputs/logs/sessions/YYYY-MM-DD/review-[artigo]-HH-MM.md`
+
+Inclua propagation check: quais artigos downstream são afetados pela mudança?
+Adicione afetados em `outputs/inbox/propagation-review.md`.

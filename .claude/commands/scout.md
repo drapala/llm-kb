@@ -64,3 +64,21 @@ Descobre papers adjacentes que a KB não contém. Olha pra fora via web search.
 - Mensalmente como manutenção
 - Quando /challenge encontrar "Prior work não verificado"
 - Após ingerir 5+ papers novos (o landscape pode ter mudado)
+
+## Utility Analysis (roda junto com scout periódico)
+
+Para cada artigo em wiki/concepts/, leia frontmatter e calcule:
+
+`utility_score = retrievals_correct / reads` (se reads = 0: null)
+
+Classifique:
+
+| Perfil | Condição | Ação |
+|--------|----------|------|
+| ALTO USO + ALTA UTILIDADE | reads >= 5, utility >= 0.7 | Hub article — /challenge prioritário (erros propagam) |
+| ALTO USO + BAIXA UTILIDADE | reads >= 5, utility < 0.3 | Consultado mas não ajuda — /review conteúdo ou retrieval? |
+| BAIXO USO | reads < 3 | Subutilizado — verificar ponteiro no _index.md |
+| NUNCA LIDO | reads = 0 | Candidato a remoção ou melhoria de ponteiro |
+| ALTO GAP | retrievals_gap >= 3 | Existe mas retrieval não chega — melhorar ponteiro ou wikilinks |
+
+Salve análise em `outputs/reports/utility-YYYY-MM-DD.md`
