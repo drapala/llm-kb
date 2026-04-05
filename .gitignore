@@ -2,3 +2,5 @@
 outputs/
 .claude/settings.local.json
 .env
+*.pyc
+__pycache__/
