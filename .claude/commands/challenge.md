@@ -107,3 +107,16 @@ challenge:
 | Artigo está em quarentena E verdict ≠ RISCO_ALTO | `💡 /promote [artigo] — critério 3 satisfeito pelo challenge. Verifique critérios 1 e 2.` |
 | Verdict = RISCO_ALTO em artigo com in-degree alto | `⚠️ Propagação — [artigo] tem alto in-degree e claims em risco. Verifique artigos que o citam.` |
 | Prior work encontrado que invalida claim central | `💡 /ingest [paper] — paper externo invalida claim. Ingira para atualizar a KB.` |
+
+### Atualiza `next_actions` em kb-state.yaml
+
+Após o challenge, atualize o bloco `next_actions`:
+- Se artigo em quarentena E verdict ≠ RISCO_ALTO: adicione entrada `/promote [artigo]`
+  com `why: "critério 3 satisfeito pelo challenge"`, `added_by: challenge`
+- Se prior work encontrado: adicione entrada `/ingest [paper mais relevante]`
+  com `why: "[claim que confirma/invalida]"`, `added_by: challenge`
+- Se verdict = RISCO_ALTO: adicione entrada `/review [artigos que citam este]`
+  com `why: "propagação de claim em risco"`, `added_by: challenge`
+
+Atribua `priority` de forma que ações de correção (RISCO_ALTO) sempre precedam
+ações de avanço (/promote, /ingest).

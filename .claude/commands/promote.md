@@ -33,7 +33,13 @@ Se TODOS satisfeitos:
 ## Após promoção bem-sucedida
 
 Atualize `outputs/state/kb-state.yaml`:
-1. Adicione artigo promovido a `promoted_since_last_emerge`
+1. Adicione artigo promovido a `emerge_queue`
 2. Atualize `last_updated` com data atual
-3. Se `promoted_since_last_emerge` tiver >= 3 artigos após a adição:
-   imprima "⚠️ /emerge recomendado ([N] artigos promovidos desde último /emerge)"
+3. Atualize `next_actions`:
+   - Remova qualquer entrada que mencionava `/promote [este artigo]`
+   - Se `emerge_queue` tiver >= 2 artigos: adicione (ou atualize) entrada para `/emerge`
+     com `why: "N artigos na fila: [lista]"` e `blocked_by: null` (a menos que haja
+     artigos críticos ainda em quarentena)
+   - Se houver outros artigos em quarentena prontos: adicione `/promote [próximo]`
+4. Se `emerge_queue` tiver >= 3 artigos:
+   imprima "⚠️ /emerge recomendado ([N] artigos na fila)"

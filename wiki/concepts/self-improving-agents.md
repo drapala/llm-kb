@@ -28,10 +28,10 @@ tags: [agent-architecture, self-improvement, reflection, learning]
 source_quality: high
 interpretation_confidence: high
 resolved_patches: []
-reads: 0
+reads: 1
 retrievals_correct: 0
 retrievals_gap: 0
-last_read: null
+last_read: 2026-04-04
 provenance: synthesis
 synthesis_sources:
   - wiki/concepts/memory-consolidation.md
@@ -180,6 +180,7 @@ Our pipeline loosely parallels self-improvement patterns:
 - [[llm-as-judge]] — 12 biases affect self-evaluation loops; self-enhancement (16.1%) is the central risk
 - [[agent-memory-architectures]] — memory structures that enable self-improvement
 - [[multi-agent-orchestration]] — Agent KB enables cross-framework knowledge transfer
+- emerge-para: [[autoresearch-reliability-triad]] ON "Reflexion: grounding = testes executáveis (não leitura); Absolute Zero como oracle externo independente"
 
 ## Fontes
 

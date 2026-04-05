@@ -65,9 +65,49 @@ CONEXÃO CANDIDATA:
 
 **Alto:** requer dados externos não disponíveis atualmente, experimento, ou paper que ainda não existe no raw/.
 
+## Passo 2b — Oracle externo (cross-model validation)
+
+Para cada par candidato gerado no Passo 2, chama o oracle externo antes de ordenar:
+
+```bash
+python3 scripts/cross-model-challenge.py --mode auto << 'EOF'
+{
+  "article_a": {
+    "title": "[título]",
+    "summary": "[resumo 2-3 frases]",
+    "mechanism": "[X causa Y via Z]"
+  },
+  "article_b": {
+    "title": "[título]",
+    "summary": "[resumo 2-3 frases]",
+    "mechanism": "[mecanismo análogo]"
+  },
+  "proposed_connection": "[descrição da conexão proposta]",
+  "connection_type": "ANÁLOGO-A | INSTANCIA | EMERGE-DE",
+  "pearl_level": "L1 | L2 | L3"
+}
+EOF
+```
+
+**Resultado do oracle:**
+- `score >= 7` (GENUINE) → par avança para Passo 3
+- `score < 7` (SUPERFICIAL) → par vai para `outputs/reports/emerge-rejected-YYYY-MM-DD.md`
+  com reasoning do oracle. Não entra em `emerge_top_pairs`.
+
+**Se o script falhar** (sem chave de API, sem internet):
+- Registra aviso: "Oracle indisponível — todos os pares avançam sem validação externa"
+- Adiciona flag `oracle_validated: false` em cada par
+- Continua para Passo 3
+
+**Propósito:** o oracle externo é o Pilar 1 do autoresearch-reliability-triad aplicado ao /emerge.
+Sem ele, o mesmo sistema que escreveu os artigos está avaliando a qualidade das conexões entre eles.
+GPT-4o e Gemini têm viés diferente do Claude — concordância entre modelos é sinal mais forte que
+concordância interna.
+
 ## Passo 3 — Ordena candidatos
 
-Ordena por prioridade de verificação (não por impacto contextual — isso é tarefa do /prioritize):
+Ordena apenas pares que passaram no oracle externo (ou todos se oracle indisponível),
+por prioridade de verificação (não por impacto contextual — isso é tarefa do /prioritize):
 
 1. **Pearl level mais alto** (L2 > L1 > L3)
 2. **Espúrio mais baixo** (baixo antes de alto)
@@ -124,6 +164,6 @@ Contexto (Zelox, research) é injetado pelo /prioritize sobre o output do /emerg
 ## Após /emerge completar
 
 Atualize `outputs/state/kb-state.yaml`:
-1. `promoted_since_last_emerge: []` ← reset
+1. `emerge_queue: []` ← reset
 2. `emerge_top_pairs: [novos pares encontrados]` ← lista dos top pares identificados
 3. `last_updated` com data atual

@@ -13,10 +13,10 @@ tags: [agent-architecture, coordination, parallelism]
 source_quality: high
 interpretation_confidence: high
 resolved_patches: []
-reads: 0
+reads: 1
 retrievals_correct: 0
 retrievals_gap: 0
-last_read: null
+last_read: 2026-04-04
 provenance: synthesis
 synthesis_sources:
   - wiki/concepts/autonomous-research-agents.md

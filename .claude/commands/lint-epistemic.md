@@ -173,3 +173,11 @@ Atualize também `corpus.quarantined_articles` se o lint revelou discrepância c
 | synthesis_ratio > 50% em ≥3 artigos | `⚠️ Over-synthesis estrutural. /review com foco em seção Especulação desses artigos.` |
 
 Adicione alertas e gatilhos a `active_triggers` com prioridades correspondentes.
+
+Atualize também `readiness_signal` com base nos resultados do lint:
+- `can_ingest`: true se nenhum alerta crítico; false se quarantine_rate > 20% ou adversarial_gap severo
+- `stance_status`: valor calculado pelo lint (mais preciso que a estimativa do /ingest)
+- `warning`: texto do alerta mais relevante, ou null se tudo ok
+- `next_ingest_candidates`: top 2 da fila com stance compatível com o estado atual
+
+Atualize `next_actions` com base nos gatilhos disparados.

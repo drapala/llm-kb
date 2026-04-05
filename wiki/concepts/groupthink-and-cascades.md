@@ -13,10 +13,10 @@ tags: [psychology, decision-theory, failure-modes, lateral-domain]
 source_quality: high
 interpretation_confidence: medium
 resolved_patches: []
-reads: 0
+reads: 1
 retrievals_correct: 0
 retrievals_gap: 0
-last_read: null
+last_read: 2026-04-04
 provenance: emergence
 emergence_trigger:
   pair: [autonomous-kb-failure-modes, curation-anti-bias]
@@ -110,6 +110,7 @@ The claim "4/5 antecedents present" is strong because the mapping is structural,
 - validates: [[curation-anti-bias]] — /curate adversarial quota = Janis' "norms valuing critical evaluation." Literature validates the approach.
 - validates: [[llm-as-judge]] — self-enhancement bias (CALM) is a MECHANISM for groupthink symptom #5 (self-censorship). The LLM censors dissenting interpretations.
 - explains: [[kb-architecture-patterns]] — 13 inbound links on kb-architecture-patterns = cascade seed (Banerjee: early signals have disproportionate weight)
+- emerge-para: [[autoresearch-reliability-triad]] ON "Banerjee: cascade é racional — solução é estrutura de informação (oracle externo), não remover bias"
 
 ## Fontes
 

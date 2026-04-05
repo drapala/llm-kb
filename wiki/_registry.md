@@ -107,3 +107,15 @@
 | raw/papers/decarolis-2020-procurement-manipulation.md | 2026-04-04 | paper | primary | neutral | procurement-manipulation-signals | stub-wiki |
 | raw/lei/lei-14133-2021-artigos-chave.md | 2026-04-04 | article | primary | neutral | procurement-variety-gap | processed |
 | wiki/concepts/procurement-variety-gap.md | 2026-04-04 | synthesis | primary | neutral | procurement-contract-design,requisite-variety,lei-14133 | processed |
+| wiki/concepts/autoresearch-reliability-triad.md | 2026-04-04 | synthesis | primary | neutral | autonomous-kb-failure-modes,self-improving-agents,groupthink-and-cascades | processed |
+| raw/papers/wald-1945-sprt-sequential-tests.md | 2026-04-04 | paper | primary | neutral | sequential-hypothesis-testing | processed |
+| wiki/concepts/sequential-hypothesis-testing.md | 2026-04-04 | synthesis | primary | neutral | autoresearch-reliability-triad,pac-bayes-bounds,question-taxonomy,fast-frugal-heuristics | processed |
+| raw/papers/lu-2024-ai-scientist-autonomous-research.md | 2026-04-04 | paper | primary | neutral | ai-scientist-autonomous-research | processed |
+| wiki/concepts/ai-scientist-autonomous-research.md | 2026-04-04 | synthesis | primary | neutral | autoresearch-reliability-triad,autonomous-research-agents,self-improving-agents,sequential-hypothesis-testing | processed |
+| raw/lei/tcu-manual-licitacoes-contratos-5ed-2024.md | 2026-04-05 | article | primary | confirming | procurement-variety-gap,superespecificacao-jurisprudencia | processed |
+| raw/papers/yu-2026-multi-agent-memory-architecture.md | 2026-04-05 | paper | primary | neutral | multi-agent-memory-consistency,agent-memory-architectures,single-brain-data-ontology | processed |
+| wiki/concepts/multi-agent-memory-consistency.md | 2026-04-05 | synthesis | primary | neutral | agent-memory-architectures,single-brain-data-ontology,multi-agent-orchestration,complementary-learning-systems | processed |
+| raw/papers/rezazadeh-2025-collaborative-memory-access-control.md | 2026-04-05 | paper | primary | neutral | collaborative-memory-access-control,single-brain-data-ontology,multi-agent-memory-consistency | processed |
+| wiki/concepts/collaborative-memory-access-control.md | 2026-04-05 | source | primary | neutral | single-brain-data-ontology,multi-agent-memory-consistency,agent-memory-architectures,multi-agent-orchestration | processed |
+| raw/papers/liu-2026-graphanchor-knowledge-indexing.md | 2026-04-05 | paper | primary | neutral | graph-anchored-iterative-retrieval,retrieval-augmented-generation,hybrid-search | processed |
+| wiki/concepts/graph-anchored-iterative-retrieval.md | 2026-04-05 | source | primary | neutral | agent-memory-architectures,hybrid-search,retrieval-augmented-generation,single-brain-phase1-design | processed |

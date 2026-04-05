@@ -13,10 +13,10 @@ tags: [decision-theory, bias-variance, ecological-rationality, less-is-more]
 source_quality: high
 interpretation_confidence: medium
 resolved_patches: []
-reads: 0
+reads: 1
 retrievals_correct: 0
 retrievals_gap: 0
-last_read: null
+last_read: 2026-04-04
 provenance: emergence
 emergence_trigger:
   pair: [self-improving-agents, autonomous-kb-failure-modes]

@@ -171,3 +171,13 @@ Atualize `outputs/state/kb-state.yaml`:
 1. `ingest_count_since_last_lint += 1`
 2. `sessions_since_last_dream += 1`
 3. `last_updated` com data atual
+4. Atualize `readiness_signal`:
+   - Recalcule `stance_status` com base no total atual de fontes por stance no _registry.md
+   - Se stance challenging < 20%: `can_ingest: true`, `warning: "stance baixo — busque fonte challenging"`
+   - Se stance challenging 20-25%: `can_ingest: true`, `warning: null` (ou "marginal" se próximo de 25%)
+   - Se stance challenging > 25%: `can_ingest: true`, `stance_status: "saudável"`
+   - Atualize `next_ingest_candidates` com os itens do topo de `ingest_queue_priority` e `ingest_queue_autoresearch`
+5. Atualize `next_actions`:
+   - Se artigo criado entrou em quarentena: adicione `/promote [artigo]` (blocked até 24h)
+   - Se `ingest_count_since_last_lint >= 5`: adicione `/lint-epistemic`
+   - Remova da fila `ingest_queue_priority` o item que acabou de ser ingerido

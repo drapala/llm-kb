@@ -10,10 +10,10 @@ tags: [deep-research, agent-pipeline, survey]
 source_quality: high
 interpretation_confidence: medium
 resolved_patches: []
-reads: 0
+reads: 1
 retrievals_correct: 0
 retrievals_gap: 0
-last_read: null
+last_read: 2026-04-04
 provenance: source
 ---
 
@@ -100,6 +100,8 @@ Karpathy's follow-up tweet ("every question spawns a team of LLMs to construct a
 - [[hybrid-search]] — web exploration stage benefits from hybrid retrieval approaches
 - [[llm-knowledge-base]] — persistent KB is a durable instance of what deep research does ephemerally
 - [[self-improving-agents]] — pipeline could use Reflexion for iterative query refinement
+- emerge-para: [[autoresearch-reliability-triad]] ON "pipeline de busca não é experimento — 'explore' recupera evidência existente, não gera evidência nova"
+- instanceOf: [[ai-scientist-autonomous-research]] ON "AI Scientist = implementação concreta do pipeline end-to-end que Deep Research survey descreve em abstract"
 
 ## Fontes
 

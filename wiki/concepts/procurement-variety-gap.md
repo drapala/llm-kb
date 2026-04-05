@@ -11,10 +11,14 @@ sources:
     type: article
     quality: primary
     stance: neutral
+  - path: raw/lei/tcu-manual-licitacoes-contratos-5ed-2024.md
+    type: article
+    quality: primary
+    stance: confirming
 created: 2026-04-04
-updated: 2026-04-04
+updated: 2026-04-05
 tags: [procurement, ashby, variety, brasil, lei-14133, lei-8666, b2g, zelox, regulatory-design, contratacao-integrada]
-source_quality: medium
+source_quality: high
 interpretation_confidence: medium
 resolved_patches:
   - date: 2026-04-04
@@ -108,7 +112,9 @@ Controle perfeito (V(O) = 1) requer V(R) ≥ V(D). Se V(R) < V(D): as perturbaç
 
 TCU (Tribunal de Contas da União) historicamente penaliza especificações "vagas" como indicador de corrupção em licitações. Gestores que usam contratação integrada com Anteprojeto funcional (alto V(R)) são vulneráveis a questionamentos se o projeto executivo difere substancialmente do anteprojeto — mesmo que a diferença seja tecnicamente justificada e esperada.
 
-**Confirmação empírica do mecanismo (licitacoesecontratos.tcu.gov.br):** O anteprojeto obrigatório exige 10 elementos, incluindo "levantamento topográfico e cadastral, pareceres de sondagem, memorial descritivo dos elementos construtivos" — nível de detalhe que codifica a superespecificação. A jurisprudência TCU estabelece que "aditamentos são ilegais quando baseados em erros do anteprojeto" — o que paradoxalmente incentiva gestores a superespecificar o anteprojeto para eliminar a possibilidade de "erros" que gerem aditivos questionáveis. O mecanismo de segunda ordem é, portanto, parcialmente gerado pela própria jurisprudência do TCU que deveria prevenir corrupção.
+**Confirmação formal (TCU Manual 5ª Ed., 2024):** O anteprojeto obrigatório exige 10 elementos (Art. 6º, XXIV, Lei 14.133/2021), incluindo "levantamento topográfico e cadastral, pareceres de sondagem, memorial descritivo dos elementos construtivos" — nível de detalhe que codifica a superespecificação. Acórdãos 2.591/2017, 622/2018 e 544/2021 (Plenário) consolidam que "aditamentos são ilegais quando baseados em erros do anteprojeto" — o que paradoxalmente incentiva gestores a superespecificar o anteprojeto para eliminar a possibilidade de "erros" que gerem aditivos questionáveis. O mecanismo de segunda ordem é, portanto, parcialmente gerado pela própria jurisprudência do TCU que deveria prevenir corrupção.
+
+**Jurisprudência paralela — superespecificação em licitações gerais:** O TCU penaliza igualmente a superespecificação em sentido contrário (especificações excessivamente onerosas que restringem competitividade). Acórdão 898/2021-Plenário: "o que não se admite é o estabelecimento de condições que restrinjam o caráter competitivo das licitações em razão de circunstância impertinente ou irrelevante para o específico objeto do contrato." Acórdão 2129/2021-Plenário: exigência de certificações sem "demonstração da essencialidade" é irregular. Acórdão 1496/2015-Plenário (TI): tanto especificações excessivas quanto insuficientes são irregulares. **Princípio TCU:** restrição é inerente à especificação; o ilegal é restringir por razão impertinente ao objeto.
 
 **Resultado:** Incentivo burocrático é superespecificar o Anteprojeto para reduzir risco de auditoria → o Anteprojeto se torna equivalente ao projeto básico da 8.666 → ganho de V(R) da lei é anulado na prática.
 
@@ -117,6 +123,21 @@ Este mecanismo de segunda ordem cria um **equilíbrio de Nash perverso:**
 - Gestor que superespecifica → protegido de auditoria + aditivos são esperados
 
 A lei aumenta V(R) formal. A estrutura de incentivos de auditoria reduz V(R) efetivo de volta ao nível da 8.666. **Este mecanismo não é endereçado por nenhum dispositivo da Lei 14.133.**
+
+#### Critério ANSP — teste operacional para especificações
+
+Derivado jurisprudencial do TCU (Acórdão 1417/2008-Plenário), aplicável a qualquer exigência editalícia:
+
+| Predicado | Pergunta operacional |
+|-----------|---------------------|
+| **Adequado** | A exigência é tecnicamente compatível com o objeto? |
+| **Necessário** | Sem essa exigência, o objeto não seria entregue com qualidade? |
+| **Suficiente** | A exigência captura o que precisa, sem ir além? |
+| **Pertinente** | Tem relação direta com o objeto específico (não genérica)? |
+
+Falha em qualquer predicado → irregularidade potencial = fundamento para impugnação.
+
+⚠️ Interpretação do compilador: O critério ANSP pode ser usado como test operacional para distinguir anteprojeto funcional legítimo (alto V(R), todos os predicados satisfeitos) de superespecificação burocrática (V(R) artificial baixo, Suficiência e Pertinência violadas).
 
 ## Especulação
 
@@ -149,4 +170,5 @@ A lei aumenta V(R) formal. A estrutura de incentivos de auditoria reduz V(R) efe
 - [[procurement-contract-design]] — FP vs C+ de Bajari-Tadelis; Lei 8.666 como mandato de FP; aditivos estruturalmente inevitáveis
 - [[requisite-variety]] — V(R)/V(D); error floor; regulador passivo vs ativo; "only variety can destroy variety"
 - [Lei 14.133/2021 — Artigos-chave](../../raw/lei/lei-14133-2021-artigos-chave.md) — Arts. 6 (definições), 22 (matriz de risco), 46 (regimes de execução), 125 (limite 25%). Fonte: TCE-SP + licitacoesecontratos.tcu.gov.br
+- [TCU Manual de Licitações 5ª Ed. (2024)](../../raw/lei/tcu-manual-licitacoes-contratos-5ed-2024.md) — Jurisprudência sobre superespecificação (Acórdãos 898/2021, 2129/2021, 1496/2015, 1417/2008); seção 4.4.2 anteprojeto funcional; Critério ANSP; confirmação dos Acórdãos 2.591/2017, 622/2018, 544/2021 sobre rigidez de aditivos
 - [Log /ask](../../outputs/logs/sessions/2026-04-04/ask-18-33.md) — sessão que descobriu a conexão e gerou a análise mecanismo-a-mecanismo da Lei 14.133

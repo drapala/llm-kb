@@ -33,8 +33,12 @@ updated: 2026-04-03
 tags: [meta-kb, failure-analysis, safety, original-insight]
 source_quality: high
 interpretation_confidence: medium
-resolved_patches: []
-reads: 1
+resolved_patches:
+  - date: 2026-04-05
+    original: "[patch: novo failure mode — List & Pettit 2002]"
+    incorporated_as: "Failure Mode 5 — Judgment Aggregation Impossibility, adicionado a ## Gaps não resolvidos / Especulação"
+    source: judgment-aggregation
+reads: 2
 retrievals_correct: 0
 retrievals_gap: 0
 last_read: 2026-04-04
@@ -144,7 +148,7 @@ This means Layer 3 is necessary but insufficient. It catches factual errors (wro
 
 The blueprint's existing mechanisms (raw/ immutable, patches humanos, retrieval cético, confidence scoring) are correct — but they were designed as **guardrails with human in the loop**. Without human, the agent can satisfy all rules while circumventing their intent: verify raw/ and agree with itself, assign high confidence to own work, resolve tensions "following protocol."
 
-The fix is not more rules — it's **external ground truth**. At least one verification channel must be independent of the LLM that maintains the wiki. Concretely, this means either: (1) a different model for /review than for /ingest, (2) human spot-checks, or (3) executable validation (tests, type-checks, API calls that return ground truth).
+The fix is not more rules — it's **external ground truth** (most reliable option). At least one verification channel must be independent of the LLM that maintains the wiki. ⚠️ Caveata pós-challenge: S2R (ACL 2025) propõe self-verification treinável que pode mitigar parcialmente — "only fix" é forte demais; "most reliable fix" é mais preciso. Concretely, this means either: (1) a different model for /review than for /ingest, (2) human spot-checks, or (3) executable validation (tests, type-checks, API calls that return ground truth).
 
 ### Multiagent Debate as Middle Ground
 
@@ -179,7 +183,7 @@ Du et al. (2023) propose a fourth option: multiagent debate. Multiple LLM instan
 - No empirical data on actual KB degradation rates exists
 - Whether multiagent debate actually mitigates self-enhancement in KB review is untested
 - The 40-60 ERL threshold is extrapolated from agent tasks to wiki management — domain transfer not validated
-- **[patch: novo failure mode — List & Pettit 2002]** Majority voting on individual claims cannot simultaneously satisfy (a) anonymity, (b) systematicity, and (c) logical consistency of collective judgments (Theorem 1, judgment-aggregation). Multi-compiler KB using claim-by-claim voting can be internally inconsistent even when each compiler is individually consistent — structural impossibility, not fixable by better prompting.
+- **Failure Mode 5 — Judgment Aggregation Impossibility (multi-compiler):** Majority voting on individual claims cannot simultaneously satisfy (a) anonymity, (b) systematicity, and (c) logical consistency of collective judgments (List & Pettit 2002, Theorem 1). KB with multiple compilers voting claim-by-claim can be internally inconsistent even when each compiler is individually consistent — structural impossibility, not fixable by better prompting. Fonte: [[judgment-aggregation]].
 
 ## Conexões
 
@@ -191,6 +195,7 @@ Du et al. (2023) propose a fourth option: multiagent debate. Multiple LLM instan
 - [[raptor-vs-flat-retrieval]] — ERL's 40-60 item selection limit applies to both semantic convergence detection and index scaling thresholds
 - [[reflexion-weighted-knowledge-graphs]] — adaptive topology could mitigate failure mode 1 if edge weights incorporate external signal
 - contradicts: [[judgment-aggregation]] ON "claim-level voting in multi-compiler KB → structural logical inconsistency (Theorem 1)"
+- emerge-para: [[autoresearch-reliability-triad]] ON "Layer 3 Circularity Problem como um dos três mecanismos de falha convergentes"
 
 
 ## Fontes
