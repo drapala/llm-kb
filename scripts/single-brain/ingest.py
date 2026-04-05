@@ -3,7 +3,7 @@
 Single Brain — Phase 1 ingest pipeline.
 
 Reads wiki/concepts/*.md → chunks with MarkdownNodeParser →
-embeds with nomic-embed-text (Ollama) → stores in LanceDB.
+merges small chunks → embeds with nomic-embed-text (Ollama) → stores in LanceDB.
 
 Usage:
     python scripts/single-brain/ingest.py              # ingest all
@@ -31,6 +31,8 @@ DB_PATH = ROOT / "outputs" / "single-brain" / "db"
 EMBED_MODEL = "nomic-embed-text"
 EMBED_DIMS = 768
 TABLE_NAME = "fragments"
+MIN_CHUNK_TOKENS = 50  # chunks below this are merged into the previous one
+MAX_CHUNK_TOKENS = 400  # soft ceiling — chunks above this are kept as-is (no split)
 
 
 def parse_frontmatter(text: str) -> tuple[dict, str]:
@@ -66,6 +68,24 @@ def embed(text: str) -> list[float]:
     return response["embedding"]
 
 
+def merge_small_chunks(texts: list[str]) -> list[str]:
+    """
+    Merge chunks smaller than MIN_CHUNK_TOKENS into the previous chunk.
+    A chunk that is only a heading line is always merged forward.
+    """
+    merged: list[str] = []
+    for text in texts:
+        tokens = len(text.split())
+        is_heading_only = bool(
+            __import__("re").match(r"^#{1,4} .{0,80}$", text.strip())
+        )
+        if merged and (tokens < MIN_CHUNK_TOKENS or is_heading_only):
+            merged[-1] = merged[-1].rstrip() + "\n\n" + text
+        else:
+            merged.append(text)
+    return [t for t in merged if t.strip()]
+
+
 def ingest_file(path: Path, table, dry_run: bool = False) -> int:
     text = path.read_text()
     fm, body = parse_frontmatter(text)
@@ -80,16 +100,17 @@ def ingest_file(path: Path, table, dry_run: bool = False) -> int:
 
     doc = Document(text=body, metadata={"source": str(path.relative_to(ROOT))})
     nodes = MarkdownNodeParser().get_nodes_from_documents([doc])
+    raw_texts = [n.get_content() for n in nodes]
+    chunks = merge_small_chunks(raw_texts)
 
     if dry_run:
-        print(f"  {path.name} → {len(nodes)} chunks [{network}]")
-        return len(nodes)
+        print(
+            f"  {path.name} → {len(raw_texts)} raw → {len(chunks)} merged [{network}]"
+        )
+        return len(chunks)
 
     rows = []
-    for i, node in enumerate(nodes):
-        content = node.get_content()
-        if len(content.strip()) < 20:
-            continue
+    for i, content in enumerate(chunks):
         rows.append(
             {
                 "id": fragment_id(str(path.relative_to(ROOT)), i),
