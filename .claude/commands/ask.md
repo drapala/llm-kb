@@ -43,31 +43,50 @@ Antes de processar, verifique: a pergunta pressupõe uma resposta?
 - "Quais melhorias aplicar?" → pressupõe que melhorias são necessárias. Reformular: "A KB precisa de melhorias neste ponto?"
 Se a pergunta é direcional, sugira reformulação aberta antes de processar.
 
-O usuário faz uma pergunta. Para responder, siga as 3 camadas de retrieval:
+O usuário faz uma pergunta. Para responder, siga as 4 camadas de retrieval:
 
-Layer 1 — Orientação:
+Layer 0 — Vector Search (PRIMEIRO, antes de ler qualquer arquivo):
+Chame o MCP tool `kb_search` com a query do usuário:
+```
+kb_search(query="<pergunta do usuário>", limit=5)
+```
+Se o MCP tool não estiver disponível, use o fallback:
+```bash
+source .venv/bin/activate && python -c "
+import sys, json; sys.path.insert(0, '.')
+from api.core import search
+results = search('<query>', limit=5)
+print(json.dumps([{'title': r['title'], 'source': r['source'].split('/')[-1], 'score': round(r['score'],4)} for r in results], indent=2))
+"
+```
+Resultado: lista rankeada de artigos candidatos. Estes são os candidatos **primários** para Layer 2.
+- Se nenhum resultado com score relevante: indício de gap — anote e continue com Layer 1.
+- Não leia os artigos ainda — Layer 0 só identifica, Layer 2 lê.
+
+Layer 1 — Orientação global:
 1. Leia wiki/_index.md inteiro (~150 chars por artigo, leve)
-2. Identifique os 5-10 artigos mais relevantes pelos ponteiros
+2. Verifique se Layer 0 perdeu algum artigo obviamente relevante
+3. Adicione no máximo 2 suplementos ao conjunto de candidatos
+   (Layer 0 já fez o trabalho pesado — Layer 1 é checagem, não candidatura)
 
 Layer 2 — Profundidade:
-3. Leia esses artigos em wiki/concepts/
-4. Trate o wiki como HINT, não como verdade
-4b. **Quarantine check:** Se um artigo selecionado tem `quarantine: true`,
+4. Leia os artigos de Layer 0 + suplementos de Layer 1 em wiki/concepts/
+5. Trate o wiki como HINT, não como verdade
+5b. **Quarantine check:** Se um artigo selecionado tem `quarantine: true`,
     leia-o MAS prefixe TODOS os claims dele com "⚠️ artigo em quarentena —
     claims especulativos." Não ignore — informação especulativa é útil se
     rotulada. Não trate como igual a artigos promovidos.
-5. **Circuit breaker:** Se nenhum dos 5-10 artigos candidatos for relevante
-   para a pergunta, PARE e reporte como gap. Não tente ler raw/ inteiro
-   como fallback — isso é desperdício de contexto, não verificação.
+6. **Circuit breaker:** Se nenhum dos candidatos for relevante para a pergunta,
+   PARE e reporte como gap. Não tente ler raw/ inteiro como fallback.
 
 Layer 3 — Verificação:
-6. Para claims importantes: vá à fonte original em raw/ para verificar.
+7. Para claims importantes: vá à fonte original em raw/ para verificar.
    Se wiki contradiz raw/, raw/ vence.
-7. Sintetize resposta
+8. Sintetize resposta
 
 Formato obrigatório:
 - **Resposta** — direto ao ponto
-- **Fontes wiki** — [[wikilinks]] dos artigos usados
+- **Fontes wiki** — [[wikilinks]] dos artigos usados (marque com `[L0]` os vindos do vector search, `[L1]` os adicionados pelo _index.md)
 - **Fontes raw verificadas** — links para raw/ quando claims foram checados na origem
 - **Confiança** — alta/média/baixa baseada na cobertura E verificação
 - **Gaps** — o que o wiki não cobre e que fonte o usuário deveria adicionar
