@@ -2,17 +2,23 @@
 """
 Single Brain — Phase 1 ingest pipeline.
 
-Reads wiki/concepts/*.md → chunks with MarkdownNodeParser →
-merges small chunks → embeds with nomic-embed-text (Ollama) → stores in LanceDB.
+Pipeline:
+  1. MarkdownNodeParser — split on headings, preserve section hierarchy
+  2. SentenceSplitter   — cap chunks > MAX_CHUNK_WORDS (soft ceiling)
+  3. merge_small_chunks — eliminate tiny/heading-only fragments
+  4. contextual_prefix  — prepend "title | section" to embed input only
+  5. embed              — paraphrase-multilingual via Ollama (128-token ctx)
+  6. store              — LanceDB fragments table
 
 Usage:
     python scripts/single-brain/ingest.py              # ingest all
     python scripts/single-brain/ingest.py --dry-run    # preview only
-    python scripts/single-brain/ingest.py --file wiki/concepts/agent-memory-architectures.md
+    python scripts/single-brain/ingest.py --file wiki/concepts/foo.md
 """
 
 import argparse
 import hashlib
+import re
 from datetime import date
 from pathlib import Path
 
@@ -20,23 +26,25 @@ import lancedb
 import ollama
 import yaml
 from llama_index.core import Document
-from llama_index.core.node_parser import MarkdownNodeParser
+from llama_index.core.node_parser import MarkdownNodeParser, SentenceSplitter
 
-# ── Paths ────────────────────────────────────────────────────────────────────
+# ── Paths ─────────────────────────────────────────────────────────────────────
 ROOT = Path(__file__).parent.parent.parent
 WIKI_DIR = ROOT / "wiki" / "concepts"
 DB_PATH = ROOT / "outputs" / "single-brain" / "db"
 
-# ── Config ───────────────────────────────────────────────────────────────────
+# ── Config ────────────────────────────────────────────────────────────────────
 EMBED_MODEL = "paraphrase-multilingual"
 EMBED_DIMS = 768
 TABLE_NAME = "fragments"
-MIN_CHUNK_TOKENS = 50  # chunks below this are merged into the previous one
-MAX_CHUNK_TOKENS = 400  # soft ceiling — chunks above this are kept as-is (no split)
+MIN_CHUNK_WORDS = 50  # merge chunks smaller than this into previous
+MAX_CHUNK_WORDS = 300  # SentenceSplitter kicks in above this
+
+
+# ── Text helpers ──────────────────────────────────────────────────────────────
 
 
 def parse_frontmatter(text: str) -> tuple[dict, str]:
-    """Split YAML frontmatter from markdown body."""
     if not text.startswith("---"):
         return {}, text
     parts = text.split("---", 2)
@@ -49,13 +57,98 @@ def parse_frontmatter(text: str) -> tuple[dict, str]:
     return fm, parts[2].strip()
 
 
-def determine_network(fm: dict) -> str:
-    """Map frontmatter to Hindsight network namespace."""
-    if fm.get("quarantine"):
-        return "opinion"  # speculative — not yet validated
-    if fm.get("provenance") == "emergence":
-        return "opinion"  # emerged but promoted
-    return "observation"  # compiled, promoted knowledge
+def extract_section(text: str) -> str:
+    """Return the leading heading of a markdown chunk, stripped of # markers."""
+    m = re.match(r"^#{1,4}\s+(.+)", text.strip())
+    return m.group(1).strip() if m else ""
+
+
+def strip_markdown(text: str) -> str:
+    """Remove markdown syntax before embedding — preserves semantics, reduces token count."""
+    text = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", text)  # [label](url) → label
+    text = re.sub(r"https?://\S+", "", text)  # bare URLs
+    text = re.sub(r"!\[.*?\]\(.*?\)", "", text)  # images
+    text = re.sub(r"^\|.*\|$", "", text, flags=re.M)  # table rows
+    text = re.sub(r"^#{1,6}\s*", "", text, flags=re.M)  # headings
+    text = re.sub(r"[*_`~]{1,3}", "", text)  # bold/italic/code
+    text = re.sub(r"\[\[([^\]]+)\]\]", r"\1", text)  # wikilinks
+    text = re.sub(r"\s+", " ", text).strip()
+    return text
+
+
+# ── Chunking ──────────────────────────────────────────────────────────────────
+
+
+def merge_small_chunks(chunks: list[str]) -> list[str]:
+    """Merge chunks < MIN_CHUNK_WORDS (or heading-only) into the previous chunk."""
+    merged: list[str] = []
+    for text in chunks:
+        is_heading_only = bool(re.match(r"^#{1,4} .{0,80}$", text.strip()))
+        if merged and (len(text.split()) < MIN_CHUNK_WORDS or is_heading_only):
+            merged[-1] = merged[-1].rstrip() + "\n\n" + text
+        else:
+            merged.append(text)
+    return [t for t in merged if t.strip()]
+
+
+def split_large_chunks(chunks: list[str]) -> list[str]:
+    """Apply SentenceSplitter to chunks that exceed MAX_CHUNK_WORDS."""
+    splitter = SentenceSplitter(chunk_size=MAX_CHUNK_WORDS, chunk_overlap=30)
+    result = []
+    for text in chunks:
+        if len(text.split()) <= MAX_CHUNK_WORDS:
+            result.append(text)
+        else:
+            doc = Document(text=text)
+            nodes = splitter.get_nodes_from_documents([doc])
+            result.extend(n.get_content() for n in nodes if n.get_content().strip())
+    return result
+
+
+def chunk_document(body: str) -> list[tuple[str, str]]:
+    """
+    Returns list of (section, content) tuples.
+    section = heading text leading the chunk (empty string if none).
+    """
+    doc = Document(text=body)
+    nodes = MarkdownNodeParser().get_nodes_from_documents([doc])
+    raw = [n.get_content() for n in nodes]
+    chunks = merge_small_chunks(raw)
+    chunks = split_large_chunks(chunks)
+
+    result = []
+    for chunk in chunks:
+        section = extract_section(chunk)
+        result.append((section, chunk))
+    return result
+
+
+# ── Embedding ─────────────────────────────────────────────────────────────────
+
+
+def embed(content: str, title: str = "", section: str = "") -> list[float]:
+    """
+    Embed with contextual prefix (title | section) prepended.
+    Strips markdown, then progressively truncates to fit paraphrase-multilingual
+    128-token context window.
+    """
+    prefix = title
+    if section:
+        prefix = f"{title} | {section}"
+
+    clean = strip_markdown(f"{prefix}\n\n{content}" if prefix else content)
+    words = clean.split()
+
+    for limit in [40, 30, 20, 10]:
+        prompt = " ".join(words[:limit]) if len(words) > limit else clean
+        try:
+            return ollama.embeddings(model=EMBED_MODEL, prompt=prompt)["embedding"]
+        except Exception:
+            continue
+    raise RuntimeError(f"embed failed at 10 words: {repr(clean[:80])}")
+
+
+# ── DB helpers ────────────────────────────────────────────────────────────────
 
 
 def fragment_id(source_path: str, chunk_index: int) -> str:
@@ -63,100 +156,12 @@ def fragment_id(source_path: str, chunk_index: int) -> str:
     return hashlib.sha256(key.encode()).hexdigest()[:16]
 
 
-def _strip_markdown(text: str) -> str:
-    """Remove markdown syntax before embedding — reduces token count, preserves semantics."""
-    import re
-
-    text = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", text)  # [label](url) → label
-    text = re.sub(r"https?://\S+", "", text)  # bare URLs
-    text = re.sub(r"!\[.*?\]\(.*?\)", "", text)  # images
-    text = re.sub(r"^\|.*\|$", "", text, flags=re.M)  # table rows
-    text = re.sub(r"^#{1,6}\s*", "", text, flags=re.M)  # headings
-    text = re.sub(r"[*_`~]{1,3}", "", text)  # bold/italic/code
-    text = re.sub(r"\[\[([^\]]+)\]\]", r"\1", text)  # wikilinks [[x]] → x
-    text = re.sub(r"\s+", " ", text).strip()
-    return text
-
-
-def embed(text: str) -> list[float]:
-    # Strip markdown first; progressively truncate until within paraphrase-multilingual ctx (128t)
-    clean = _strip_markdown(text)
-    words = clean.split()
-    for limit in [40, 30, 20, 10]:
-        prompt = " ".join(words[:limit]) if len(words) > limit else clean
-        try:
-            return ollama.embeddings(model=EMBED_MODEL, prompt=prompt)["embedding"]
-        except Exception:
-            continue
-    raise RuntimeError(f"embed failed even at 10 words: {repr(clean[:80])}")
-
-
-def merge_small_chunks(texts: list[str]) -> list[str]:
-    """
-    Merge chunks smaller than MIN_CHUNK_TOKENS into the previous chunk.
-    A chunk that is only a heading line is always merged forward.
-    """
-    merged: list[str] = []
-    for text in texts:
-        tokens = len(text.split())
-        is_heading_only = bool(
-            __import__("re").match(r"^#{1,4} .{0,80}$", text.strip())
-        )
-        if merged and (tokens < MIN_CHUNK_TOKENS or is_heading_only):
-            merged[-1] = merged[-1].rstrip() + "\n\n" + text
-        else:
-            merged.append(text)
-    return [t for t in merged if t.strip()]
-
-
-def ingest_file(path: Path, table, dry_run: bool = False) -> int:
-    text = path.read_text()
-    fm, body = parse_frontmatter(text)
-
-    if not body.strip():
-        print(f"  skip {path.name} — empty body")
-        return 0
-
-    network = determine_network(fm)
-    title = fm.get("title", path.stem)
-    created = str(fm.get("created", date.today()))
-
-    doc = Document(text=body, metadata={"source": str(path.relative_to(ROOT))})
-    nodes = MarkdownNodeParser().get_nodes_from_documents([doc])
-    raw_texts = [n.get_content() for n in nodes]
-    chunks = merge_small_chunks(raw_texts)
-
-    if dry_run:
-        print(
-            f"  {path.name} → {len(raw_texts)} raw → {len(chunks)} merged [{network}]"
-        )
-        return len(chunks)
-
-    rows = []
-    for i, content in enumerate(chunks):
-        rows.append(
-            {
-                "id": fragment_id(str(path.relative_to(ROOT)), i),
-                "content": content,
-                "vector": embed(content),
-                "network": network,
-                "source": str(path.relative_to(ROOT)),
-                "title": title,
-                "created": created,
-                "agent": "ingest-script-v1",
-            }
-        )
-
-    if rows:
-        # Delete existing fragments from this source (update = delete + reinsert)
-        try:
-            table.delete(f"source = '{path.relative_to(ROOT)}'")
-        except Exception:
-            pass
-        table.add(rows)
-
-    print(f"  {path.name} → {len(rows)} chunks [{network}]")
-    return len(rows)
+def determine_network(fm: dict) -> str:
+    if fm.get("quarantine"):
+        return "opinion"
+    if fm.get("provenance") == "emergence":
+        return "opinion"
+    return "observation"
 
 
 def get_or_create_table(db):
@@ -166,6 +171,7 @@ def get_or_create_table(db):
         [
             pa.field("id", pa.string()),
             pa.field("content", pa.string()),
+            pa.field("section", pa.string()),
             pa.field("vector", pa.list_(pa.float32(), EMBED_DIMS)),
             pa.field("network", pa.string()),
             pa.field("source", pa.string()),
@@ -180,41 +186,93 @@ def get_or_create_table(db):
     return db.create_table(TABLE_NAME, schema=schema)
 
 
+# ── Ingest ────────────────────────────────────────────────────────────────────
+
+
+def ingest_file(path: Path, table, dry_run: bool = False) -> int:
+    text = path.read_text()
+    fm, body = parse_frontmatter(text)
+
+    if not body.strip():
+        print(f"  skip {path.name} — empty body")
+        return 0
+
+    network = determine_network(fm)
+    title = fm.get("title", path.stem)
+    created = str(fm.get("created", date.today()))
+    chunks = chunk_document(body)
+
+    if dry_run:
+        print(f"  {path.name} → {len(chunks)} chunks [{network}]")
+        for sec, c in chunks[:3]:
+            prefix = f"[{sec[:30]}] " if sec else ""
+            print(f"    {prefix}{len(c.split())}w")
+        return len(chunks)
+
+    source = str(path.relative_to(ROOT))
+    rows = []
+    for i, (section, content) in enumerate(chunks):
+        rows.append(
+            {
+                "id": fragment_id(source, i),
+                "content": content,
+                "section": section,
+                "vector": embed(content, title=title, section=section),
+                "network": network,
+                "source": source,
+                "title": title,
+                "created": created,
+                "agent": "ingest-v2",
+            }
+        )
+
+    if rows:
+        try:
+            table.delete(f"source = '{source}'")
+        except Exception:
+            pass
+        table.add(rows)
+
+    print(f"  {path.name} → {len(rows)} chunks [{network}]")
+    return len(rows)
+
+
 def hub_order(paths: list[Path]) -> list[Path]:
-    """Sort by in-degree from _registry.md (hubs first)."""
     registry = ROOT / "wiki" / "_registry.md"
     if not registry.exists():
         return paths
-
     text = registry.read_text()
-
-    def count_refs(p: Path) -> int:
-        return text.count(p.stem)
-
-    return sorted(paths, key=count_refs, reverse=True)
+    return sorted(paths, key=lambda p: text.count(p.stem), reverse=True)
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--file", type=Path)
+    parser.add_argument(
+        "--rebuild",
+        action="store_true",
+        help="Drop and recreate table (needed after schema change)",
+    )
     args = parser.parse_args()
 
     db = lancedb.connect(str(DB_PATH))
+
+    if args.rebuild and not args.dry_run:
+        if TABLE_NAME in db.table_names():
+            db.drop_table(TABLE_NAME)
+            print(f"Dropped table '{TABLE_NAME}'")
+
     table = None if args.dry_run else get_or_create_table(db)
 
-    if args.file:
-        paths = [args.file]
-    else:
-        paths = hub_order(list(WIKI_DIR.glob("*.md")))
+    paths = [args.file] if args.file else hub_order(list(WIKI_DIR.glob("*.md")))
 
-    total_chunks = 0
+    total = 0
     print(f"{'DRY RUN — ' if args.dry_run else ''}Ingesting {len(paths)} articles...")
-
     for path in paths:
-        total_chunks += ingest_file(path, table, dry_run=args.dry_run)
+        total += ingest_file(path, table, dry_run=args.dry_run)
 
-    print(f"\n✓ {len(paths)} articles → {total_chunks} chunks stored in {DB_PATH}")
+    print(f"\n✓ {len(paths)} articles → {total} chunks in {DB_PATH}")
 
 
 if __name__ == "__main__":
