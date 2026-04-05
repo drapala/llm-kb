@@ -2,48 +2,61 @@
 """
 cross-model-challenge.py — Oracle externo para validação de pares emergentes.
 
-Resolve o Pilar 1 do autoresearch-reliability-triad: usa modelo independente
-(GPT-4o ou Gemini) para avaliar se uma conexão entre dois artigos da KB é
-estrutural (genuína) ou superficial (analogia enganosa).
+Resolve o Pilar 1 do autoresearch-reliability-triad: requer unanimidade entre
+GPT-5.4 Thinking (OpenAI) e Gemini 3.1 Pro Preview (Google) para validar
+uma conexão como estrutural (genuína) vs. superficial (analogia enganosa).
+
+Design epistêmico:
+- Thinking models para multi-hop reasoning, não apenas pattern matching
+- Unanimidade obrigatória: ambos GENUINE para passar (threshold >= 7 cada)
+- Claim isolado: judges recebem apenas mecanismos abstratos + claim, sem
+  títulos de artigos nem contexto da KB — evita anchoring (ver curse-of-knowledge)
+- Training data overlap mitigation: dar o mesmo contexto do wiki voltaria
+  ao bias que o oracle deve prevenir
 
 Uso:
   echo '{"pair": {...}}' | python3 scripts/cross-model-challenge.py
   python3 scripts/cross-model-challenge.py --file /tmp/pair.json
+  python3 scripts/cross-model-challenge.py --mode openai --file /tmp/pair.json
   python3 scripts/cross-model-challenge.py --mode gemini --file /tmp/pair.json
 
 Input JSON (stdin ou --file):
 {
-  "article_a": {
-    "title": "...",
-    "summary": "...",       # 2-3 frases do artigo
-    "mechanism": "..."      # X causa Y via Z
-  },
-  "article_b": {
-    "title": "...",
-    "summary": "...",
-    "mechanism": "..."
-  },
-  "proposed_connection": "...",   # descrição da conexão proposta
+  "mechanism_a": "...",            # X causa Y via Z (sem título, sem resumo do artigo)
+  "mechanism_b": "...",            # análogo em domínio diferente
+  "proposed_connection": "...",    # o claim estrutural isolado
   "connection_type": "ANÁLOGO-A | INSTANCIA | EMERGE-DE",
   "pearl_level": "L1 | L2 | L3"
 }
 
-Output JSON (stdout):
+Compatibilidade retroativa: se "article_a"/"article_b" presentes, extrai
+apenas o campo "mechanism" de cada um.
+
+Output JSON (stdout) — modo unanimous:
+{
+  "verdict": "GENUINE | SUPERFICIAL | SPLIT",
+  "unanimous": true|false,
+  "openai": { "score": 1-10, "verdict": "...", "reasoning": "...", ... },
+  "gemini":  { "score": 1-10, "verdict": "...", "reasoning": "...", ... }
+}
+
+Output JSON (stdout) — modo single:
 {
   "score": 1-10,
   "verdict": "GENUINE | SUPERFICIAL",
   "reasoning": "...",
-  "model_used": "gpt-4o | gemini-1.5-pro",
+  "model_used": "gpt-5.4 | gemini-3.1-pro-preview",
   "confidence": "high | medium | low"
 }
 
 Exit codes:
-  0 — sucesso
+  0 — GENUINE (unanimous) ou GENUINE (single)
   1 — erro de API ou configuração
   2 — input inválido
+  3 — SUPERFICIAL ou SPLIT
 
-Dependências: openai>=1.0, google-generativeai>=0.5
-  uv pip install openai google-generativeai python-dotenv
+Dependências: openai>=1.0, google-genai>=1.0
+  uv pip install openai google-genai
 """
 
 import argparse
@@ -65,50 +78,71 @@ OPENAI_KEY = os.environ.get("OPENAI_API_KEY")
 GEMINI_KEY = os.environ.get("GEMINI_API_KEY")
 
 # ── Prompt ────────────────────────────────────────────────────────────────────
-SYSTEM_PROMPT = """You are an epistemologist evaluating whether a proposed conceptual
-connection between two knowledge-base articles represents a genuine structural isomorphism
-or a superficial analogy.
+SYSTEM_PROMPT = """You are an epistemologist evaluating structural isomorphisms between
+causal mechanisms from different domains.
 
-You have NO access to the knowledge base itself. Your evaluation is based solely on the
-article summaries and the proposed connection provided. This independence is intentional —
-you are the external oracle."""
+You receive only abstract mechanism descriptions and a proposed structural claim.
+You have NO access to the source articles, knowledge base, or any named context.
+This isolation is intentional — you are the external oracle, evaluating the claim
+in a vacuum to prevent anchoring to source material."""
 
 
 def build_user_prompt(pair: dict) -> str:
-    a = pair["article_a"]
-    b = pair["article_b"]
-    return f"""Evaluate this proposed connection between two articles:
+    return f"""Evaluate whether this proposed structural claim represents a genuine
+causal isomorphism or a superficial analogy.
 
-ARTICLE A: {a["title"]}
-Summary: {a["summary"]}
-Core mechanism: {a["mechanism"]}
+MECHANISM A (domain 1):
+{pair["mechanism_a"]}
 
-ARTICLE B: {b["title"]}
-Summary: {b["summary"]}
-Core mechanism: {b["mechanism"]}
+MECHANISM B (domain 2):
+{pair["mechanism_b"]}
 
-PROPOSED CONNECTION: {pair["proposed_connection"]}
+PROPOSED STRUCTURAL CLAIM:
+{pair["proposed_connection"]}
 Connection type: {pair["connection_type"]}
 Pearl causal level claimed: {pair["pearl_level"]}
 
 Evaluate:
-1. Are the mechanisms structurally isomorphic (same causal structure in different domains)?
-   Or are they connected only by surface-level similarity?
-2. Would domain experts in BOTH fields recognize this as a non-trivial insight?
-3. Is the Pearl level ({pair["pearl_level"]}) appropriate given the evidence?
+1. Do mechanisms A and B share the same causal skeleton (same variables, same
+   dependency structure, same feedback loops) in structurally independent domains?
+   Or are they connected only by surface similarity / shared metaphor?
+2. Would domain experts in BOTH fields recognize this as a non-trivial insight
+   that neither domain alone would generate?
+3. Is the Pearl level ({pair["pearl_level"]}) appropriate? L2 requires intervention
+   structure; L3 requires counterfactual. L1 (correlation) does not qualify as
+   structural isomorphism.
 
-Respond ONLY with valid JSON:
+Respond ONLY with valid JSON (no markdown, no explanation outside JSON):
 {{
   "score": <integer 1-10>,
   "verdict": "<GENUINE or SUPERFICIAL>",
-  "reasoning": "<2-3 sentences explaining why>",
+  "reasoning": "<2-3 sentences — must specify which structural elements match or diverge>",
   "confidence": "<high|medium|low>",
   "pearl_level_appropriate": <true|false>,
-  "main_concern": "<null or one-line concern if verdict is SUPERFICIAL>"
+  "main_concern": "<null or one-line concern>"
 }}
 
-GENUINE = score >= 7 (structural isomorphism, non-trivial)
-SUPERFICIAL = score < 7 (surface similarity, metaphor, or obvious)"""
+GENUINE = score >= 7 (tight causal isomorphism, non-trivial, independent domains)
+SUPERFICIAL = score < 7 (shared metaphor, loose analogy, or obvious connection)"""
+
+
+def extract_mechanisms(data: dict) -> dict:
+    """Normaliza input: aceita formato legado (article_a/b) ou novo (mechanism_a/b)."""
+    if "mechanism_a" in data:
+        return data
+
+    pair = data.get("pair", data)
+
+    # Compatibilidade com formato legado
+    a = pair.get("article_a", {})
+    b = pair.get("article_b", {})
+    return {
+        "mechanism_a": a.get("mechanism", a.get("summary", "")),
+        "mechanism_b": b.get("mechanism", b.get("summary", "")),
+        "proposed_connection": pair.get("proposed_connection", ""),
+        "connection_type": pair.get("connection_type", ""),
+        "pearl_level": pair.get("pearl_level", ""),
+    }
 
 
 # ── Backends ──────────────────────────────────────────────────────────────────
@@ -127,25 +161,26 @@ def call_openai(pair: dict) -> dict:
 
     client = OpenAI(api_key=OPENAI_KEY)
     response = client.chat.completions.create(
-        model="gpt-4o",
+        model="gpt-5.4",
         messages=[
             {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": build_user_prompt(pair)},
         ],
-        temperature=0.2,
+        reasoning_effort="high",
         response_format={"type": "json_object"},
     )
     result = json.loads(response.choices[0].message.content)
-    result["model_used"] = "gpt-4o"
+    result["model_used"] = "gpt-5.4"
     return result
 
 
 def call_gemini(pair: dict) -> dict:
     try:
-        import google.generativeai as genai
+        from google import genai
+        from google.genai import types as genai_types
     except ImportError:
         print(
-            "ERROR: google-generativeai not installed. Run: uv pip install google-generativeai",
+            "ERROR: google-genai not installed. Run: uv pip install google-genai",
             file=sys.stderr,
         )
         sys.exit(1)
@@ -154,18 +189,18 @@ def call_gemini(pair: dict) -> dict:
         print("ERROR: GEMINI_API_KEY not set in environment or .env", file=sys.stderr)
         sys.exit(1)
 
-    genai.configure(api_key=GEMINI_KEY)
-    model = genai.GenerativeModel(
-        "gemini-1.5-pro",
-        system_instruction=SYSTEM_PROMPT,
-        generation_config={
-            "temperature": 0.2,
-            "response_mime_type": "application/json",
-        },
+    client = genai.Client(api_key=GEMINI_KEY)
+    response = client.models.generate_content(
+        model="gemini-3.1-pro-preview",
+        contents=build_user_prompt(pair),
+        config=genai_types.GenerateContentConfig(
+            system_instruction=SYSTEM_PROMPT,
+            thinking_config=genai_types.ThinkingConfig(thinking_budget=8192),
+            response_mime_type="application/json",
+        ),
     )
-    response = model.generate_content(build_user_prompt(pair))
     result = json.loads(response.text)
-    result["model_used"] = "gemini-1.5-pro"
+    result["model_used"] = "gemini-3.1-pro-preview"
     return result
 
 
@@ -175,49 +210,70 @@ def main():
     parser.add_argument("--file", help="JSON file with pair data (default: stdin)")
     parser.add_argument(
         "--mode",
-        choices=["openai", "gemini", "auto"],
-        default="auto",
-        help="Which model to use (auto = openai if key present, else gemini)",
+        choices=["openai", "gemini", "unanimous"],
+        default="unanimous",
+        help="unanimous (default) = both must agree GENUINE; single model otherwise",
     )
     args = parser.parse_args()
 
-    # Lê input
-    if args.file:
-        data = json.loads(Path(args.file).read_text())
-    else:
-        data = json.loads(sys.stdin.read())
+    raw = sys.stdin.read() if not args.file else Path(args.file).read_text()
+    try:
+        data = json.loads(raw)
+    except json.JSONDecodeError as e:
+        print(f"ERROR: invalid JSON — {e}", file=sys.stderr)
+        sys.exit(2)
 
-    if "pair" in data:
-        pair = data["pair"]
-    else:
-        pair = data  # aceita o objeto direto também
+    pair = extract_mechanisms(data)
 
     required = [
-        "article_a",
-        "article_b",
+        "mechanism_a",
+        "mechanism_b",
         "proposed_connection",
         "connection_type",
         "pearl_level",
     ]
-    missing = [f for f in required if f not in pair]
+    missing = [f for f in required if not pair.get(f)]
     if missing:
-        print(f"ERROR: missing fields: {missing}", file=sys.stderr)
+        print(f"ERROR: missing or empty fields: {missing}", file=sys.stderr)
         sys.exit(2)
 
-    # Escolhe modelo
-    mode = args.mode
-    if mode == "auto":
-        mode = "openai" if OPENAI_KEY else "gemini"
-
-    if mode == "openai":
+    if args.mode == "openai":
         result = call_openai(pair)
-    else:
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        sys.exit(0 if result.get("verdict") == "GENUINE" else 3)
+
+    if args.mode == "gemini":
         result = call_gemini(pair)
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        sys.exit(0 if result.get("verdict") == "GENUINE" else 3)
 
-    print(json.dumps(result, ensure_ascii=False, indent=2))
+    # ── Unanimous mode ────────────────────────────────────────────────────────
+    openai_result = call_openai(pair)
+    gemini_result = call_gemini(pair)
 
-    # Exit code reflete veredicto (útil em shell scripts)
-    sys.exit(0 if result.get("verdict") == "GENUINE" else 3)
+    unanimous = (
+        openai_result.get("verdict") == "GENUINE"
+        and gemini_result.get("verdict") == "GENUINE"
+    )
+
+    if unanimous:
+        final_verdict = "GENUINE"
+    elif (
+        openai_result.get("verdict") == "SUPERFICIAL"
+        and gemini_result.get("verdict") == "SUPERFICIAL"
+    ):
+        final_verdict = "SUPERFICIAL"
+    else:
+        final_verdict = "SPLIT"
+
+    output = {
+        "verdict": final_verdict,
+        "unanimous": unanimous,
+        "openai": openai_result,
+        "gemini": gemini_result,
+    }
+    print(json.dumps(output, ensure_ascii=False, indent=2))
+    sys.exit(0 if unanimous else 3)
 
 
 if __name__ == "__main__":
