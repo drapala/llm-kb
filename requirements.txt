@@ -8,3 +8,5 @@ pyarrow
 pyyaml
 mcp[cli]
 langdetect
+torch
+sentence-transformers

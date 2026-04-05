@@ -36,6 +36,7 @@ def kb_search(
     query: str,
     network: str = "",
     limit: int = 10,
+    rerank: bool = False,
 ) -> list[dict]:
     """
     Semantic search over the LLM knowledge base.
@@ -44,8 +45,9 @@ def kb_search(
         query: Natural language query
         network: Filter by namespace — "observation" (promoted wiki) or "opinion" (quarantined/emergent). Empty = search all.
         limit: Max results (1-50, default 10)
+        rerank: Apply cross-encoder reranker for higher precision (slower, ~100ms extra)
     """
-    return search(query, network=network or None, limit=min(limit, 50))
+    return search(query, network=network or None, limit=min(limit, 50), rerank=rerank)
 
 
 @mcp.tool()

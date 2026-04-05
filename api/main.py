@@ -32,12 +32,13 @@ def search_kb(
     network: str | None = Query(None, description="observation | opinion"),
     limit: int = Query(10, ge=1, le=50),
     mode: str = Query("hybrid", description="hybrid | vector | bm25"),
+    rerank: bool = Query(False, description="Apply cross-encoder reranker"),
 ):
     if network and network not in ("observation", "opinion"):
         raise HTTPException(400, "network must be 'observation' or 'opinion'")
     if mode not in ("hybrid", "vector", "bm25"):
         raise HTTPException(400, "mode must be 'hybrid', 'vector', or 'bm25'")
-    return search(q, network=network, limit=limit, mode=mode)
+    return search(q, network=network, limit=limit, mode=mode, rerank=rerank)
 
 
 class IngestRequest(BaseModel):

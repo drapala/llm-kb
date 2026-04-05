@@ -265,7 +265,9 @@ def main():
 
     table = None if args.dry_run else get_or_create_table(db)
 
-    paths = [args.file] if args.file else hub_order(list(WIKI_DIR.glob("*.md")))
+    paths = (
+        [args.file.resolve()] if args.file else hub_order(list(WIKI_DIR.glob("*.md")))
+    )
 
     total = 0
     print(f"{'DRY RUN — ' if args.dry_run else ''}Ingesting {len(paths)} articles...")

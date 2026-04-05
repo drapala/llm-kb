@@ -15,6 +15,7 @@ import lancedb
 import ollama
 from langdetect import LangDetectException
 from langdetect import detect as _langdetect
+from lancedb.rerankers import CrossEncoderReranker  # noqa: E402
 
 ROOT = Path(__file__).parent.parent
 DB_PATH = ROOT / "outputs" / "single-brain" / "db"
@@ -54,6 +55,11 @@ def get_table():
     except Exception:
         pass
     return t
+
+
+@lru_cache(maxsize=1)
+def get_reranker():
+    return CrossEncoderReranker(column="content")
 
 
 # ── Embedding ─────────────────────────────────────────────────────────────────
@@ -120,9 +126,11 @@ def search(
     network: str | None = None,
     limit: int = 10,
     mode: str = "hybrid",
+    rerank: bool = False,
 ) -> list[dict]:
     table = get_table()
-    fetch = limit * 3
+    # Fetch more candidates when reranking so the reranker has a richer pool
+    fetch = limit * 5 if rerank else limit * 3
 
     def _where(q):
         return q.where(f"network = '{network}'") if network else q
@@ -137,6 +145,21 @@ def search(
                 "network": r["network"],
                 "created": r["created"],
                 "score": float(r.get(score_key, 0)),
+                "content": r["content"][:500],
+            }
+            for r in rows
+        ]
+
+    def _fmt_reranked(rows: list[dict]) -> list[dict]:
+        return [
+            {
+                "id": r["id"],
+                "title": r["title"],
+                "section": r.get("section", ""),
+                "source": r["source"],
+                "network": r["network"],
+                "created": r["created"],
+                "score": float(r.get("_relevance_score", 0)),
                 "content": r["content"][:500],
             }
             for r in rows
@@ -174,7 +197,25 @@ def search(
     except Exception:
         bm25_rows = []
 
-    return _rrf_merge(vec_rows, bm25_rows, limit, w_vector=w_vec, w_bm25=w_bm)
+    candidates = _rrf_merge(vec_rows, bm25_rows, fetch, w_vector=w_vec, w_bm25=w_bm)
+
+    if not rerank:
+        return candidates[:limit]
+
+    # Rerank top candidates with cross-encoder
+    reranker = get_reranker()
+    # Reconstruct rows in the format LanceDB reranker expects (needs 'content' key)
+    reranked = (
+        _where(
+            table.search(embed(query))
+            .limit(fetch)
+            .select(_SELECT)
+            .rerank(reranker=reranker, query_string=query)
+        )
+        .limit(limit)
+        .to_list()
+    )
+    return _fmt_reranked(reranked)
 
 
 # ── Ingest ────────────────────────────────────────────────────────────────────
