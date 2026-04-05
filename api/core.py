@@ -12,16 +12,31 @@ from pathlib import Path
 
 import lancedb
 import ollama
+from langdetect import detect as _langdetect
+from langdetect import LangDetectException
 
 ROOT = Path(__file__).parent.parent
 DB_PATH = ROOT / "outputs" / "single-brain" / "db"
 EMBED_MODEL = "nomic-embed-text"
 TABLE_NAME = "fragments"
 
-# Hybrid search weights (must sum to 1.0)
+# Hybrid search weights — baseline (PT query vs PT corpus)
 W_VECTOR = 0.6
 W_BM25 = 0.4
+# Cross-language weights (EN/other query vs PT corpus) — BM25 degrades on lexical mismatch
+W_VECTOR_CROSSLANG = 0.9
+W_BM25_CROSSLANG = 0.1
 RRF_K = 60  # RRF constant — higher = less steep rank penalty
+
+KB_LANG = "pt"  # primary corpus language
+
+
+def query_lang(text: str) -> str:
+    """Detect query language. Returns ISO 639-1 code, defaults to 'en' on failure."""
+    try:
+        return _langdetect(text)
+    except LangDetectException:
+        return "en"
 
 
 @lru_cache(maxsize=1)
@@ -45,6 +60,8 @@ def _rrf_merge(
     vector_rows: list[dict],
     bm25_rows: list[dict],
     limit: int,
+    w_vector: float = W_VECTOR,
+    w_bm25: float = W_BM25,
 ) -> list[dict]:
     """Reciprocal Rank Fusion over two ranked lists. Returns merged top-N."""
     scores: dict[str, float] = {}
@@ -52,12 +69,12 @@ def _rrf_merge(
 
     for rank, row in enumerate(vector_rows):
         rid = row["id"]
-        scores[rid] = scores.get(rid, 0) + W_VECTOR / (RRF_K + rank + 1)
+        scores[rid] = scores.get(rid, 0) + w_vector / (RRF_K + rank + 1)
         by_id[rid] = row
 
     for rank, row in enumerate(bm25_rows):
         rid = row["id"]
-        scores[rid] = scores.get(rid, 0) + W_BM25 / (RRF_K + rank + 1)
+        scores[rid] = scores.get(rid, 0) + w_bm25 / (RRF_K + rank + 1)
         by_id.setdefault(rid, row)
 
     merged = sorted(scores.items(), key=lambda x: x[1], reverse=True)
@@ -116,7 +133,12 @@ def search(
         ).to_list()
         return _fmt(rows, score_key="_score")
 
-    # hybrid: RRF fusion
+    # hybrid: RRF fusion with language-adaptive weights
+    lang = query_lang(query)
+    cross_lang = lang != KB_LANG
+    w_vec = W_VECTOR_CROSSLANG if cross_lang else W_VECTOR
+    w_bm25 = W_BM25_CROSSLANG if cross_lang else W_BM25
+
     vector = embed(query)
     vec_rows = _fmt(
         _where(
@@ -139,7 +161,7 @@ def search(
     except Exception:
         bm25_rows = []  # FTS unavailable, degrade gracefully
 
-    return _rrf_merge(vec_rows, bm25_rows, limit)
+    return _rrf_merge(vec_rows, bm25_rows, limit, w_vector=w_vec, w_bm25=w_bm25)
 
 
 def run_ingest(file: str | None = None) -> dict:
