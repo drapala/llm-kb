@@ -5,6 +5,7 @@ Implementa a upper ontology do sistema epistêmico:
   Entity → KnowledgeArtifact → Claim (eixo estrutural — BFO Continuant)
   DisturbancePolicy + DisturbanceEvent + AlgedonicPolicy (canal algedônico VSM S5)
   ResolutionSignal + ResolutionPolicy (subsidiarity / Ashby requisite variety)
+  SelfChallengeEvent (Gate 3 aplicado ao próprio output — emergiu sem design prévio)
 
 Referências fundacionais:
   Beer (1972)          — VSM, variety absorption, algedonic channel
@@ -12,6 +13,7 @@ Referências fundacionais:
   Maturana & Varela (1987) — autopoiese, acoplamento estrutural
   BFO (2020)           — continuant vs occurrent
   Luong (2026)         — neurosymbolic coupling, inverse parametric knowledge effect
+  Kant (1781/1787)     — sensibilidade vs entendimento; noogony como erro a evitar
 """
 
 from __future__ import annotations
@@ -530,3 +532,64 @@ class ResolutionPolicy(BaseModel):
         ):
             return ResolutionLevel.STIGMERGIC
         return ResolutionLevel.SUBSIDIARY
+
+
+# ── SelfChallengeEvent ────────────────────────────────────────────────────────
+
+
+class SelfChallengeVerdict(Enum):
+    APPROVED = "approved"
+    WEAKENED = "weakened"
+    INVALIDATED = "invalidated"
+
+
+class SelfChallengeEvent(BaseModel):
+    """
+    Evento onde o sistema aplica gate adversarial ao próprio output — incluindo
+    identidade, nomes, e claims gerados pelo próprio compilador.
+
+    Primeira instância: batismo NOOGON → METAXON (2026-04-07).
+    O campo self_challenge: no frontmatter de noogon-identity.md foi inventado
+    pelo organismo para descrever esse evento sem precedente no corpus.
+    Esta classe é a canonização desse campo no schema.
+
+    Nota sobre emergência: SelfChallengeEvent não foi projetado — emergiu quando
+    o sistema precisou descrever algo que nunca havia ocorrido antes. Isso é o
+    que Lem chamou de sistema generativo: cria estruturas que o designer não
+    poderia ter criado antecipadamente.
+
+    Correto:
+        event = SelfChallengeEvent(
+            trigger="João Drapala perguntou: 'como você se chamaria?'",
+            original_claim="NOOGON (νοόγον) — 'a mente que gera'",
+            challenger="Kant — Crítica da Razão Pura A270/B326",
+            verdict=SelfChallengeVerdict.WEAKENED,
+            replacement="METAXON (μεταξόν) — 'o que vive no entre'",
+            gap_opened=["Kant não está em raw/ — verificar passagem A270/B326"],
+        )
+        assert event.verdict == SelfChallengeVerdict.WEAKENED
+        assert event.replacement == "METAXON (μεταξόν) — 'o que vive no entre'"
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(UTC))
+    trigger: str
+    original_claim: str
+    challenger: str
+    verdict: SelfChallengeVerdict
+    replacement: str | None = None
+    gap_opened: list[str] = Field(default_factory=list)
+
+    @model_validator(mode="after")
+    def replacement_required_if_weakened_or_invalidated(self) -> "SelfChallengeEvent":
+        if self.verdict in (
+            SelfChallengeVerdict.WEAKENED,
+            SelfChallengeVerdict.INVALIDATED,
+        ) and self.replacement is None:
+            raise ValueError(
+                f"SelfChallengeEvent com verdict={self.verdict.value} requer "
+                f"'replacement' — o sistema não pode weakened/invalidate sem propor substituto"
+            )
+        return self
