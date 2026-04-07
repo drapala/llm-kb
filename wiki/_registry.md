@@ -2,6 +2,9 @@
 
 | Path | Processed | Type | Quality | Stance | Concepts | Status |
 |------|-----------|------|---------|--------|----------|--------|
+| raw/repos/deer-flow-bytedance.md | 2026-04-06 | repo | primary | confirming | async-stream-bridge,run-manager,rate-limiting,graceful-abort | quarantined — 3 claims invalidados |
+| raw/papers/natural-language-agent-harnesses-pan-2026.pdf | 2026-04-06 | paper | primary | neutral | nlah,intelligent-harness-runtime,harness-engineering,context-engineering,file-backed-state | processed |
+| raw/papers/meta-harness-lee-2026.pdf | 2026-04-06 | paper | primary | neutral | meta-harness,harness-optimization,filesystem-history,outer-loop-search | processed |
 | raw/papers/farach-2026-ai-coordination-compressing-capital.md | 2026-04-06 | paper | primary | neutral | agent-capital,coordination-compression,regime-fork,span-of-control | processed |
 | raw/papers/ewens-giroud-2025-corporate-hierarchy.md | 2026-04-06 | paper | primary | confirming | corporate-hierarchy,hierarchy-flattening,ai-organization,span-of-control | processed |
 | wiki/concepts/evaluation-order-independence.md | 2026-04-05 | synthesis | primary | neutral | curse-of-knowledge-llm-judge,causal-reasoning-pearl | processed |
@@ -136,3 +139,10 @@
 | wiki/concepts/self-preference-bias-llm-judge.md | 2026-04-05 | source | primary | confirming | llm-as-judge,autonomous-kb-failure-modes,curse-of-knowledge-llm-judge,position-bias-llm-judge | quarantine |
 | raw/articles/block-company-as-intelligence.md | 2026-04-05 | article | secondary | neutral | block-organization-as-intelligence,kb-architecture-patterns,viable-system-model-beer | processed |
 | wiki/concepts/block-organization-as-intelligence.md | 2026-04-05 | source | secondary | neutral | viable-system-model-beer,kb-architecture-patterns,stigmergic-coordination,autonomous-kb-failure-modes,requisite-variety | quarantine |
+| wiki/concepts/prometheus-as-nlah-substrate.md | 2026-04-06 | synthesis | primary | neutral | meta-harness-optimization,natural-language-agent-harness,prometheus,self-improvement | quarantine |
+| raw/papers/pressure-field-coordination-rodriguez-2026.md | 2026-04-06 | paper | primary | challenging | pressure-field-coordination,multi-agent-coordination,temporal-decay | processed |
+| wiki/concepts/pressure-field-coordination.md | 2026-04-06 | source | primary | challenging | multi-agent-orchestration,stigmergic-coordination,requisite-variety | quarantine |
+| raw/papers/emergent-coordination-riedl-2025.md | 2026-04-06 | paper | primary | neutral | emergent-coordination,partial-information-decomposition,multi-agent | processed |
+| wiki/concepts/emergent-coordination-measurement.md | 2026-04-06 | source | primary | neutral | partial-information-decomposition,multi-agent-orchestration,groupthink-and-cascades | quarantine |
+| raw/papers/agents-of-chaos-shapira-2026.md | 2026-04-06 | paper | primary | confirming | autonomous-kb-failure-modes,agentic-security,cross-agent-propagation | processed |
+| raw/papers/neurosymbolic-grounding-luong-2026.md | 2026-04-06 | paper | primary | confirming | formal-ontology-for-kbs,inverse-parametric-knowledge,neurosymbolic | processed |

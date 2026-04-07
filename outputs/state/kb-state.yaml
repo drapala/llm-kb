@@ -4,6 +4,8 @@
 # Lido por session-start e exibido antes de qualquer check.
 
 next_actions:
+  # [PROMOVIDO 2026-04-06] meta-harness-optimization
+  # [PROMOVIDO 2026-04-06] natural-language-agent-harness
   - priority: 1
     action: "/promote raw-design-constraints, evaluation-order-independence"
     why: "2 artigos em quarentena com critérios de independência já satisfeitos ou prestes a satisfazer. raw-design-constraints: Gate 3 rodou. evaluation-order-independence: /challenge pendente."
@@ -41,12 +43,32 @@ next_actions:
     blocked_by: null
     added_by: auto-promote
     added_on: 2026-04-06
-  - priority: 5
-    action: "/lint-epistemic"
-    why: "ingest_count_since_last_lint = 10 (threshold = 5). Último lint: 2026-04-04."
+  - priority: 4c
+    action: "/challenge deer-flow-concurrency (corrigir 3 claims invalidados pelo Gate 3)"
+    why: "Gate 3∥challenge: asyncio.Condition.notify_all() sem lock context (RuntimeError); TOCTOU-safe sem qualificar escopo; cancellation claim contradiz RunManager code. Correções técnicas específicas."
+    blocked_by: null
+    added_by: auto-promote
+    added_on: 2026-04-06
+    # [EXECUTADO 2026-04-06] /lint-epistemic — quarantine_rate 17.7%, stance_core 26.1% OK
+    # [PROMOVIDOS 2026-04-06] multiagent-debate-du-2023, self-preference-bias-llm-judge, block-organization-as-intelligence
+  - priority: 4
+    action: /lint-epistemic
+    why: 'ingest_count_since_last_lint atingiu 5 (threshold). 4 fontes ingeridas hoje: pressure-field, emergent-coord, agents-chaos, neurosymbolic.'
     blocked_by: null
     added_by: ingest
-    added_on: 2026-04-05
+    added_on: "2026-04-06"
+  - priority: 5
+    action: /challenge pressure-field-coordination (3 invalidated)
+    why: 'Gate 3: 3 invalidated. Correções aplicadas mas revisão humana necessária.'
+    blocked_by: null
+    added_by: auto-promote
+    added_on: "2026-04-06"
+  - priority: 6
+    action: /challenge emergent-coordination-measurement (1 invalidated + 6 weakened)
+    why: 'Gate 3: claim role-specialization invalidado + 6 weakened. Correções menores aplicadas.'
+    blocked_by: null
+    added_by: auto-promote
+    added_on: "2026-04-06"
 readiness_signal:
   can_ingest: true
   stance_status: "marginal — 23% challenging (limite ~25%). gbrain adicionado como challenging. Próxima fonte: neutral ou challenging."
@@ -58,31 +80,32 @@ readiness_signal:
     - "Du et al. (2023) Multiagent Debate — neutral"
   warning: null
 # ── Estado do ciclo rápido ──────────────────────────────────────────────────────
-emerge_queue:
-  - pair: [concepts/vsm-autonomous-threshold-design, null]
-    added_by: promote
-    added_on: 2026-04-06
-    note: "recém-promovido — candidato /emerge"
-# resetado após sessão 6 (2026-04-06) — 6 pares avaliados, 3 GENUINE
+emerge_queue: []
+# resetado após sessão 9 (2026-04-06) — 4 artigos processados, 3 GENUINE: vsm×CLS, debate×JA, block×CLS
 
 ingest_chain:
   depth: 0 # incremented per auto-ingest triggered by /challenge
   origin_article: null
   last_challenge: null
   status: open # closed after 1 INVALIDA auto-ingested; reset on manual /ingest
-sessions_since_last_dream: 0
-ingest_count_since_last_lint: 11
-last_session_documented: 2026-04-06 # part17
+sessions_since_last_dream: 5
+ingest_count_since_last_lint: 5
+last_session_documented: 2026-04-06 # part19
 # ── Ciclo lento ──────────────────────────────────────────────────────────────
 slow_cycle:
   lint:
-    last_run: 2026-04-04
-    alerts: []
+    last_run: 2026-04-06
+    alerts:
+      - type: quarantine_rate
+        value: 14.6%
+        threshold: 15%
+        message: "14 artigos quarentenados (14.6% de ~96). 3 promovidos nesta sessão — abaixo de 15%."
     findings:
-      hub_health: "85.5% artigos reads=0 — KB construída mas pouco usada"
-      quarantine_discrepancy: "9 quarantenados encontrados vs 7 em memória — causal-reasoning-pearl e binding-attention-regime não rastreados"
-      stance_watch: "2026-04-04 a 23% challenging (margem estreita) — monitorar próxima ingestão"
-    report: outputs/reports/epistemic-lint-2026-04-04.md
+      stance_core: "26.1% challenging (69 core sources) — OK"
+      bradford: "Zone3/Zone2 = 0.855 — ok"
+      hub_health: "64.0% artigos reads=0 — normal para retrieval via /ask"
+      quarantine_count: "17 quarentenados (6 prontos para /promote)"
+    report: outputs/reports/epistemic-lint-2026-04-06.md
   dream:
     last_run: 2026-04-05
     context_before_pct: 11.9
@@ -90,17 +113,14 @@ slow_cycle:
 # ── /ask ───────────────────────────────────────────────────────────────────────
 ask:
   articles_with_recent_gaps:
-    - burocracia-publica-incentivos-auditores # pressão TCU como contra-incentivo a V(R)
-    - autoresearch-peirce-abduction # abductive inference (Peirce)
-    - multiagent-debate-du-2023 # mitigação self-enhancement em /review; referência central para oracle não-circular em emergence
-    - continual-learning-world-model # atualização incremental sem re-processar; CLS dá o porquê, não o como
-    - streaming-data-pipeline # ingestão contínua de múltiplas fontes — completamente ausente
-    - agent-communication-protocols # A2A, MCP entre agentes, conflitos concorrentes
-    - production-rag-chunking # chunking para documentos heterogêneos em escala (juridiquês + OCR)
-    - storage-agnostic-epistemic-pipeline # como abstrair storage para que skills não dependam de filesystem
-    - kb-migration-incremental # migração progressiva file-based → DB-based KB
-    # self-preference-bias-llm-judge — INGERIDO 2026-04-05
-  last_session: outputs/logs/sessions/2026-04-06/ask-zelox-vsm-00-05.md
+    - ask-usage-patterns
+    - epistemic-loop-in-rag
+    - epistemic-governance-multiagent
+    - paperclip-agent-orchestration
+    - sensorium-event-observability
+    - algedonic-channel-vsm
+    - capital-allocation-eval-loop
+  last_session: 2026-04-06/ask-21-24.md
   synthesize_pending: []
   synthesize_completed:
     - pair: [autonomous-kb-failure-modes, self-improving-agents, groupthink-and-cascades]
@@ -140,6 +160,16 @@ programme_health:
     - wiki/concepts/autonomous-kb-failure-modes.md
 # ── Filas de ingestão ──────────────────────────────────────────────────────────
 ingest_queue_priority:
+  - source: "InfiAgent: Infinite-Horizon Framework (arXiv:2601.03204)"
+    why: "File-centric state abstraction — REFINA claim de file-backed state em natural-language-agent-harness."
+    auto_trigger: false
+    added_by: challenge
+    added_on: 2026-04-06
+  - source: "Context-Folding (arXiv:2510.11967)"
+    why: "Context-folding para long-horizon agents — REFINA claim de state management em natural-language-agent-harness."
+    auto_trigger: false
+    added_by: challenge
+    added_on: 2026-04-06
   # [INGERIDO 2026-04-05] Multi-Agent Memory from a Computer Architecture Perspective → wiki/concepts/multi-agent-memory-consistency.md
   # [INGERIDO 2026-04-05] Collaborative Memory → wiki/concepts/collaborative-memory-access-control.md
   # [INGERIDO 2026-04-05] GraphAnchor → wiki/concepts/graph-anchored-iterative-retrieval.md
@@ -175,6 +205,16 @@ ingest_queue_autoresearch:
     why: "Formaliza geração de hipóteses (abdução) — passo mais fraco do loop autoresearch."
 # ── /emerge ────────────────────────────────────────────────────────────────────
 emerge_top_pairs:
+  # sessão 9 (pós-promote vsm+block+debate+self-pref, 2026-04-06)
+  - vsm-autonomous-threshold-design x complementary-learning-systems # L2, GENUINE GPT6/Gem9, ANÁLOGO-A — S4/neocórtex; batch replay prescreve /dream em batch
+  - multiagent-debate-du-2023 x judgment-aggregation # L2, GENUINE GPT6/Gem8, ANÁLOGO-A — debate rounds = função de agregação implícita; JA impossibility aplica
+  - block-organization-as-intelligence x complementary-learning-systems # L2, GENUINE GPT5/Gem8, ANÁLOGO-A — world model needs batch replay, não stream contínuo
+  # sessão 8 (pós-/ask 21-24, 2026-04-06) — SINTETIZADO
+  # meta-harness-optimization x natural-language-agent-harness → prometheus-as-nlah-substrate (ANÁLOGO-A, L2)
+  # sessão 7 (pós-ingest harness papers, 2026-04-06)
+  - natural-language-agent-harness x complementary-learning-systems # L2, GENUINE GPT5/Gem8, INSTANCIA — harness(slow)/IHR(fast) = neocórtex/hipocampo; file-backed state como replay
+  - meta-harness-optimization x rational-inattention # L2, GENUINE GPT5/Gem8, ANÁLOGO-A — context window = canal I(X;Y)≤C; proposer file-reads = política de atenção ótima
+  - natural-language-agent-harness x viable-system-model-beer # SPLIT GPT4/Gem8 — candidato /ask; NLAH charter/harness = S5/S3 mapeamento plausível mas feedback multilevel ausente
   # sessão 6 (pós-promote autoresearch-programme-vitality, 2026-04-06)
   - zelox-vsm x viable-system-model-beer # L2, GENUINE GPT6/Gem9, INSTANCIA — escalation frequency = VSM S5 residual variety
   - epistemic-merge-vs-syntactic x autonomous-kb-failure-modes # L2, GENUINE GPT6/Gem8, INSTANCIA — same semantic oracle fixes FM1 and fork-join merge
@@ -280,6 +320,30 @@ challenge:
       challenge_type: clean
       counts_for_promote: true
       corrections_applied: true
+    - artigo: meta-harness-optimization
+      verdict: PRECISA_CORREÇÃO
+      data: 2026-04-06
+      claims_survived: 1
+      claims_total: 3
+      claims_weakened: 3
+      claims_invalidated: 1
+      prior_work_found: 5
+      challenge_type: pre_quarantine_check
+      triggered_by: post_ingest_hook
+      counts_for_promote: false
+      corrections_applied: true
+    - artigo: natural-language-agent-harness
+      verdict: PRECISA_CORREÇÃO
+      data: 2026-04-06
+      claims_survived: 0
+      claims_total: 3
+      claims_weakened: 3
+      claims_invalidated: 0
+      prior_work_found: 5
+      challenge_type: pre_quarantine_check
+      triggered_by: post_ingest_hook
+      counts_for_promote: false
+      corrections_applied: true
     - artigo: ai-coordination-compressing-capital
       verdict: PRECISA_CORREÇÃO
       data: 2026-04-06
@@ -311,7 +375,12 @@ synthesize:
     - pair: [procurement-contract-design, requisite-variety]
       article: wiki/concepts/procurement-variety-gap.md
       status: promoted
+    - pair: [meta-harness-optimization, natural-language-agent-harness]
+      article: wiki/concepts/prometheus-as-nlah-substrate.md
+      ask_session: outputs/logs/sessions/2026-04-06/ask-21-24.md
+      connection_type: ANÁLOGO-A
+      status: quarantine # aguarda promote
 last_session_documented: "2026-04-06" # part17
 reading_list: outputs/reading-list.md # Gentner 1983 adicionado — gap 2 (emerge threshold)
-last_updated: "2026-04-06" # emerge sessão 6 — 3 GENUINE (zelox-vsm×VSM, epistemic-merge×FM, APV×CLS)
+last_updated: "2026-04-06" # /emerge sessão 9: 3 GENUINE (vsm×CLS, debate×JA, block×CLS)
 last_emerge: 2026-04-05 # sessão 5: 1 GENUINE (vitality × VSM)

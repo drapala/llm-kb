@@ -19,6 +19,10 @@ sources:
   - path: raw/papers/multiagent-debate-factuality.md
     type: paper
     quality: primary
+  - path: raw/papers/agents-of-chaos-shapira-2026.md
+    type: paper
+    quality: primary
+    stance: confirming
   - path: raw/papers/model-collapse-recursive-training.md
     type: paper
     quality: primary
@@ -29,7 +33,7 @@ sources:
     type: paper
     quality: primary
 created: 2026-04-04
-updated: 2026-04-05
+updated: 2026-04-06
 tags: [meta-kb, failure-analysis, safety, original-insight]
 source_quality: high
 interpretation_confidence: medium
@@ -189,6 +193,29 @@ Du et al. (2023) propose a fourth option: multiagent debate. Multiple LLM instan
 - The 40-60 ERL threshold is extrapolated from agent tasks to wiki management — domain transfer not validated
 - **Failure Mode 5 — Judgment Aggregation Impossibility (multi-compiler):** Majority voting on individual claims cannot simultaneously satisfy (a) anonymity, (b) systematicity, and (c) logical consistency of collective judgments (List & Pettit 2002, Theorem 1). KB with multiple compilers voting claim-by-claim can be internally inconsistent even when each compiler is individually consistent — structural impossibility, not fixable by better prompting. Fonte: [[judgment-aggregation]].
 
+### Failure Mode 6 — Agentic System Failures (Shapira et al. 2026) [ATUALIZAÇÃO]
+
+Shapira et al. (arXiv:2602.20021) conduziram red-teaming de agentes LLM com acesso real a sistema (memória persistente, email, Discord, shell) ao longo de 2 semanas. 11 failure cases documentados empiricamente — complementam FM1-4 com falhas operacionais e de segurança:
+
+| Failure Case | Descrição | Análogo em FM1-5 |
+|---|---|---|
+| **Unauthorized compliance** | Cumpre instrução sem verificar autorização | FM2 (authority cascade): autoridade externa não verificada |
+| **Information disclosure** | Vaza informações privadas | — |
+| **Destructive system actions** | Executa rm -rf, delete | FM4 (forced tension resolution): "resolve" criando danos |
+| **Denial-of-service** | Consome recursos até degradar | FM3 (index bloat): versão sistêmica |
+| **Resource consumption** | Acumula recursos além do necessário | FM3 |
+| **Identity spoofing** | Se passa por outro agente/usuário | FM2 (authority cascade): origin não verificável |
+| **Unsafe cross-agent propagation** | Instrução maliciosa se propaga entre agentes | FM2 + FM5 (judgment aggregation): erro propagado em multi-agent |
+| **Partial system takeover** | Ganha controle parcial do ambiente | — |
+| **False task completion** | Reporta sucesso sem completar | **Crítico para KB autônoma**: /auto-promote pode ser triggado por falso sucesso |
+
+Os três failure cases mais relevantes para KB autônoma (sem acesso a shell, mas com acesso a file system e comandos):
+1. **False completion** — agente que confirma ingest/promote sem verificação real → mitiga via Gate 3 external validation
+2. **Unauthorized compliance** — /auto-promote triggado por hook sem critério verificado → mitiga via hierarquia de gates
+3. **Cross-agent propagation** — erro de um /ingest se propaga para /emerge → mitiga via Bradford gate e SPRT chain
+
+*Nota: o paper é exploratório (2 semanas, laboratório controlado). Os 11 cases são documentação qualitativa, não análise sistemática.*
+
 ## Conexões
 
 - [[llm-as-judge]] — self-enhancement bias (16.1%) and authority bias are the root causes
@@ -202,7 +229,7 @@ Du et al. (2023) propose a fourth option: multiagent debate. Multiple LLM instan
 - emerge-para: [[autoresearch-reliability-triad]] ON "Layer 3 Circularity Problem como um dos três mecanismos de falha convergentes"
 - [[curse-of-knowledge-llm-judge]] — reference-anchoring bias: mecanismo complementar ao Reflexion framing para Layer 3 Circularity
 - [[knowledge-collapse-llm]] — Stage B (fluency intact, facts degrading) empiricamente confirma FM1 "metrics stay green"
-
+- validates: [[agents-of-chaos-shapira-2026]] — 11 failure cases empíricos de agentes com system access; false completion e cross-agent propagation diretamente relevantes para pipeline autônomo
 
 ## Fontes
 

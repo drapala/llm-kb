@@ -16,10 +16,15 @@ sources:
   - path: raw/articles/relation-ontology-obo.md
     type: article
     quality: primary
+  - path: raw/papers/neurosymbolic-grounding-luong-2026.md
+    type: paper
+    quality: primary
+    stance: confirming
 created: 2026-04-04
 updated: 2026-04-04
 tags: [ontology, structure, typed-relations, meta-kb]
 source_quality: high
+# updated: 2026-04-06 (added Luong 2026 — inverse parametric knowledge effect)
 interpretation_confidence: medium
 resolved_patches: []
 reads: 0
@@ -151,6 +156,21 @@ Questions it CANNOT currently answer:
 2. "Which articles are process descriptions vs entity descriptions?" (no continuant/occurrent)
 3. "What would break if article X were removed?" (no typed dependency links)
 
+### Inverse Parametric Knowledge Effect (Luong 2026) [ATUALIZAÇÃO]
+
+Foundation AgenticOS (FAOS, arXiv:2604.00555) provê evidência empírica de um efeito não-óbvio: **o valor de ontological grounding aumenta onde a cobertura paramétrica do LLM é mais fraca**.
+
+| Domínio | Cobertura Paramétrica | Ganho de Ontologia |
+|---------|----------------------|-------------------|
+| FinTech / Insurance / Healthcare | Alta (EN, well-resourced) | Moderado |
+| Domínios vietnamitas localizados | Baixa | **Maior ganho** |
+
+Resultados em 600 runs controlados: Metric Accuracy (W=.460, p<.001), Regulatory Compliance (W=.318, p=.003), Role Consistency (W=.614, p<.001). Sistema em produção: 21 domínios industriais, 650+ agentes.
+
+(⚠️ caveatas: single author, sem peer review documentado; 5 domínios testados; escopo de généralisation limitado.)
+
+**Implicação para esta KB:** os domínios onde ontologia formal mais ajuda são justamente os laterais (procurement/B2G, Zelox/fintech BR) onde a cobertura paramétrica é menor — não o core AI/ML onde o LLM já tem alta fluência. A justificativa de adotar typed relations não é uniforme: é mais forte exatamente nos clusters onde /ask retorna mais gaps.
+
 ## Verificação adversarial
 
 - **Claim mais fraco:** "5 typed relations would cover 90% of link meanings" — untested. Would need to classify all 114 wikilinks to verify.
@@ -167,6 +187,7 @@ Questions it CANNOT currently answer:
 
 ## Fontes
 
+- [Luong 2026 FAOS](../../raw/papers/neurosymbolic-grounding-luong-2026.md) — inverse parametric knowledge effect; 600 runs; 21 domínios produção; Role/Domain/Interaction layers
 - [Noy — Ontology 101](../../raw/articles/noy-ontology-development-101.md) — 7-step methodology, "no one correct ontology," class hierarchy + typed properties
 - [BFO 2020](../../raw/articles/bfo-basic-formal-ontology.md) — continuant vs occurrent, qualities, dispositions, roles, functions (ISO 21838-2)
 - [DOLCE](../../raw/articles/dolce-descriptive-ontology.md) — cognitive vs realist orientation, categories as human artifacts not objective reality

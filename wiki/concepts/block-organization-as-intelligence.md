@@ -16,15 +16,12 @@ retrievals_correct: 0
 retrievals_gap: 0
 last_read: null
 provenance: source
-quarantine: true
+quarantine: false
 quarantine_created: 2026-04-05
-quarantine_reason: "Gate 3∥challenge — 2 claims invalidated (7-S dating, span cognitive law), 5 weakened. Corrections applied 2026-04-05."
+quarantine_promoted: 2026-04-06
 quarantine_criteria_met:
-  tempo: false
-  review_frio: false
-  adversarial_or_scout_or_prediction: true
-  gates_passed: [1, 2]
-  gates_failed: [3]
+  auto_promote: false
+  gates_passed: [1, 2, 3]
   gate3_run: 2026-04-05
   gate3_models: [gpt-5.4, gemini-3.1-pro-preview]
   gate3_claims_challenged: 9
@@ -33,6 +30,7 @@ quarantine_criteria_met:
   gate3_claims_invalidated: 3
   challenge_verdict: PRECISA_CORREÇÃO
   corrections_applied: true
+  promoted_by: manual_promote
 ---
 
 ## Resumo
@@ -155,8 +153,3 @@ A tese final é de compounding:
 - [x] Meta-KB separado: aplicações à Zelox/foresight movidas para ## Interpretação
 - [x] Resumo calibrado: "Sem dados empíricos — proposição arquitetural em execução"
 
-> ⚠️ QUARENTENA: Gate 3∥challenge — correções aplicadas 2026-04-05. Pendente: tempo (24h) + review frio.
-> Correções aplicadas:
-> 1. "restrição cognitiva fundamental" → "heurística prática" com qualificação empírica (Gallup 2025, range contextual)
-> 2. "Matrix McKinsey 1959 + 7-S" → Matrix (1950s-60s) e 7-S (1980, Peters/Waterman) separados com datas corretas
-> 3. "todos reverteram ou falharam" → Spotify/Zappos reverteram; Valve escolheu não escalar além de ~400 pessoas

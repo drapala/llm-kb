@@ -17,13 +17,34 @@ resolved_patches:
   - date: 2026-04-05
     patch: "Claim 'Um modelo pode exibir self-preference ao avaliar output de outro modelo se tiver baixa perplexidade' movido de §Conteúdo para §Interpretação com marcação ⚠️ — é inferência do compilador, não resultado empírico direto."
     source: challenge post_ingest_hook
+  - date: 2026-04-06
+    patch: "'durante RLHF/alinhamento para minimizar perplexidade' qualificado: pré-treino/SFT usam max-likelihood; RLHF usa preference optimization, não perplexidade diretamente"
+    source: gate3-self-preference-bias-llm-judge
+  - date: 2026-04-06
+    patch: "'fator determinante é a perplexidade' qualificado como claim dos autores (Wataoka) via Figura 4 — scope: modelos testados no Chatbot Arena; reconhecimento de autoria (Panickssery) pode coexistir"
+    source: gate3-self-preference-bias-llm-judge
+  - date: 2026-04-06
+    patch: "'Todos os modelos... mais fortemente do que humanos' qualificado com scope: datasets e modelos testados"
+    source: gate3-self-preference-bias-llm-judge
 reads: 0
 retrievals_correct: 0
 retrievals_gap: 0
 last_read: null
-quarantine: true
+quarantine: false
 quarantine_created: 2026-04-05
-quarantine_reason: "novo ingest — aguarda review frio"
+quarantine_promoted: 2026-04-06
+quarantine_criteria_met:
+  auto_promote: false
+  gates_passed: [1, 2, 3]
+  gate3_run: 2026-04-06
+  gate3_models: [gpt-5.4, gemini-3.1-pro-preview]
+  gate3_claims_challenged: 7
+  gate3_claims_survived: 2
+  gate3_claims_weakened: 4
+  gate3_claims_invalidated: 1
+  challenge_verdict: PRECISA_CORREÇÃO
+  corrections_applied: true
+  promoted_by: manual_promote
 provenance: source
 ---
 
@@ -37,11 +58,11 @@ Wataoka et al. (NeurIPS 2024 Workshop / EMNLP 2025) introduzem uma métrica quan
 
 A hipótese central, confirmada empiricamente: LLM evaluators atribuem avaliações mais altas a outputs com **perplexidade mais baixa**, e essa preferência existe independentemente de se o output foi auto-gerado.
 
-**Por que outputs próprios têm menor perplexidade:** LLMs são treinados no pré-treino para minimizar perplexidade em grandes corpora e, durante RLHF/alinhamento, para minimizar perplexidade nos dados de diálogo. Textos de alta perplexidade são textos raramente vistos durante o treinamento. O output do próprio modelo, por construção, alinha-se com sua distribuição de treinamento — exibindo perplexidade intrinsecamente menor.
+**Por que outputs próprios tendem a ter menor perplexidade:** Pré-treino e SFT usam objetivos de máxima verossimilhança (minimização de cross-entropy), o que faz o modelo "fluente" em textos similares ao treinamento. *Nota: RLHF/preference optimization não é minimização de perplexidade diretamente — usa reward signals de preferência humana.* O output do próprio modelo, por alinhamento com sua distribuição de geração, tipicamente exibe perplexidade mais baixa — mas isso não é garantido por construção em todos os contextos.
 
-**Confirmação experimental (Figura 4):** Quando se compara o efeito de perplexidade em outputs self-generated vs. other-generated, as taxas de vitória são estatisticamente similares em todos os modelos testados (exceto dolly-v2 e stablelm). Conclusão: o fator determinante é a perplexidade, não a autoria do output.
+**Confirmação experimental (Figura 4):** Quando se compara o efeito de perplexidade em outputs self-generated vs. other-generated, as taxas de vitória são estatisticamente similares em todos os modelos testados (exceto dolly-v2 e stablelm). Conclusão dos autores: perplexidade é suficiente para explicar o padrão, independentemente da autoria — não que reconhecimento de autoria seja impossível (ver caveata em §Distinção dos Outros Biases).
 
-**LLMs vs. humanos:** Todos os modelos testados (exceto dolly-v2 e stablelm) demonstram tendência de favorecer outputs de menor perplexidade mais fortemente do que humanos — especialmente vicuna-13b, vicuna-7b, koala-13b e oasst-pythia-12b.
+**LLMs vs. humanos:** Nos datasets e modelos testados, todos (exceto dolly-v2 e stablelm) demonstram tendência de favorecer outputs de menor perplexidade mais fortemente do que humanos — especialmente vicuna-13b, vicuna-7b, koala-13b e oasst-pythia-12b. (Scope: Chatbot Arena; generalização a outros modelos/tasks requer verificação independente.)
 
 ### Métrica Quantitativa (Definition 4.1)
 

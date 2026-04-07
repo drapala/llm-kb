@@ -43,6 +43,33 @@ Antes de processar, verifique: a pergunta pressupõe uma resposta?
 - "Quais melhorias aplicar?" → pressupõe que melhorias são necessárias. Reformular: "A KB precisa de melhorias neste ponto?"
 Se a pergunta é direcional, sugira reformulação aberta antes de processar.
 
+---
+
+## Corpus Sufficiency Check (anti-loop epistêmico)
+
+Antes de rodar Layer 0, avalie: **existe corpus em raw/ sobre o domínio da query?**
+
+**Anti-pattern — Loop Epistêmico Circular:**
+query sobre X → KB sem corpus de X → resposta paramétrica do LLM → parece fundamentada mas não é.
+Se o corpus sobre o domínio da query é ausente, /ask retorna gap, não resposta.
+
+**Sinal de risco:** Layer 0 retorna scores < 0.02 E Layer 1 não identifica nenhum artigo candidato.
+Nesse caso: **PARE** e reporte como gap antes de sintetizar. Não fabrique resposta com conhecimento paramétrico.
+
+**Padrão correto — Ask com Âncoras:**
+Se o usuário perguntou "como faço X?", reformule internamente como:
+"Dado que o usuário precisa de X, quais conceitos relacionados estão ausentes no corpus?"
+Responda o gap, não a pergunta direta.
+
+**Padrão — Gap Mapping:**
+/ask detecta *unknown knowns* (o que existe mas não está indexado) — não *unknown unknowns*.
+Se a query exige unknown unknowns, o fluxo correto é:
+1. Pesquisa externa (web, papers)
+2. Ingestão do corpus relevante via /ingest
+3. /ask fundamentado no novo corpus
+
+---
+
 O usuário faz uma pergunta. Para responder, siga as 4 camadas de retrieval:
 
 Layer 0 — Vector Search (PRIMEIRO, antes de ler qualquer arquivo):

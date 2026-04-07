@@ -17,13 +17,31 @@ resolved_patches:
   - date: 2026-04-05
     patch: "Claim 'melhora significativamente' qualificado: válido nos benchmarks originais Du et al. 2023; evidência pós-2023 (arXiv:2509.05396, ICLR Blogpost 2025) mostra resultados mistos em comparação com CoT/self-consistency"
     source: challenge-multiagent-debate-du-2023-hook
+  - date: 2026-04-06
+    patch: "'converge para consenso' → 'tende a convergir para consenso (sem garantia formal; rounds fixos)'"
+    source: gate3-multiagent-debate-du-2023
+  - date: 2026-04-06
+    patch: "'resolve o problema de bias' → 'mitiga o problema de bias de autoavaliação'"
+    source: gate3-multiagent-debate-du-2023
 reads: 0
 retrievals_correct: 0
 retrievals_gap: 0
 last_read: null
-quarantine: true
+quarantine: false
 quarantine_created: 2026-04-05
-quarantine_reason: "novo ingest — aguarda review frio"
+quarantine_promoted: 2026-04-06
+quarantine_criteria_met:
+  auto_promote: false
+  gates_passed: [1, 2, 3]
+  gate3_run: 2026-04-06
+  gate3_models: [gpt-5.4, gemini-3.1-pro-preview]
+  gate3_claims_challenged: 6
+  gate3_claims_survived: 3
+  gate3_claims_weakened: 2
+  gate3_claims_invalidated: 1
+  challenge_verdict: PRECISA_CORREÇÃO
+  corrections_applied: true
+  promoted_by: manual_promote
 provenance: source
 ---
 
@@ -39,7 +57,7 @@ O protocolo de debate multi-agente opera em três etapas repetidas por múltiplo
 
 1. **Geração independente:** cada instância do LLM produz uma resposta sem acesso às respostas das demais
 2. **Leitura cruzada:** cada instância lê as respostas de todas as outras instâncias
-3. **Debate e convergência:** as instâncias atualizam suas respostas considerando as divergências — o processo converge para consenso ao longo dos rounds
+3. **Debate e convergência:** as instâncias atualizam suas respostas considerando as divergências — o processo tende a convergir para consenso ao longo dos rounds (sem garantia formal; convergência depende do número fixo de rounds e da distribuição de respostas iniciais)
 
 O contraste central com o paradigma single-agent: em vez de um LLM gerar e auto-avaliar (com self-enhancement bias documentado), múltiplas instâncias com históricos de conversação distintos funcionam como avaliadores com independência de contexto — embora compartilhem priors epistêmicos do mesmo corpus de treinamento (limitação documentada em trabalho subsequente).
 
@@ -58,7 +76,7 @@ O design single-agent com self-enhancement cria um loop: o mesmo modelo que gero
 
 ### Tensão com coordenação multi-agente
 
-Cognition (documentado por Tim Kellogg) critica sistemas multi-agente por criarem "sistemas frágeis" com "decision-making disperso". Multiagent debate resolve o problema de bias mas introduz custo de coordenação e fragmentação de contexto. Nenhuma das abordagens domina a outra — a escolha depende se o risco de bias (single-agent) ou de fragilidade de coordenação (multi-agent) é maior para o caso de uso específico.
+Cognition (documentado por Tim Kellogg) critica sistemas multi-agente por criarem "sistemas frágeis" com "decision-making disperso". Multiagent debate mitiga o problema de bias de autoavaliação mas introduz custo de coordenação e fragmentação de contexto — "resolve" seria superestimar: instâncias do mesmo modelo compartilham priors e podem convergir para o mesmo erro. Nenhuma das abordagens domina a outra — a escolha depende se o risco de bias (single-agent) ou de fragilidade de coordenação (multi-agent) é maior para o caso de uso específico.
 
 ## Interpretação
 
