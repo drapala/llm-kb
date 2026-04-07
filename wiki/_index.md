@@ -111,3 +111,4 @@
 - [Neurosymbolic AI for KBs](concepts/neurosymbolic-ai-for-kbs.md) — ⏳QUARANTINED. Luong (2026): FAOS 3-layer ontology constrainge inputs do agente LLM. Inverse parametric knowledge effect: grounding vale mais onde LLM sabe menos.
 - [Acoplamento Estrutural — Maturana](concepts/structural-coupling-maturana.md) — ⚠️ EMERGIDO L0 (sem raw/). Perturbação recíproca sem controle. Critério de saúde: remove KB, pensa melhor? Candidato para ingest de Tree of Knowledge.
 - [Upper Ontology for Epistemic KBs](concepts/upper-ontology-for-kbs.md) — ⏳QUARANTINED. Síntese: BFO/DOLCE × Hindsight 4 redes. Hierarquia Entity→KnowledgeArtifact→Claim→VerifiedClaim/EmergentClaim. S1-S5 Beer mapeados às classes.
+- [Meta-Ontologia do llm-kb](concepts/meta-ontology-llm-kb.md) — ⏳QUARANTINED. Síntese: BFO upper ontology + domain hierarchy (KnowledgeArtifact/Claim/DisturbanceEvent) + pipeline mapping (Gates ↔ classes). ontology/core.py como invariante executor.
