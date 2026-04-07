@@ -100,6 +100,34 @@ synthesis_sources:
   - wiki/concepts/artigo-B.md
 ```
 
+## Ontologia e Schema
+
+O sistema tem schema canônico em `ontology/core.py`.
+Antes de criar qualquer estrutura de dados nova,
+verifica se já existe classe adequada em core.py.
+
+Hierarquia de classes:
+- `KnowledgeArtifact`: todo artigo wiki
+- `Claim`: toda afirmação dentro de um artigo
+- `DisturbanceEvent`: todo sinal algedônico — emitido APENAS via `AlgedonicPolicy.emit()`
+- `ResolutionSignal`: toda query antes de resolver
+- `OutputClassifier`: classifica outputs pelo conteúdo, não pelo command
+
+Princípio de subsidiarity no schema:
+1. usa classe existente se cobre o caso
+2. herda de classe existente se precisa especializar
+3. cria classe nova só se genuinamente novo conceito
+4. nunca relaxa restrição de classe pai
+
+Invariantes que nunca violam:
+- `EpistemicStatus` é sempre derivado, nunca declarado sem evidência
+- `severity` em `DisturbanceEvent` é imutável por design (`mode='before'`)
+- `AlgedonicPolicy` é a única factory válida de `DisturbanceEvent`
+- `emergence` requer ausência em qualquer fonte individual
+
+meta-ontologia: `wiki/concepts/meta-ontology-llm-kb.md`
+upper ontology: `ontology/core.py`
+
 ## Template de Artigo
 ---
 title: "Nome do Conceito"
