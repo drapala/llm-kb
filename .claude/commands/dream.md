@@ -315,11 +315,13 @@ Cruza registros de skill-usage.jsonl com os logs da sessão do dia para contar o
 | métrica | count | custo_total_usd | custo_médio_usd |
 |---|---|---|---|
 | artigos promovidos | N | X | X |
-| challenges válidos (outcome=APPROVED ou verdict=PUBLICÁVEL) | N | X | X |
+| challenges válidos (verdict=PUBLICÁVEL) | N | X | X |
+| challenges que precisaram correção (verdict=PRECISA_CORREÇÃO) | N | X | X |
 | patches auto-aplicados | N | X | X |
 | retrievals confirmados (completion_tracking) | N | X | X |
 | oracles concordantes (oracle.agreement=true) | N | X | X |
 | oracles em SPLIT (oracle.agreement=false) | N | X | X |
+| Gate 3 invalidations (gate3_claims_invalidated >= 1) | N | X | X |
 
 Para counts: leia kb-state.yaml (`challenge.challenged_since_last_promote`, `completion_tracking`) e session logs do dia.
 
@@ -327,17 +329,49 @@ Para counts: leia kb-state.yaml (`challenge.challenged_since_last_promote`, `com
 
 Agrupe registros com `oracle != null`:
 
-| model | calls | cost_usd | agreement_rate |
-|---|---|---|---|
+| model | calls | cost_usd | agreement_rate | split_rate |
+|---|---|---|---|---|
 
-Linha final: `total_oracle_cost_usd / total_claude_cost_usd = ratio` — mede quanto do orçamento vai para validação externa.
+Compute os sinais cruzados:
+- `oracle_ratio` = total_oracle_cost / total_claude_cost
+- `split_rate` = oracles em SPLIT / total oracles
+- `gate3_invalidation_rate` = challenges com ≥1 invalidation / total challenges
+- `approval_rate` = challenges PUBLICÁVEL / total challenges
+- `cost_per_promoted` = custo total challenges + promotes / artigos promovidos (ou N/A se 0)
+- `cost_per_retrieval_confirmed` = custo total dreams / retrievals confirmados (ou N/A)
 
-### Linha final
+### Postura metabólica
+
+Com base nos sinais cruzados, classifique a postura da sessão em um de três modos.
+Nunca leia o ratio isoladamente — o modo só faz sentido com o contexto dos outros sinais.
+
+**DEFENSIVO-SAUDÁVEL** (oracle_ratio alto + approval_rate alto + split_rate baixo):
+> Sistema inspecionando área instável antes de voltar a operar. Sinal de qualidade — o custo de validação está produzindo aprovações, não ficando preso em debates.
+
+**DEFENSIVO-PATOLÓGICO** (oracle_ratio alto + approval_rate baixo + split_rate alto):
+> Sistema em paranoia epistêmica. Validação cara mas pouco avanço — muitos SPLITs e poucas promoções. Sinal: reduzir /challenge e priorizar /ingest challenging para quebrar o ciclo.
+
+**COMPLACENTE** (oracle_ratio baixo + gate3_invalidation_rate baixo + cost_per_promoted baixo):
+> Sistema promovendo rápido com pouca fricção. Pode ser zona saudável em fase de expansão, ou sub-validação se a KB estiver crescendo em zona confirming. Cruzar com `programme_health.confirming_ratio`.
+
+**CALIBRADO** (qualquer outro caso com os sinais dentro das faixas):
+> Operação normal. Nenhum alerta.
+
+### Thresholds e alertas
+
+Compute e emita alertas se qualquer condição for verdadeira:
 
 ```
-Custo total da sessão: $X.XXXX
-Oracle ratio: XX% (validação externa / custo Claude)
+oracle_ratio > 0.5          → ⚠️ METABOLISMO DEFENSIVO — validação > 50% do custo
+oracle_ratio < 0.05         → ⚠️ METABOLISMO COMPLACENTE — oracle < 5% do custo
+split_rate > 0.3            → ⚠️ SPLIT RATE ALTO — >30% dos oracles sem consenso
+gate3_invalidation_rate > 0.4 → ⚠️ QUALIDADE DE INGESTÃO — >40% challenges com invalidações
+cost_per_promoted > $0.50   → ⚠️ PROMOTE CARO — cada artigo promovido custa >$0.50
+approval_rate < 0.3         → ⚠️ THROUGHPUT BAIXO — <30% dos challenges aprovados
 ```
+
+Se zero alertas: imprimir `✓ metabolismo calibrado`.
+Se alertas: listar alertas e sugerir ação corretiva baseada no modo de postura.
 
 ### Salva relatório
 
@@ -348,6 +382,7 @@ Escreva em `outputs/reports/pipeline-cost-YYYY-MM-DD.md`:
 date: YYYY-MM-DD
 total_cost_usd: X.XXXX
 oracle_ratio: X.XX
+postura: DEFENSIVO-SAUDÁVEL | DEFENSIVO-PATOLÓGICO | COMPLACENTE | CALIBRADO
 ---
 
 ## Custo por Skill
@@ -356,11 +391,18 @@ oracle_ratio: X.XX
 ## Capital Allocation
 [tabela 2]
 
-## Custo Oracle
-[tabela 3]
+## Metabolismo Oracle
+[tabela 3 + sinais cruzados]
+
+## Postura Metabólica
+Modo: [MODO]
+[1-2 frases interpretativas baseadas nos sinais]
+
+## Alertas
+[lista de alertas disparados, ou "✓ metabolismo calibrado"]
 
 ## Total
-Custo total: $X.XXXX | Oracle ratio: XX%
+Custo total: $X.XXXX | Oracle ratio: XX% | Postura: [MODO]
 ```
 
 ---
