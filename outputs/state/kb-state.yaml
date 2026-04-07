@@ -6,9 +6,16 @@
 next_actions:
   # [PROMOVIDO 2026-04-06] meta-harness-optimization
   # [PROMOVIDO 2026-04-06] natural-language-agent-harness
+  # [CHALLENGE COMPLETO 2026-04-06] raw-design-constraints — PRECISA_CORREÇÃO → correções aplicadas → Gate 1 emergence: /promote manual necessário
   - priority: 1
-    action: "/promote raw-design-constraints, evaluation-order-independence"
-    why: "2 artigos em quarentena com critérios de independência já satisfeitos ou prestes a satisfazer. raw-design-constraints: Gate 3 rodou. evaluation-order-independence: /challenge pendente."
+    action: "/promote raw-design-constraints"
+    why: "Todos os critérios satisfeitos 2026-04-06: tempo ✓, review_frio ✓, adversarial ✓. /auto-promote bloqueado em Gate 1 (provenance: emergence). Correções aplicadas no /challenge."
+    blocked_by: null
+    added_by: auto-promote
+    added_on: 2026-04-06
+  - priority: 1
+    action: "/promote evaluation-order-independence"
+    why: "Artigo em quarentena — /challenge pendente."
     blocked_by: null
     added_by: dream
     added_on: 2026-04-05
@@ -85,7 +92,7 @@ emerge_queue: []
 ingest_chain:
   depth: 0 # incremented per auto-ingest triggered by /challenge
   origin_article: null
-  last_challenge: null
+  last_challenge: 2026-04-06  # raw-design-constraints — CHAIN_IGNORED (no INVALIDA)
   status: open # closed after 1 INVALIDA auto-ingested; reset on manual /ingest
 sessions_since_last_dream: 0  # reset após dream 2026-04-06 (2x)
 ingest_count_since_last_lint: 0  # reset após lint 2026-04-06 run2
@@ -166,6 +173,11 @@ programme_health:
     - wiki/concepts/autonomous-kb-failure-modes.md
 # ── Filas de ingestão ──────────────────────────────────────────────────────────
 ingest_queue_priority:
+  - source: "Ingest-And-Ground: Dispelling Hallucinations from Continually-Pretrained LLMs with RAG (arXiv:2410.02825)"
+    why: "REFINA Claim 1 de raw-design-constraints: RAG grounding é mitigação ativa de colapso sintético, não apenas preventiva. Complementa knowledge-collapse-llm."
+    auto_trigger: false
+    added_by: challenge
+    added_on: 2026-04-06
   - source: "InfiAgent: Infinite-Horizon Framework (arXiv:2601.03204)"
     why: "File-centric state abstraction — REFINA claim de file-backed state em natural-language-agent-harness."
     auto_trigger: false
@@ -364,6 +376,19 @@ challenge:
       gate3_claims_weakened: 5
       corrections_applied: true
       quarantine_reason: "Gate 3 — 3 claims invalidated (partial-eq→macro, P5 emprego, gap gestor-worker universal)"
+    - artigo: raw-design-constraints
+      verdict: PRECISA_CORREÇÃO
+      data: 2026-04-06
+      claims_survived: 1
+      claims_weakened: 2
+      claims_invalidated: 0
+      claims_total: 3
+      prior_work_found: 3
+      challenge_type: clean
+      counts_for_promote: true
+      corrections_applied: true
+      sprt_chain: CHAIN_IGNORED
+      log: outputs/logs/sessions/2026-04-06/challenge-raw-design-constraints-23-06.md
 # ── /synthesize ────────────────────────────────────────────────────────────────
 synthesize:
   pending_from_ask:

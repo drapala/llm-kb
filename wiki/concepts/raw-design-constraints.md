@@ -8,7 +8,7 @@ sources:
     type: synthesis
     quality: primary
 created: 2026-04-05
-updated: 2026-04-05
+updated: 2026-04-06
 tags: [kb-design, raw, knowledge-collapse, catastrophic-interference, data-quality]
 source_quality: medium
 interpretation_confidence: low
@@ -19,12 +19,12 @@ retrievals_gap: 0
 last_read: null
 quarantine: true
 quarantine_created: 2026-04-05
-quarantine_reason: "Artigo emergido de /ask cross-domain — aguarda confirmação adversarial e review frio"
+quarantine_reason: "Gate 1 — emergence: auto-promote bloqueado. Todos os critérios satisfeitos 2026-04-06 — use /promote manual."
 quarantine_promoted: null
 quarantine_criteria_met:
-  tempo: false
-  review_frio: false
-  adversarial_or_scout_or_prediction: false
+  tempo: true   # criado 2026-04-05, challenge 2026-04-06 (>24h)
+  review_frio: true   # challenge 2026-04-06 serve como review frio
+  adversarial_or_scout_or_prediction: true   # /challenge 2026-04-06
 provenance: emergence
 emergence_trigger:
   pair: [knowledge-collapse-llm, complementary-learning-systems]
@@ -44,13 +44,13 @@ O design ótimo de raw/ em um KB autônomo deve satisfazer dois constraints meca
 
 Keisha et al. (2025) demonstram que misturar dados reais com dados sintéticos funciona como **regularizador** que atrasa o Stage B de colapso. Mesmo 25% de dados reais produz trajetória U-shaped de perplexidade (dado real ancora a distribuição). A mitigação de 15× por domain-specific training funciona porque mantém a distribuição próxima do ground truth factual — é um problema de **qualidade de fonte**, não de arquitetura.
 
-Implicação para raw/: se /review passa a operar majoritariamente sobre wiki/ (sínteses da própria KB) em vez de raw/ (fontes primárias), o mecanismo de regularização desaparece. A função de raw/ neste modelo é ser o "dado real" que ancora as sínteses geradas pelo compilador.
+(⚠️ nossa interpretação) Implicação para raw/: se /review passa a operar majoritariamente sobre wiki/ (sínteses da própria KB) em vez de raw/ (fontes primárias), o mecanismo de regularização desaparece. A função de raw/ neste modelo é ser o "dado real" que ancora as sínteses geradas pelo compilador.
 
 ### O que complementary-learning-systems contribui
 
 McClelland et al. (1995) demonstram que aprendizado focalizado (focused learning — treinar repetidamente em um único conjunto de items sem interleaving) produz aprendizado mais rápido daquele conjunto mas destrói o conhecimento de outros conceitos no neocórtex. Interleaved learning (misturar o novo com toda a base existente) é mais lento mas preserva a estrutura global.
 
-Implicação para raw/: se raw/ acumula predominantemente fontes de um único cluster (ex: AI/ML/agentic systems), /review opera como "focused learning" — aprende bem um cluster, potencialmente degradando integração com outros. A diversidade tópica de raw/ é o equivalente do interleaving hipocampal que previne interferência catastrófica.
+(⚠️ nossa interpretação) Implicação para raw/: se raw/ acumula predominantemente fontes de um único cluster (ex: AI/ML/agentic systems), /review opera como "focused learning" — aprende bem um cluster, potencialmente degradando integração com outros. A diversidade tópica de raw/ é o equivalente do interleaving hipocampal que previne interferência catastrófica.
 
 ### O que emerge da combinação
 
