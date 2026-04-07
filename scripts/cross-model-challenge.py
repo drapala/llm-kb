@@ -524,22 +524,25 @@ def main():
         print(json.dumps(result, ensure_ascii=False, indent=2))
         sys.exit(0 if result.get("verdict") == "GENUINE" else 3)
 
-    # ── Unanimous mode (threshold assimétrico) ───────────────────────────────
+    # ── Unanimous mode (threshold calibrado) ─────────────────────────────────
     openai_result = call_openai(pair)
     gemini_result = call_gemini(pair)
 
     openai_score = openai_result.get("score", 0)
     gemini_score = gemini_result.get("score", 0)
 
-    # Threshold assimétrico por design:
-    # GPT >= 5: "há substância estrutural" (isomorfismo formal detectável)
-    # Gemini >= 8: "há emergência" (insight cross-domain que nenhum domínio gera sozinho)
-    # Critérios diferentes — não confiânças diferentes no mesmo critério.
-    threshold_met = openai_score >= 5 and gemini_score >= 8
+    # Threshold calibrado por distribuição empírica dos modelos:
+    # GPT distribui 3-6 (conservador); Gemini é bimodal: 4-5 (não vê) ou 8-9 (vê).
+    # MIN >= 5: ambos reconhecem substância estrutural (elimina casos onde GPT=4 com objeção real)
+    # MAX >= 7: pelo menos um modelo detecta emergência genuína
+    # Elimina SPLITs onde a divergência é calibração numérica, não desacordo substantivo.
+    min_score = min(openai_score, gemini_score)
+    max_score = max(openai_score, gemini_score)
+    threshold_met = min_score >= 5 and max_score >= 7
 
     if threshold_met:
         final_verdict = "GENUINE"
-    elif openai_score < 5 and gemini_score < 8:
+    elif max_score < 7:
         final_verdict = "SUPERFICIAL"
     else:
         final_verdict = "SPLIT"
@@ -548,7 +551,7 @@ def main():
         "verdict": final_verdict,
         "threshold_met": threshold_met,
         "unanimous": threshold_met,  # retrocompatibilidade — emerge.md usa este campo
-        "threshold": {"openai_min": 5, "gemini_min": 8},
+        "threshold": {"min_score": 5, "max_score": 7},
         "scores": {"openai": openai_score, "gemini": gemini_score},
         "openai": openai_result,
         "gemini": gemini_result,

@@ -8,6 +8,7 @@
 
 - [LLM Knowledge Base](concepts/llm-knowledge-base.md) — Core loop: raw/→wiki/→ask. Practitioner-described (not independently validated). Risks: AI-compiled content degrades RAG, model collapse
 - [KB Architecture Patterns](concepts/kb-architecture-patterns.md) — 4 patterns + cross-cutting retrieval constraint. Pattern 4 (GBrain): SQLite+FTS5+vector, "thin CLI + fat skills" design principle. Scale thresholds = 1-anecdote each
+- [Epistemic KB Benchmark Protocol](concepts/epistemic-kb-benchmark-protocol.md) — ⏳QUARANTINED. 2 eixos: calibração (3 braços, ECE/Brier, implementável) + degradação temporal (30 dias, Stage B como sinal). Braço B congelado. Falsificadores H1/H2/H3 explícitos.
 - [Retrieval-Augmented Generation](concepts/retrieval-augmented-generation.md) — LC vs RAG eval: LC wins 56.3% vs 49%, but RAG irreplaceable for ~10%. Hybrid recommended
 - [Context Management](concepts/context-management.md) — WITHIN-SESSION: 4-layer compaction (micro→snip→auto→collapse). How to operate within finite token budgets
 - [Memory Consolidation](concepts/memory-consolidation.md) — CROSS-SESSION: KAIROS/Dream 4-phase cycle (orient→gather→consolidate→prune). How to persist knowledge between sessions
