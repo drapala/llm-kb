@@ -17,19 +17,19 @@ lifecycle_state: active
 
 ## Hipótese
 
-Block tem sinal operacional honesto mas sem belief revision. Prometheus (llm-kb) tem belief revision estruturada mas sem sinal operacional. A união dos dois — sinal real da Zelox alimentando o world model com mecanismo de belief revision — é o projeto real. Isolados, ambos têm um teto. Unidos, o sistema pode propor hipóteses que nenhum dos dois geraria isoladamente.
+Block tem sinal operacional honesto mas sem belief revision. Prometheus (metaxon) tem belief revision estruturada mas sem sinal operacional. A união dos dois — sinal real da Zelox alimentando o world model com mecanismo de belief revision — é o projeto real. Isolados, ambos têm um teto. Unidos, o sistema pode propor hipóteses que nenhum dos dois geraria isoladamente.
 
 ## Premissas
 
 - Block captura sinal operacional do mundo real sem viés de curadoria (honest signal): o que de fato aconteceu, não o que foi decidido que deveria ter acontecido
-- Prometheus (llm-kb) tem mecanismo robusto de belief revision (raw/ como âncora + /challenge + oracle externo) mas opera sobre fontes curadas — papers, análises, textos estruturados
+- Prometheus (metaxon) tem mecanismo robusto de belief revision (raw/ como âncora + /challenge + oracle externo) mas opera sobre fontes curadas — papers, análises, textos estruturados
 - A curadoria de fontes introduz um viés de seleção: apenas o que alguém decidiu ingerir entra no world model
 - Sinal operacional não passa por curadoria — contém anomalias, padrões inesperados, correlações não-óbvias
 - A combinação de estrutura epistêmica (Prometheus) com input não-curado (Block/Zelox) quebra o viés de seleção do compilador
 
 ## Mecanismo proposto
 
-A versão atual do llm-kb funciona como: humano lê paper → decide que é relevante → ingere → wiki atualiza. O humano é o filtro de relevância. Esse filtro é necessário mas introduz confirmation bias: o humano ingere o que já acha que vai confirmar ou desafiar hipóteses existentes.
+A versão atual do metaxon funciona como: humano lê paper → decide que é relevante → ingere → wiki atualiza. O humano é o filtro de relevância. Esse filtro é necessário mas introduz confirmation bias: o humano ingere o que já acha que vai confirmar ou desafiar hipóteses existentes.
 
 Block elimina esse filtro na camada operacional: o sinal da Zelox (transações, eventos, anomalias) entra no world model sem pré-seleção de relevância. O mecanismo de belief revision do Prometheus então age sobre esse input bruto.
 
@@ -39,7 +39,7 @@ Isso é análogo ao que [[complementary-learning-systems]] descreve: o hipocampo
 
 ## Consequências arquiteturais
 
-- Zelox precisa de um canal de exportação contínua para o llm-kb (streaming ou batch periódico)
+- Zelox precisa de um canal de exportação contínua para o metaxon (streaming ou batch periódico)
 - O formato de ingestão operacional deve ser diferente do formato de paper: preservar timestamp, contexto de evento, sem normalização excessiva
 - O kb precisa de namespace separado para operational observations (distinto de papers acadêmicos) — provavelmente o namespace `observation` do schema Hindsight já definido
 - O mecanismo de belief revision precisa funcionar com inputs de baixa qualidade epistêmica (não vai ter abstract, não vai ter claims estruturados)

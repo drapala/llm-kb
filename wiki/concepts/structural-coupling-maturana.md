@@ -31,7 +31,7 @@ epistemic_status: L0
 
 ## Resumo
 
-Acoplamento estrutural (Maturana & Varela, 1987) é o mecanismo pelo qual dois sistemas autopoiéticos co-adaptam suas estruturas através de perturbações recíprocas ao longo do tempo — sem que nenhum controle o outro. É o processo que produz co-evolução, distinto de simbiose (estado de benefício mútuo) e de parasitismo (um sistema subordina o outro). Para o llm-kb: operador e KB são sistemas acoplados, não uma ferramenta usada por um agente.
+Acoplamento estrutural (Maturana & Varela, 1987) é o mecanismo pelo qual dois sistemas autopoiéticos co-adaptam suas estruturas através de perturbações recíprocas ao longo do tempo — sem que nenhum controle o outro. É o processo que produz co-evolução, distinto de simbiose (estado de benefício mútuo) e de parasitismo (um sistema subordina o outro). Para o metaxon: operador e KB são sistemas acoplados, não uma ferramenta usada por um agente.
 
 > **Nota epistêmica:** este artigo é emergência sem fonte raw/ direta. Os conceitos de Maturana são de domínio público e amplamente documentados, mas nenhuma fonte foi ingerida em raw/. Os claims factuais sobre a teoria devem ser verificados contra raw/notes/maturana-varela-tree-of-knowledge.md se/quando ingerida. A seção de Interpretação é explicitamente nossa síntese.
 
@@ -77,11 +77,11 @@ O acoplamento torna-se patológico quando um sistema perde autopoiese em relaç�
 | Parasitismo | Um cresce às custas do outro | A aumenta complexidade, B diminui |
 | Absorção | Um perde identidade distinta | A e B tornam-se indistinguíveis |
 
-**Critério operacional de saúde para o llm-kb:** remova a KB. O operador pensa melhor do que antes de criá-la, ou pior? Se pior — o acoplamento tornou-se dependência. A KB substituiu pensamento em vez de perturbá-lo.
+**Critério operacional de saúde para o metaxon:** remova a KB. O operador pensa melhor do que antes de criá-la, ou pior? Se pior — o acoplamento tornou-se dependência. A KB substituiu pensamento em vez de perturbá-lo.
 
 ## Interpretação
 
-(⚠️ nossa interpretação) Esta seção aplica o framework de Maturana ao sistema llm-kb. Não há validação empírica dessas analogias.
+(⚠️ nossa interpretação) Esta seção aplica o framework de Maturana ao sistema metaxon. Não há validação empírica dessas analogias.
 
 ### KB e operador como sistemas acoplados
 

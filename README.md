@@ -1,4 +1,4 @@
-# llm-kb
+# metaxon
 
 > LLMs confirmam melhor do que descobrem. Um sistema de conhecimento operado por LLM sem estrutura epistêmica converge semanticamente em semanas: artigos homogeneizam, erros cristalizam por validação circular, nuance some. O sistema parece saudável em todas as métricas automáticas. A qualidade erode nos *claims*, não nos arquivos.
 >

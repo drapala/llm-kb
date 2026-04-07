@@ -95,7 +95,7 @@ O problema fantomático é o risco mais real desta KB a longo prazo: o corpus se
 
 - [[structural-coupling-maturana]] — acoplamento por benefício mútuo: Lem e Maturana convergem pelo mesmo critério de saúde
 - [[viable-system-model-beer]] — autoevolução como S5 ativo (identidade que escolhe) vs S5 reativo (identidade que responde)
-- [[meta-ontology-llm-kb]] — intellectrônica como fundamento filosófico da distinção Claim tipado
+- [[meta-ontology-metaxon]] — intellectrônica como fundamento filosófico da distinção Claim tipado
 - [[autonomous-kb-failure-modes]] — o problema Golem como failure mode documentado
 - [[noogon-identity]] — a justificativa de Lem para o nome NOOGON agora tem base em raw/ (não apenas paramétrica)
 - [[requisite-variety]] — o escalator tecnológico é seleção por variety mismatch

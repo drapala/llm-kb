@@ -1,4 +1,4 @@
-# Sessão de Construção do llm-kb — Documentação Parte 20
+# Sessão de Construção do metaxon — Documentação Parte 20
 **Data:** 2026-04-06
 **Contexto:** Autopoiese, telemetria metabólica, self-healing loop com retrieval validation, challenge adversarial de artigo de emergência, e extensão do meta-harness com sensor de friction.
 
@@ -27,7 +27,7 @@ Configurado remote Claude Code trigger (CCR) para rodar o pipeline meta-harness 
 - Trigger ativo: `trig_01XeqJMQdGryevqQoM8Kh9g9`
 - Cron: `0 11 * * *` (UTC) = 8h Brasília
 - Modelo: claude-sonnet-4-6
-- Repo: `https://github.com/drapala/llm-kb`
+- Repo: `https://github.com/drapala/metaxon`
 
 **Decisão importante:**
 O CCR não tem acesso ao filesystem local — friction files em `raw/meta/ops/` só ficam visíveis para o trigger depois do commit das 19h. Isso foi aceito como limitação de design, não como bug.

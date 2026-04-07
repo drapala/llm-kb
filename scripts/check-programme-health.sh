@@ -11,7 +11,7 @@ FILE_PATH=$(echo "$INPUT" | jq -r '.tool_input.file_path // .tool_response.fileP
 # Only fire on new wiki concept articles (final step of /ingest)
 [[ "$FILE_PATH" == */wiki/concepts/*.md || "$FILE_PATH" == wiki/concepts/*.md ]] || exit 0
 
-PROJECT_ROOT="/Users/drapala/projects/llm-kb"
+PROJECT_ROOT="/Users/drapala/projects/metaxon"
 KB_STATE="${PROJECT_ROOT}/outputs/state/kb-state.yaml"
 
 [ -f "$KB_STATE" ] || exit 0

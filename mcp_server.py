@@ -9,10 +9,10 @@ Tools exposed to agents:
 
 To register in Claude Code (~/.claude/settings.json):
   "mcpServers": {
-    "llm-kb": {
-      "command": "/Users/drapala/projects/llm-kb/.venv/bin/python",
-      "args": ["/Users/drapala/projects/llm-kb/mcp_server.py"],
-      "cwd": "/Users/drapala/projects/llm-kb"
+    "metaxon": {
+      "command": "/Users/drapala/projects/metaxon/.venv/bin/python",
+      "args": ["/Users/drapala/projects/metaxon/mcp_server.py"],
+      "cwd": "/Users/drapala/projects/metaxon"
     }
   }
 """
@@ -28,7 +28,7 @@ from mcp.server.fastmcp import FastMCP
 
 from api.core import run_ingest, search, stats
 
-mcp = FastMCP("llm-kb")
+mcp = FastMCP("metaxon")
 
 
 @mcp.tool()

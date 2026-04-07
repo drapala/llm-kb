@@ -8,7 +8,7 @@ interpretation_confidence: low
 provenance: emergence
 epistemic_status: L0
 emergence_trigger:
-  pair: [meta-ontology-llm-kb, epistemic-federation-distributed]
+  pair: [meta-ontology-metaxon, epistemic-federation-distributed]
   ask_session: outputs/logs/sessions/2026-04-07/ask-noogon.md
   connection_type: EMERGE-DE
   pearl_level: L2
@@ -136,7 +136,7 @@ Emergence L1/L2 não ocorre em nenhuma fonte individual — ocorre no cruzamento
 
 ## Conexões
 
-- [[meta-ontology-llm-kb]] — a ontologia que descreve o que METAXON é (upper + domain + pipeline)
+- [[meta-ontology-metaxon]] — a ontologia que descreve o que METAXON é (upper + domain + pipeline)
 - [[viable-system-model-beer]] — S1-S5, algedônico: Beer nomeia o canal do metaxu
 - [[structural-coupling-maturana]] — ⚠️ L0 — o acoplamento estrutural é o metaxu entre organismo e operador
 - [[epistemic-federation-distributed]] — o plural de METAXON (metaxa)

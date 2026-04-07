@@ -68,12 +68,12 @@ Zelox hoje: cruzamento de dados PNCP (Portal Nacional de Contratações Pública
 | **S2** | Implícito no ETL (dedup, alinhamento temporal) | Tornar explícito como componente de coordenação |
 | **S3** | Manual — humano define o que é sinal | Codificar critérios: padrão bid-rigging, empresa conectada, anomalia de preço |
 | **S3\*** | Ausente | Log imutável de todos os sinais gerados |
-| **S4** | llm-kb (desconectado) | MCP server Zelox → llm-kb recebe sinal de S1 via kb_ingest |
+| **S4** | metaxon (desconectado) | MCP server Zelox → metaxon recebe sinal de S1 via kb_ingest |
 | **S5** | Humano vê tudo (S5 contínuo) | Meta: S5 só via algedonic alert quando S3 não classifica |
 
 **Diagnóstico VSM (embrião):** sistema centralizado em S5 por ausência de S3 calibrado. Normal no estágio inicial — o path é calibrar S3 progressivamente para que S5 receba apenas variety genuinamente nova.
 
-**Conexão S4↔S1 via MCP:** um MCP server na Zelox expondo sinais de S1 permite que o llm-kb (S4) receba input operacional direto — fechando o loop S4 patológico identificado em `/ask zelox-vsm 2026-04-06`. Ver `vsm-autonomous-threshold-design.md`.
+**Conexão S4↔S1 via MCP:** um MCP server na Zelox expondo sinais de S1 permite que o metaxon (S4) receba input operacional direto — fechando o loop S4 patológico identificado em `/ask zelox-vsm 2026-04-06`. Ver `vsm-autonomous-threshold-design.md`.
 
 ## Histórico
 

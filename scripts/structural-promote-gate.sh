@@ -13,7 +13,7 @@ if [ -z "$FILE" ] || [ ! -f "$FILE" ]; then
   exit 2
 fi
 
-PROJECT_ROOT="/Users/drapala/projects/llm-kb"
+PROJECT_ROOT="/Users/drapala/projects/metaxon"
 ABS_FILE="$FILE"
 if [ ! -f "$ABS_FILE" ]; then
   ABS_FILE="${PROJECT_ROOT}/${FILE}"

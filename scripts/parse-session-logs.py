@@ -2,7 +2,7 @@
 """
 parse-session-logs.py — Fallback parser for Claude Code session JSONL.
 
-Reads ~/.claude/projects/-Users-drapala-projects-llm-kb/*.jsonl (most recent),
+Reads ~/.claude/projects/-Users-drapala-projects-metaxon/*.jsonl (most recent),
 groups by Skill tool_use blocks, reconstructs per-skill token deltas,
 and appends to outputs/reports/skill-usage.jsonl (same schema as track-skill-usage.py).
 
@@ -21,7 +21,7 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).parent.parent
 PRICING_PATH = PROJECT_ROOT / "config" / "pricing.yaml"
 OUTPUT_PATH = PROJECT_ROOT / "outputs" / "reports" / "skill-usage.jsonl"
-SESSIONS_DIR = Path.home() / ".claude" / "projects" / "-Users-drapala-projects-llm-kb"
+SESSIONS_DIR = Path.home() / ".claude" / "projects" / "-Users-drapala-projects-metaxon"
 DEFAULT_MODEL = "claude-sonnet-4-6"
 
 

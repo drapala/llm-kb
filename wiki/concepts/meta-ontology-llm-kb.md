@@ -1,5 +1,5 @@
 ---
-title: "Meta-Ontologia do llm-kb — Upper, Domain e Pipeline"
+title: "Meta-Ontologia do metaxon — Upper, Domain e Pipeline"
 sources:
   - path: wiki/concepts/formal-ontology-for-kbs.md
     type: article
@@ -46,7 +46,7 @@ epistemic_status: L1
 
 ## Resumo
 
-Este artigo descreve a meta-ontologia do llm-kb em três camadas: (1) upper ontology baseada em BFO que distingue continuantes (artigos, conceitos) de ocorrentes (sessões, events); (2) domain ontologies específicas do KB (KnowledgeArtifact, Claim, DisturbanceEvent); (3) mapeamento entre schema Pydantic (`ontology/core.py`) e os 4 Gates do pipeline de promoção. O VSM de Beer fundamenta o canal algedônico; Luong 2026 justifica o grounding ontológico onde o LLM tem cobertura fraca.
+Este artigo descreve a meta-ontologia do metaxon em três camadas: (1) upper ontology baseada em BFO que distingue continuantes (artigos, conceitos) de ocorrentes (sessões, events); (2) domain ontologies específicas do KB (KnowledgeArtifact, Claim, DisturbanceEvent); (3) mapeamento entre schema Pydantic (`ontology/core.py`) e os 4 Gates do pipeline de promoção. O VSM de Beer fundamenta o canal algedônico; Luong 2026 justifica o grounding ontológico onde o LLM tem cobertura fraca.
 
 ## Conteúdo
 
@@ -79,7 +79,7 @@ Entity (BFO:top)
 
 ### 2. Domain Ontologies — Hierarquia KB-específica
 
-A hierarquia domain estende BFO com entidades próprias do llm-kb:
+A hierarquia domain estende BFO com entidades próprias do metaxon:
 
 #### 2.1 KnowledgeArtifact (continuante)
 
@@ -145,7 +145,7 @@ ALGEDONIC  → bypass S3/S4 direto para S5 (has_contradictions = True OR severit
 
 ### 4. O que Prometheus Adiciona ao VSM
 
-Beer VSM descreve S1-S5 sem especificar o conteúdo epistêmico dos sinais. O llm-kb ("Prometheus") acrescenta:
+Beer VSM descreve S1-S5 sem especificar o conteúdo epistêmico dos sinais. O metaxon ("Prometheus") acrescenta:
 
 | VSM Beer | Gap original | Prometheus preenche |
 |----------|-------------|---------------------|

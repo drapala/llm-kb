@@ -125,7 +125,7 @@ Invariantes que nunca violam:
 - `AlgedonicPolicy` é a única factory válida de `DisturbanceEvent`
 - `emergence` requer ausência em qualquer fonte individual
 
-meta-ontologia: `wiki/concepts/meta-ontology-llm-kb.md`
+meta-ontologia: `wiki/concepts/meta-ontology-metaxon.md`
 upper ontology: `ontology/core.py`
 
 ## Template de Artigo

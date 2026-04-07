@@ -3,7 +3,7 @@
     "allow": [
       "WebSearch",
       "WebFetch(domain:arxiv.org)",
-      "mcp__llm-kb__kb_search",
+      "mcp__metaxon__kb_search",
       "WebFetch(domain:gist.github.com)",
       "WebFetch(domain:gist.githubusercontent.com)",
       "WebFetch(domain:www.axios.com)",
@@ -18,7 +18,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/drapala/projects/llm-kb/scripts/check-context-window.sh",
+            "command": "/Users/drapala/projects/metaxon/scripts/check-context-window.sh",
             "timeout": 8,
             "statusMessage": "Checking context window..."
           }
@@ -31,7 +31,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/drapala/projects/llm-kb/scripts/kb-telemetry.sh",
+            "command": "/Users/drapala/projects/metaxon/scripts/kb-telemetry.sh",
             "timeout": 5,
             "statusMessage": "Logging command_started event..."
           }
@@ -44,25 +44,25 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/drapala/projects/llm-kb/scripts/kb-telemetry.sh",
+            "command": "/Users/drapala/projects/metaxon/scripts/kb-telemetry.sh",
             "timeout": 5,
             "statusMessage": "Logging telemetry event..."
           },
           {
             "type": "command",
-            "command": "/Users/drapala/projects/llm-kb/scripts/enrich-from-pdf.sh",
+            "command": "/Users/drapala/projects/metaxon/scripts/enrich-from-pdf.sh",
             "timeout": 30,
             "statusMessage": "Checking for arxiv PDF to enrich..."
           },
           {
             "type": "command",
-            "command": "/Users/drapala/projects/llm-kb/scripts/check-over-synthesis.sh",
+            "command": "/Users/drapala/projects/metaxon/scripts/check-over-synthesis.sh",
             "timeout": 5,
             "statusMessage": "Checking for over-synthesis..."
           },
           {
             "type": "command",
-            "command": "/Users/drapala/projects/llm-kb/scripts/check-programme-health.sh",
+            "command": "/Users/drapala/projects/metaxon/scripts/check-programme-health.sh",
             "timeout": 5,
             "statusMessage": "Checking programme health (Lakatos)..."
           }
@@ -73,13 +73,13 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/drapala/projects/llm-kb/scripts/kb-telemetry.sh",
+            "command": "/Users/drapala/projects/metaxon/scripts/kb-telemetry.sh",
             "timeout": 5,
             "statusMessage": "Logging telemetry event..."
           },
           {
             "type": "command",
-            "command": "/Users/drapala/projects/llm-kb/scripts/check-over-synthesis.sh",
+            "command": "/Users/drapala/projects/metaxon/scripts/check-over-synthesis.sh",
             "timeout": 5,
             "statusMessage": "Checking for over-synthesis..."
           }
@@ -90,7 +90,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/drapala/projects/llm-kb/scripts/kb-telemetry.sh",
+            "command": "/Users/drapala/projects/metaxon/scripts/kb-telemetry.sh",
             "timeout": 5,
             "statusMessage": "Logging telemetry event..."
           }
@@ -101,7 +101,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 /Users/drapala/projects/llm-kb/scripts/track-skill-usage.py",
+            "command": "python3 /Users/drapala/projects/metaxon/scripts/track-skill-usage.py",
             "timeout": 10,
             "statusMessage": "Tracking skill usage..."
           }

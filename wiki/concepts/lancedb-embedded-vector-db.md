@@ -93,7 +93,7 @@ Alternativa: `ColbertReranker` — mais preciso, mais lento (~100ms vs ~20ms par
 | Criar se não existe | `db.create_table(name, schema=schema)` | Sem schema → schema inferido do primeiro batch |
 | Drop para rebuild | `db.drop_table(name)` antes de `get_or_create_table()` | Inverter a ordem → erro de schema mismatch |
 
-### Performance (corpus llm-kb)
+### Performance (corpus metaxon)
 
 Medições em 2026-04-05 no corpus de ~717 chunks / 77 artigos:
 

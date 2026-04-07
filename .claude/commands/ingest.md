@@ -5,7 +5,7 @@
 Execute este script bash e leia o resultado:
 
 ```bash
-SESSION=$(ls -t ~/.claude/projects/-Users-drapala-projects-llm-kb/*.jsonl 2>/dev/null | head -1)
+SESSION=$(ls -t ~/.claude/projects/-Users-drapala-projects-metaxon/*.jsonl 2>/dev/null | head -1)
 python3 -c "
 import json
 entries = []

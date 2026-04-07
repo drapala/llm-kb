@@ -5,7 +5,7 @@ ID: trig_01XeqJMQdGryevqQoM8Kh9g9
 URL: https://claude.ai/code/scheduled/trig_01XeqJMQdGryevqQoM8Kh9g9
 Cron: 0 11 * * * (08:00 Brasília)
 Modelo: claude-sonnet-4-6
-Repo: github.com/drapala/llm-kb
+Repo: github.com/drapala/metaxon
 
 ## Recriação
 Se o trigger sumir, recriar com:

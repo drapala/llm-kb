@@ -34,7 +34,7 @@ com esta estrutura:
 
 ---
 
-# Sessão de Construção do llm-kb — Documentação Parte [N]
+# Sessão de Construção do metaxon — Documentação Parte [N]
 **Data:** [data atual]
 **Contexto:** [resumo em 1 linha do que foi feito]
 

@@ -1,7 +1,7 @@
 # Session Start Hook
 
 ## Quando ativa
-No início de TODA sessão no llm-kb, antes de qualquer outra ação.
+No início de TODA sessão no metaxon, antes de qualquer outra ação.
 
 ## O que faz
 

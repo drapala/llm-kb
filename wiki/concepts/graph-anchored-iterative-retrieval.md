@@ -97,7 +97,7 @@ Iteração é mais importante que o grafo. Remover iteração: -10% F1. Remover 
 
 **O que desbloqueia — /ask iterativo:**
 
-O padrão do GraphAnchor mapeia diretamente para uma melhoria do /ask no llm-kb. Atualmente /ask é linear (Layer 1 → Layer 2 → Layer 3). GraphAnchor sugere iteração:
+O padrão do GraphAnchor mapeia diretamente para uma melhoria do /ask no metaxon. Atualmente /ask é linear (Layer 1 → Layer 2 → Layer 3). GraphAnchor sugere iteração:
 
 ```
 /ask atual (linear):
@@ -121,11 +121,11 @@ A solução para Bloqueio 2 é mais simples do que precisava de um paper: ID est
 
 ### Limitação de generalização
 
-Resultados medidos em multi-hop QA benchmarks (MuSiQue, HotpotQA, 2WikiMQA, Bamboogle) com documentos curtos e factuais. KB do llm-kb tem artigos mais longos, com interpretações marcadas e estrutura epistêmica. Ganho pode ser diferente — possivelmente maior em queries cross-cluster, possivelmente menor em queries single-article.
+Resultados medidos em multi-hop QA benchmarks (MuSiQue, HotpotQA, 2WikiMQA, Bamboogle) com documentos curtos e factuais. KB do metaxon tem artigos mais longos, com interpretações marcadas e estrutura epistêmica. Ganho pode ser diferente — possivelmente maior em queries cross-cluster, possivelmente menor em queries single-article.
 
 ## Verificação adversarial
 
-**Claim mais fraco:** "+14-23% F1" — medido com Qwen2.5-7B em benchmarks específicos de multi-hop. Não testado em KBs com conteúdo epistemicamente heterogêneo (fatos + interpretações + especulações). O ganho pode não replicar diretamente no /ask do llm-kb.
+**Claim mais fraco:** "+14-23% F1" — medido com Qwen2.5-7B em benchmarks específicos de multi-hop. Não testado em KBs com conteúdo epistemicamente heterogêneo (fatos + interpretações + especulações). O ganho pode não replicar diretamente no /ask do metaxon.
 
 **O que o paper NÃO diz:**
 1. Não testa em documentos com claims conflitantes ou marcados com confiança

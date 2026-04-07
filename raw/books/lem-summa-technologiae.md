@@ -98,11 +98,11 @@ A resposta de Lem implícita em ST: não por controle (impossível depois de cer
 
 **Nota:** citações acima são paráfrases do compilador baseadas em conhecimento paramétrico. Não verificadas no texto primário. Qualquer uso formal requer verificação na tradução de 2013.
 
-## Relevância para a linhagem intelectual do llm-kb
+## Relevância para a linhagem intelectual do metaxon
 
 Lem é o único não-cientista na linhagem fundacional (Beer/Maturana/Ashby/Wiener são todos cientistas). Sua contribuição específica:
 
-1. **Autoevolução como categoria descritiva**: o llm-kb tem roadmap, meta-harness, planned lineage — isso é autoevolução no sentido de Lem.
+1. **Autoevolução como categoria descritiva**: o metaxon tem roadmap, meta-harness, planned lineage — isso é autoevolução no sentido de Lem.
 2. **Problema fantomático como risco**: o KB pode tornar-se mais acessível que o mundo real para o agente — risk documentado implicitamente no Corpus Sufficiency Check do /ask.
 3. **Ariadnologia como design pattern**: epistemic_status como instinto artificial; algedonic como reflexo orientador.
 4. **Acoplamento por benefício mútuo**: a relação KB-operador é saudável quando ambos crescem juntos (critério de saúde de structural-coupling-maturana).
@@ -112,5 +112,5 @@ Lem é o único não-cientista na linhagem fundacional (Beer/Maturana/Ashby/Wien
 - [[structural-coupling-maturana]] — acoplamento por benefício mútuo vs Lem's "partnership by design"
 - [[viable-system-model-beer]] — autoevolução como S5 ativo vs S5 reativo
 - [[autonomous-kb-failure-modes]] — problema Golem: o que acontece quando o KB supera o operador?
-- [[meta-ontology-llm-kb]] — intellectrônica como fundamento da ontologia de claims
+- [[meta-ontology-metaxon]] — intellectrônica como fundamento da ontologia de claims
 - [[noogon-identity]] — o nome NOOGON agora tem fundamento não-paramétrico em Lem

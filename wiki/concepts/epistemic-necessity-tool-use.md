@@ -72,7 +72,7 @@ Frameworks existentes (ReAct, Toolformer) otimizam para task success ou reward, 
 
 ## Conexões
 
-- [[meta-ontology-llm-kb]] — ResolutionPolicy em ontology/core.py é instância do critério de epistemic necessity
+- [[meta-ontology-metaxon]] — ResolutionPolicy em ontology/core.py é instância do critério de epistemic necessity
 - [[autonomous-kb-failure-modes]] — overacting como failure mode se mapeia para authority cascade; overthinking para bloat
 - [[self-improving-agents]] — trajetória da inteligência via exercício interno ressoa com Reflexion (raciocínio verbal) vs. delegação prematura
 - [[epistemic-maintenance]] — calibração epistêmica contínua é o mecanismo subjacente ao critério

@@ -82,7 +82,7 @@ Quando múltiplos agentes S1 operam concorrentemente, Beer exige S2 como amortec
 
 **Decisão 3 — S4 conectado ao sinal de S1**
 
-(⚠️ atribuído a *Brain of the Firm* — não verificado em raw/ desta KB) Beer: S4 fraco ou desconectado de S1 → strategy lags, architecture drifts. Em Zelox, S4 é o world model (Prometheus/llm-kb). Enquanto S4 recebe apenas papers curados e não recebe sinal operacional de S1 (transações, escalamentos, anomalias), o sistema tem S4 desconectado — o gap mais urgente. O `zelox-block-epistemic-union.md` descreve exatamente esse canal faltante.
+(⚠️ atribuído a *Brain of the Firm* — não verificado em raw/ desta KB) Beer: S4 fraco ou desconectado de S1 → strategy lags, architecture drifts. Em Zelox, S4 é o world model (Prometheus/metaxon). Enquanto S4 recebe apenas papers curados e não recebe sinal operacional de S1 (transações, escalamentos, anomalias), o sistema tem S4 desconectado — o gap mais urgente. O `zelox-block-epistemic-union.md` descreve exatamente esse canal faltante.
 
 **Mapeamento S1-S5 proposto (interpretativo — sem source primária de Zelox):**
 

@@ -1,5 +1,5 @@
 """
-ontology/core.py — Schema Pydantic canônico do llm-kb
+ontology/core.py — Schema Pydantic canônico do metaxon
 
 Implementa a upper ontology do sistema epistêmico:
   Entity → KnowledgeArtifact → Claim (eixo estrutural — BFO Continuant)

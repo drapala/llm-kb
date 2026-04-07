@@ -8,7 +8,7 @@
 #   < 70%: silent
 set -euo pipefail
 
-SESSION=$(ls -t ~/.claude/projects/-Users-drapala-projects-llm-kb/*.jsonl 2>/dev/null | head -1)
+SESSION=$(ls -t ~/.claude/projects/-Users-drapala-projects-metaxon/*.jsonl 2>/dev/null | head -1)
 
 PCT=$(python3 -c "
 import json, sys

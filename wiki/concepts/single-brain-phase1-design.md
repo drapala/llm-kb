@@ -155,7 +155,7 @@ BGE-M3 é correto para PNCP (300M vetores, H100, português jurídico). Para Pha
 
 ## Interpretação
 
-Este artigo é design decision, não descrição de sistema existente. As recomendações são derivadas de três papers, mas a aplicação específica ao llm-kb/Single Brain é nossa síntese — não validada empiricamente.
+Este artigo é design decision, não descrição de sistema existente. As recomendações são derivadas de três papers, mas a aplicação específica ao metaxon/Single Brain é nossa síntese — não validada empiricamente.
 
 O caveat mais importante: Phase 1 pode ser implementada com simplicidade porque João é o único agente agora. Mas toda decisão de schema deve ser testada mentalmente contra o cenário "5 agentes escrevendo simultaneamente no mesmo namespace" — se causa problema nesse cenário, precisa ser redesenhada antes de Phase 1 crystallize.
 

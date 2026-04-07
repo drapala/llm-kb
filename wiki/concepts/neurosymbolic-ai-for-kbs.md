@@ -80,7 +80,7 @@ Evidência direta: os domínios vietnamitas localizados — menor representaçã
 
 (⚠️ nossa interpretação) Isso significa que a justificativa para typed wikilinks não é uniforme. Adotar tipagem de relações faz mais sentido começando pelos clusters Zone 3 (procurement, B2G, finanças) do que pelo cluster AI/ML. A evidência de Luong 2026 sugere priorização assimétrica.
 
-(⚠️ nossa interpretação) A arquitetura FAOS e a arquitetura llm-kb compartilham o mesmo mecanismo de acoplamento assimétrico: a ontologia simbólica (wikilinks tipados, frontmatter de stance/quality) constrainge os inputs do agente LLM (/ask, /challenge), não o contrário. O LLM não reescreve a ontologia; a ontologia filtra o que o LLM processa.
+(⚠️ nossa interpretação) A arquitetura FAOS e a arquitetura metaxon compartilham o mesmo mecanismo de acoplamento assimétrico: a ontologia simbólica (wikilinks tipados, frontmatter de stance/quality) constrainge os inputs do agente LLM (/ask, /challenge), não o contrário. O LLM não reescreve a ontologia; a ontologia filtra o que o LLM processa.
 
 ## Conexões
 

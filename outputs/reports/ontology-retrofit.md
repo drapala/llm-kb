@@ -50,7 +50,7 @@ date: 2026-04-04
 |---------|-------------|-----|
 | kb-architecture-patterns | Resumo rewritten: "our taxonomy", Pattern 4 = role, thresholds = extrapolated | Hub — errors cascade to 10+ articles |
 | llm-knowledge-base | Resumo rewritten: not independent, risks documented, anecdotal evidence qualified | Root article — sets meta-KB tone |
-| _index.md | 3 pointers calibrated (llm-kb, kb-patterns, raptor-vs-flat, self-improving) | Layer 1 entry points must reflect caveats |
+| _index.md | 3 pointers calibrated (metaxon, kb-patterns, raptor-vs-flat, self-improving) | Layer 1 entry points must reflect caveats |
 
 ## 4. MODELO CRIADO
 
