@@ -28,18 +28,24 @@ Arm A is the absolute overconfidence baseline. Arm B isolates the value of retri
 
 **Instrument:** 30 questions frozen at T0, generated from `raw/` only (never from `wiki/`) using GPT-4.1 as an auxiliary generator (not the model under test). Ground truths are mechanically verifiable — exact numbers, explicit caveats, intra-paper comparisons, traceable contradictions.
 
-**Primary metrics:** ECE (Expected Calibration Error, 5-bin), Brier score, overconfidence gap (`mean_confidence − accuracy`), selective accuracy at threshold 0.7.
+**Primary metrics:** ECE (Expected Calibration Error, 5-bin; bins with < 3 items excluded and reported as `thin_bins`), Brier score, overconfidence gap (`mean_confidence − accuracy`), selective accuracy and coverage at threshold 0.7.
 
 **Falsifiable hypotheses:**
 - H1: `ECE(C) < ECE(A)` — epistemic pipeline reduces overconfidence
 - H2: `ECE(B) > ECE(C)` — challenge adds value beyond retrieval alone
-- H3: `selective_accuracy(C) ≥ selective_accuracy(A)` — when the system is confident, it is correct
+- H3: `selective_accuracy(C) ≥ selective_accuracy(B)` — when confident, C outperforms vanilla (not just the no-context baseline)
+  - H3a: `selective_accuracy(C) ≥ selective_accuracy(A)` — and also outperforms no-retrieval baseline
+- H4: slope of overconfidence_gap over time is lower in C than B — guardrails slow epistemic drift, not just cross-sectional calibration
+
+**Pre-registered constraint (anti-timidity):** `coverage@0.7(C) ≥ coverage@0.7(B) − 0.15` — C cannot win H3 by refusing to answer.
 
 **Explicit falsifiers:**
 - If `ECE(B) ≤ ECE(C)`: challenge adds no value beyond vanilla retrieval
-- If `selective_accuracy(C) < selective_accuracy(A)`: the pipeline reduces confidence without improving selectivity
+- If `selective_accuracy(C) < selective_accuracy(B)`: guardrails do not improve selectivity beyond retrieval alone
+- If coverage constraint is violated: H3 win is an abstention artifact, not calibration
+- If `slope(C) ≥ slope(B)`: guardrails do not protect against temporal drift (H4 falsified)
 
-**Non-interference contract:** the daily reporter is a pure observer — reads logs and manifests, writes only to `experiment-hub/reports/daily/`, never touches `raw/`, `wiki/`, batches, or prompts. Every alert has `requires_human_decision: true`.
+**Non-interference contract:** the daily reporter is a pure observer — reads logs and manifests, writes only to `experiment-hub/reports/daily/`, never touches `raw/`, `wiki/`, batches, or prompts. Every alert has `requires_human_decision: true`. Corpus additions during the experiment must enter via `/queue-experiment` (hub-routed, symmetric) — direct ingest to either arm outside the hub creates silent asymmetry between B and C not detectable by the regime hash.
 
 **Infrastructure:** `metaxon-benchmark/` — hub-centralized architecture (single collector → frozen batch → fan-out → per-arm runners). Orchestrated nightly at 23:55 via launchd. All interventions logged symmetrically in `interventions.log`.
 
