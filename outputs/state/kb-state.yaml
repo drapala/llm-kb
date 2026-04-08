@@ -76,6 +76,22 @@ next_actions:
     blocked_by: null
     added_by: auto-promote
     added_on: "2026-04-06"
+  - priority: 1
+    action: /challenge genai-entry-level-employment-canaries (1 invalidado + 5 weakened — principalmente calibração de causalidade e SWE-bench qualifier)
+    why: 'Gate 3: 5 weakened + 1 real invalidado. Correções factuais menores, humano decide.'
+    added_by: auto-promote
+  - priority: 1
+    action: /challenge genai-online-labor-platforms-displacement (3 weakened — parallel trends + World Bank qualifier)
+    why: 'Gate 3: 3 weakened. Correções de precisão metodológica.'
+    added_by: auto-promote
+  - priority: 2
+    action: /challenge citadel-2026-gic-rebuttal (2 invalidados — compute constraint + Citrini necessary conditions)
+    why: 'Gate 3: 2 invalidados. Correções conceituais importantes sobre mecanismo macro.'
+    added_by: auto-promote
+  - priority: 2
+    action: /challenge ai-data-labor-global-south (1 invalidado + 4 weakened — World Bank estimate scope)
+    why: 'Gate 3: World Bank 150-430M é gig workers broadly, não AI data workers. Correção necessária.'
+    added_by: auto-promote
 readiness_signal:
   can_ingest: true
   stance_status: "borderline — 23.3% challenging cumulativo (OK), mas meses recentes exatamente em 20%. Próxima fonte DEVE ser challenging."
@@ -161,6 +177,29 @@ slow_cycle:
     last_run: 2026-04-06
     context_before_pct: 89.1
     triggered_by: context
+  scout:
+    last_run: "2026-04-08"
+    candidates_pending:
+      - title: Citadel Securities 2026 Global Intelligence Crisis rebuttal
+        url: https://www.citadelsecurities.com/news-and-insights/2026-global-intelligence-crisis/
+        impact: INVALIDA
+        article: citrini-2026-intelligence-crisis-2028
+      - title: Impact of Generative AI on Online Labor Markets (arxiv 2308.05201)
+        url: https://arxiv.org/abs/2308.05201
+        impact: REFINA
+        article: gpt-labor-market-exposure
+      - title: Canaries in the Coal Mine — Stanford ADP payroll (Brynjolfsson & Chen, Nov 2025)
+        url: https://digitaleconomy.stanford.edu/wp-content/uploads/2025/11/CanariesintheCoalMine_Nov25.pdf
+        impact: REFINA
+        article: acemoglu-restrepo-task-displacement
+      - title: 'Winners and Losers of GenAI: Freelancer Demand (JEBOrg 2024)'
+        url: https://www.sciencedirect.com/science/article/pii/S0167268124004591
+        impact: CONFIRMA
+        article: gpt-labor-market-exposure
+      - title: Brookings — Reimagining AI Labor in the Global South (Oct 2025)
+        url: https://www.brookings.edu/articles/reimagining-the-future-of-data-and-ai-labor-in-the-global-south/
+        impact: REFINA
+        article: ai-harms-labor-governance
 # ── /ask ───────────────────────────────────────────────────────────────────────
 ask:
   articles_with_recent_gaps:
@@ -537,3 +576,31 @@ algedonic_events:
     bypass_s3: false
     resolved: false
     resolved_at: null
+fast_cycle:
+  ingest_count_since_last_scout: 0
+  ingest_count_since_last_lint: 6
+  sessions_since_last_dream: 2
+gaps:
+  explicit:
+    - id: it-offshoring-b2b-contract-renewal
+      description: Padrões de não-renovação de contratos B2B IT offshoring formal (TCS/Infosys/Persistent/Arkhya). Nenhum paper acadêmico peer-reviewed documenta isso. Plataformas online (Upwork) são proxy, não equivalente.
+      created: "2026-04-08"
+      triggered_by_ask: O padrão de não-renovação de contratos documentado no caso Índia (Citrini) se aplica ao modelo contractor BR→EUA via intermediárias?
+      best_available_sources:
+        - source: TCS Q4 FY25 earnings call
+          date: "2026-04-09"
+          keywords:
+            - contract renewal rates
+            - deal duration
+            - headcount per deal
+            - fresher hiring
+            - attrition
+        - source: Wipro Q4 FY25 earnings call
+          date: "2026-04-16"
+          keywords:
+            - contract renewal rates
+            - deal duration
+            - headcount per deal
+            - AI-led efficiency
+      ingest_trigger: 'Quando sair transcript do earnings call: /ingest raw/articles/[tcs|wipro]-2026-q4-earnings-transcript.md'
+      note: Earnings call transcripts são a fonte primária mais próxima disponível — dados reais de renovação, duração de contratos e headcount por deal. Nenhum paper acadêmico tem isso.

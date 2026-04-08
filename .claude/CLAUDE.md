@@ -73,6 +73,22 @@ Se encontrar bloco > [!patch] num artigo wiki:
    com data, texto original substituído, e fonte do patch
 3. Remova o bloco > [!patch] do corpo
 
+Patches são gerados automaticamente pelo step 11 do /ingest (impact propagation).
+Um artigo promovido pode ter `freshness_status: impacted` sem estar em quarentena —
+significa que há patches pendentes, mas o conteúdo base ainda é válido.
+
+## Artigo Promovido como Nó Vivo
+
+Promoção não é estado terminal. Artigos promovidos têm:
+- `freshness_status: current | impacted | under_review` — atualizado por /ingest
+- `depends_on: [...]` — fontes e artigos dos quais depende
+- `topics: [...]` — usado pelo impact analyzer do step 11
+- `outputs/index/promoted-claims/{slug}.yaml` — índice de claims para scoring de materialidade
+
+Estado `under_review` = contradição de alta confiança detectada. Usar /challenge antes de citar.
+Estado `impacted` = patches pendentes; conteúdo base válido mas incompleto.
+Use /refresh-promoted para processar patches acumulados.
+
 ## Provenance de Artigos
 
 Todo artigo wiki tem campo `provenance` que classifica sua origem:

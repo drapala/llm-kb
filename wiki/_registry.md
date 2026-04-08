@@ -179,3 +179,11 @@
 | wiki/concepts/ai-economic-growth-projections.md | 2026-04-08 | source | medium | neutral | ai-economics,gdp,productivity,goldman-sachs | processed |
 | wiki/scenarios/intelligence-crisis-2028.md | 2026-04-08 | source | low | neutral | speculative-scenario,ai-labor,citrini | quarantine |
 | wiki/reports/claude-mythos-capabilities.md | 2026-04-08 | source | high | neutral | frontier-model,cybersecurity,ai-safety,rsp,anthropic | processed |
+| raw/papers/brynjolfsson-chen-2025-canaries-coal-mine-ai-employment.pdf | 2026-04-08 | paper | primary | confirming | entry-level-employment,automative-vs-augmentative,codifiable-knowledge | processed |
+| raw/papers/hui-2024-genai-online-labor-markets.pdf | 2026-04-08 | paper | primary | confirming | online-labor-market,freelance-displacement,skill-transition | processed |
+| raw/papers/barach-2024-winners-losers-genai-freelancer.pdf | 2026-04-08 | paper | primary | confirming | freelancer-demand-shift,substitutable-skills,complementary-skills | processed |
+| raw/articles/citadel-2026-global-intelligence-crisis-rebuttal.md | 2026-04-08 | article | secondary | challenging | citrini-rebuttal,ai-labor-optimism,compute-constraint | processed |
+| raw/articles/brookings-2025-ai-data-labor-global-south.md | 2026-04-08 | article | secondary | neutral | data-annotation-labor,bpo-opacity,global-south-ai-supply-chain | processed |
+| raw/reports/stanford-ai-index-2025-technical-performance.md | 2026-04-08 | report | secondary | neutral | swe-bench-progression,coding-benchmark,ai-capabilities | processed |
+| raw/data/vellum-llm-leaderboard-2026-03-23.md | 2026-04-08 | dataset | secondary | neutral | llm-leaderboard,swe-bench,gpqa,aime,frontier-models | processed |
+| raw/data/llm-stats-swe-bench-verified-2026-04-08.md | 2026-04-08 | dataset | secondary | neutral | swe-bench-distribution,field-average,coding-capability | processed |

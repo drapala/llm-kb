@@ -130,15 +130,90 @@ Compare raw/ com wiki/_registry.md. Para cada fonte nova:
     Salve como seção `## Verificação adversarial` no artigo wiki gerado.
     Se o claim mais fraco é uma ESPECULAÇÃO não marcada, mova pra
     ## Interpretação antes de publicar.
-11. **Cross-reference com artigos de síntese** (após verificação adversarial):
-    Antes de finalizar, rode /ask com esta pergunta:
-    "O artigo que acabei de ingerir ([TÍTULO]) cobre terreno similar
-    a algum artigo de síntese existente na KB? Se sim, quais claims
-    dos artigos de síntese esse paper invalida, confirma ou refina?"
-    Salve o output em outputs/reports/prior-work-[slug].md e adicione
-    uma linha na seção `## Prior work que pode invalidar` de cada
-    artigo de síntese afetado. Se o artigo de síntese não tem essa
-    seção, adicione-a.
+11. **Impact propagation para artigos promovidos** (após verificação adversarial):
+
+    Artigos promovidos são nós dependentes do corpus, não arquivos estáticos.
+    Este step detecta impacto material do novo artigo sobre promovidos e gera patches.
+
+    **11a — Identificar candidatos afetados:**
+    Leia `outputs/state/article-health.yaml`.
+    Para cada artigo promovido com `freshness_status != under_review`:
+    - Verifique sobreposição de topics com o novo artigo
+    - Verifique se o novo artigo está em `depends_on` de algum promovido (trigger forte)
+    - Verifique sobreposição semântica com claims em `outputs/index/promoted-claims/{slug}.yaml` (se existir)
+
+    Candidatos = artigos com qualquer sobreposição de topics OU depends_on match.
+
+    **11b — Score de materialidade por candidato:**
+    Para cada candidato, compute score (0–1):
+    ```
+    score = topical_overlap (0-0.3)
+          + claim_overlap (0-0.3)       # novo artigo toca claims existentes?
+          + evidence_novelty (0-0.2)    # nova evidência primária onde só havia secundária?
+          + contradiction_weight (0-0.1) # novo artigo contradiz alguma claim?
+          + depends_on_bonus (0.1)       # trigger forte: novo artigo está em depends_on
+    ```
+    Thresholds: < 0.45 = skip | 0.45–0.70 = queue (review) | > 0.70 = patch candidate
+
+    **11c — Classificar impact_type para candidatos acima do threshold:**
+    - `new_support` — novo suporte para claim já existente
+    - `claim_refinement` — claim continua válida mas precisa qualificação ou nuance
+    - `claim_contradiction` — novo material enfraquece ou contradiz claim existente
+    - `scope_expansion` — artigo promovido estava correto mas incompleto em escopo
+    - `bridge_creation` — nova conexão interpretativa importante entre dois blocos
+    - `obsolete_framing` — framing central ficou datado
+
+    **11d — Gerar patch candidate e decidir ação:**
+
+    *Auto-apply* (score > 0.85 E impact_type ∈ {new_support, claim_refinement, scope_expansion}):
+    Injete `> [!patch]` diretamente no artigo afetado:
+    ```
+    > [!patch]
+    > id: patch-YYYY-MM-DD-NNN
+    > status: pending
+    > trigger: ingest/[slug-do-novo-artigo]
+    > impact_type: [tipo]
+    > materiality: high
+    > affected_claims: [c001, c002, ...]
+    > summary: [1-2 frases sobre o que muda]
+    > action: [o que o editor deve fazer: incorporar, qualificar, etc.]
+    > sources:
+    >   - wiki/concepts/[novo-artigo].md
+    > created_at: YYYY-MM-DD
+    ```
+
+    *Queue for review* (0.45 ≤ score ≤ 0.85 OU impact_type ∈ {claim_contradiction, bridge_creation, obsolete_framing}):
+    Adicione a `outputs/state/patch-queue.yaml` (não injete no artigo):
+    ```yaml
+    - patch_id: patch-YYYY-MM-DD-NNN
+      article_slug: [slug]
+      trigger_slug: [novo-artigo]
+      status: pending
+      impact_type: [tipo]
+      materiality: high|medium
+      auto_apply_eligible: false
+      summary: [descrição breve]
+      created_at: YYYY-MM-DD
+    ```
+    Adicione entrada em `next_actions` de `kb-state.yaml`:
+    `"[patch-id]: review patch em [artigo] (impact: [tipo])"`
+
+    **11e — Atualizar article-health.yaml:**
+    Para cada artigo que recebeu patch (auto-apply ou queue):
+    ```yaml
+    freshness_status: impacted          # ou under_review se contradiction
+    pending_patch_count: [N+1]
+    last_impact_at: YYYY-MM-DD
+    ```
+    Se impact_type = claim_contradiction de alta confiança:
+    `freshness_status: under_review`
+
+    **11f — Salvar relatório:**
+    `outputs/reports/impact-[novo-artigo-slug].md` com lista de candidatos,
+    scores, decisões (skip/queue/patch) e razões.
+
+    **Regra de omissão:** se nenhum candidato passa 0.45, step 11 é NO-OP silencioso.
+    Não crie relatório vazio. Não gaste tokens verificando artigos sem sobreposição.
 12. **ONTOLOGICAL QUALITY GATE** (antes de salvar o artigo final):
 
     **CHECK 1 — WIKILINKS TIPADOS**

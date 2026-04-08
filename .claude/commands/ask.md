@@ -54,7 +54,15 @@ query sobre X → KB sem corpus de X → resposta paramétrica do LLM → parece
 Se o corpus sobre o domínio da query é ausente, /ask retorna gap, não resposta.
 
 **Sinal de risco:** Layer 0 retorna scores < 0.02 E Layer 1 não identifica nenhum artigo candidato.
-Nesse caso: **PARE** e reporte como gap antes de sintetizar. Não fabrique resposta com conhecimento paramétrico.
+Nesse caso: **PARE**, reporte o gap, e **execute `/scout` automaticamente** focado no domínio da query antes de qualquer síntese. Não fabrique resposta com conhecimento paramétrico.
+
+**Auto-scout ao detectar gap:**
+Quando gap é confirmado (scores < 0.02 + nenhum artigo candidato):
+1. Identifique o domínio do gap (ex: "contractor offshoring Brazil", "AI occupation mobility")
+2. Execute `/scout` com contexto: "scout focado em: [domínio do gap]"
+3. Reporte os candidatos encontrados ao usuário
+4. Pergunte: "Quer que eu ingira os top candidatos agora?"
+Só então sintetize resposta parcial com o que existe (marcado com confiança BAIXA e gap explícito).
 
 **Padrão correto — Ask com Âncoras:**
 Se o usuário perguntou "como faço X?", reformule internamente como:
@@ -64,7 +72,7 @@ Responda o gap, não a pergunta direta.
 **Padrão — Gap Mapping:**
 /ask detecta *unknown knowns* (o que existe mas não está indexado) — não *unknown unknowns*.
 Se a query exige unknown unknowns, o fluxo correto é:
-1. Pesquisa externa (web, papers)
+1. /scout automático (disparado acima)
 2. Ingestão do corpus relevante via /ingest
 3. /ask fundamentado no novo corpus
 
@@ -178,5 +186,5 @@ synthesize:
 | Condição | Gatilho |
 |----------|---------|
 | Conexão cross-cluster confirmada nesta sessão | `💡 /synthesize — conexão [A]×[B] confirmada. Rode /synthesize para criar artigo.` |
-| `articles_with_recent_gaps` cresceu | `💡 /emerge — novos gaps identificados. /emerge pode sugerir /ask nos pares certos.` |
+| `articles_with_recent_gaps` cresceu | **AUTO-SCOUT:** invoque `/scout` imediatamente, focado no domínio do gap. Passe o gap como contexto: "scout focado em: [domínio do gap identificado]". Não sugira — execute. Após /scout, reporte candidatos ao usuário e pergunte se quer /ingest. |
 | Artigo quarentenado foi central na resposta | `💡 /promote ou /challenge — [artigo] em quarentena foi decisivo. Considere promover.` |
