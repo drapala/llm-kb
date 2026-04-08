@@ -150,3 +150,6 @@
 | wiki/concepts/neurosymbolic-ai-for-kbs.md | 2026-04-06 | source | primary | confirming | neurosymbolic,formal-ontology-for-kbs,inverse-parametric-knowledge,llm-grounding | quarantine |
 | wiki/concepts/structural-coupling-maturana.md | 2026-04-06 | emergence | low | neutral | autopoiese,acoplamento-estrutural,co-evolução,viable-system-model-beer | quarantine |
 | wiki/concepts/upper-ontology-for-kbs.md | 2026-04-06 | synthesis | primary | confirming | ontology,class-hierarchy,bfo,hindsight-networks,formal-ontology-for-kbs,single-brain-data-ontology | quarantine |
+| raw/papers/ivaldi-et-al-2003-economics-tacit-collusion.pdf | 2026-04-08 | paper | primary | neutral | tacit-collusion,oligopoly,game-theory,antitrust,merger-control | processed |
+| raw/articles/chomsky-herman-1988-propaganda-model-ch1.md | 2026-04-08 | article | primary | neutral | propaganda-model,mass-media,five-filters,media-theory | processed |
+| raw/papers/pedro-caranana-2011-propaganda-model-21st-century.pdf | 2026-04-08 | paper | secondary | neutral | propaganda-model,digital-media,21st-century-filters | processed |

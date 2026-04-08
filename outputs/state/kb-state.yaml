@@ -132,8 +132,8 @@ ingest_chain:
   origin_article: null
   last_challenge: 2026-04-06 # raw-design-constraints — CHAIN_IGNORED (no INVALIDA)
   status: open # closed after 1 INVALIDA auto-ingested; reset on manual /ingest
-sessions_since_last_dream: 2
-ingest_count_since_last_lint: 0 # reset após lint 2026-04-06 run2
+sessions_since_last_dream: 3
+ingest_count_since_last_lint: 3 # reset após lint 2026-04-06 run2
 last_session_documented: 2026-04-06 # part20
 # ── Ciclo lento ──────────────────────────────────────────────────────────────
 slow_cycle:
@@ -521,7 +521,7 @@ stub_completion_queue:
       completion_priority: 0
       option_b_eligible: true
       ineligibility_reason: null
-last_updated: "2026-04-06" # /emerge sessão 9: 3 GENUINE (vsm×CLS, debate×JA, block×CLS)
+last_updated: "2026-04-08" # /emerge sessão 9: 3 GENUINE (vsm×CLS, debate×JA, block×CLS)
 last_emerge: 2026-04-05 # sessão 5: 1 GENUINE (vitality × VSM)
 system_state: healthy
 algedonic_events:

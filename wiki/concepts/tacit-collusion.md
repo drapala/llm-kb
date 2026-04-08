@@ -1,0 +1,106 @@
+---
+title: "Tacit Collusion"
+sources:
+  - path: raw/papers/ivaldi-et-al-2003-economics-tacit-collusion.pdf
+    type: paper
+    quality: primary
+    stance: neutral
+created: 2026-04-08
+updated: 2026-04-08
+tags: [economics, industrial-organization, game-theory, oligopoly, antitrust]
+source_quality: high
+interpretation_confidence: high
+resolved_patches: []
+provenance: source
+quarantine: false
+---
+
+## Resumo
+
+Conluio tácito é a manutenção de preços supra-competitivos por firmas oligopolistas sem acordo explícito — apenas pela ameaça implícita de retaliação em jogos repetidos. Ivaldi, Jullien, Rey, Seabright e Tirole (2003) sintetizam o campo para a DG Competition da Comissão Europeia, identificando os fatores estruturais que facilitam ou inibem o conluio e suas implicações para controle de fusões.
+
+## Conteúdo
+
+### Definição
+
+"Tacit collusion need not involve any 'collusion' in the legal sense, and in particular need involve no communication between the parties." O termo descreve situações onde o resultado de mercado (preços ou quantidades) se assemelha ao de cartel explícito, obtido unicamente pela dinâmica estratégica de jogos repetidos. Sinônimo legal preferível: *tacit coordination*.
+
+### Mecanismo: jogos repetidos e fator de desconto
+
+O conluio tácito emerge quando firmas interagem repetidamente e podem condicionar sua conduta futura ao comportamento passado dos rivais. O mecanismo central é a estratégia *grim trigger*: qualquer desvio do preço collusivo desencadeia guerra de preços permanente.
+
+**Condição necessária — threshold de desconto:**
+
+Para 2 firmas com produto homogêneo e custo unitário `c`, o preço collusivo `p^C` é sustentável se e somente se o fator de desconto `δ` satisfaz:
+
+```
+δ ≥ δ* = 1/2
+```
+
+Intuição: cada firma compara o ganho de curto prazo do desvio (capturar todo o mercado por um período) contra a perda futura (eliminação de lucros collusivos para sempre). Se `δ < 1/2`, o futuro não vale o suficiente — desviar é racional.
+
+O fator de desconto captura tanto a taxa de juros (`δ = 1/(1+R)`) quanto a frequência de interação. Interação mais frequente aumenta δ efetivo.
+
+### Fatores que facilitam o conluio
+
+| Fator | Mecanismo |
+|-------|-----------|
+| Poucos competidores | Maior share individual → maior payoff collusivo por firma |
+| Barreiras de entrada | Elimina a ameaça de novos entrantes que quebrariam o equilíbrio |
+| Interação frequente | Aumenta o peso do futuro → δ efetivo maior |
+| Transparência de mercado | Desvios detectados rapidamente → punição mais crível |
+| Simetria de custos | Preço collusivo ótimo é o mesmo para todas as firmas |
+| Contato multi-mercado | Ameaça de retaliação em múltiplos mercados expande o espaço de punições |
+| Crescimento sustentado da demanda | "Today's profits are small compared with tomorrow's ones" → punição futura mais valiosa → δ* efetivo = 1/(2(1+g)) cai com g > 0 |
+
+### Fatores que dificultam o conluio
+
+| Fator | Mecanismo |
+|-------|-----------|
+| Flutuações de demanda (booms) | Rotemberg-Saloner: em booms, ganho de curto prazo do desvio é proporcionalmente maior → guerra de preços pró-cíclica |
+| Declínio do mercado | "Tomorrow's profits will be small anyway" → punição perde eficácia → collusion inviável em mercados à beira do colapso |
+| Assimetria de custos | Preço collusivo ótimo diverge entre firmas → desacordo sobre ponto focal |
+| Alta intensidade de inovação | Incentivo a desviar para capturar patentes ou liderança tecnológica |
+| Diferenciação vertical de produtos | Firma com produto superior tem mais a ganhar do desvio e menos a temer da retaliação — efeito de diferenciação horizontal é ambíguo |
+
+### Mercados de licitação (bidding markets)
+
+Em leilões, o conluio tácito assume formas específicas: *rotation schemes* (cada firma ganha sua vez), divisão geográfica de mercado, e supressão de lances. A detecção é mais difícil porque não há "preço de mercado" observável — apenas lances individuais.
+
+### Implicações para controle de fusões
+
+Fusões que aumentam simetria entre firmas facilitam conluio tácito. A análise antitruste distingue dois efeitos:
+- **Efeitos unilaterais:** poder de mercado individual da firma pós-fusão
+- **Efeitos coordenados:** maior probabilidade de conluio tácito por redução de assimetrias
+
+O modelo prevê que fusões em mercados com produto homogêneo, poucos competidores, e alta transparência merecem escrutínio adicional de "coordinated effects" mesmo quando nenhuma firma se torna individualmente dominante.
+
+## Verificação adversarial
+
+**Claim mais fraco:** O threshold δ* = 1/2 é derivado do caso-base Bertrand com 2 firmas e produto homogêneo — não é universalmente aplicável. Com N firmas, δ* = (N-1)/N → 1 conforme N → ∞, tornando conluio inviável.
+
+**O que o paper NÃO diz:**
+1. Não fornece evidência empírica de conluio tácito — é framework teórico e policy guide
+2. Não trata conluio tácito como necessariamente presente em oligopólios — é possibilidade condicional
+3. Não especifica como identificar conluio tácito vs. *parallel conduct* em investigações reais
+
+**Simplificações:** O modelo base assume informação perfeita (desvios detectados imediatamente). Na prática, detecção com lag altera o threshold de forma não-trivial. O efeito da diferenciação de produtos é ambíguo: diferenciação horizontal pode facilitar ou dificultar dependendo das funções de demanda — o artigo qualifica apenas o caso de diferenciação vertical.
+
+**Prior work:** Friedman (1971) fornece a formalização original do folk theorem para superjogos — citado explicitamente como fundação formal (footnote 6 do paper).
+
+## Interpretação
+
+(⚠️ Zone 3 — domínio lateral. Interpretação intencionalmente vazia no ingest. Conexões com a KB emergem no /ask.)
+
+## Conexões
+- complementsAt: [[procurement-renegotiation]] — ambos trabalhos de Tirole, domínios distintos (IO dinâmica vs. contratos incompletos)
+- complementsAt: [[incentive-theory-procurement]] — mesmo contexto teórico, mecanismos diferentes
+
+## Fontes
+- [Ivaldi, Jullien, Rey, Seabright, Tirole (2003)](../../raw/papers/ivaldi-et-al-2003-economics-tacit-collusion.pdf) — relatório para DG Competition da Comissão Europeia; framework completo de conluio tácito, fatores facilitadores/inibidores, implicações para merger control
+
+## Quality Gate
+- [x] Wikilinks tipados: 2 relações (complementsAt ×2)
+- [x] Instance→class: threshold δ* = 1/2 qualificado como caso-base 2-firma Bertrand homogêneo
+- [x] Meta-KB separado: nenhuma referência ao metaxon no Conteúdo
+- [x] Resumo calibrado: reflete escopo do paper (framework teórico + policy guide)
