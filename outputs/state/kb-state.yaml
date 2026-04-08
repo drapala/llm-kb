@@ -164,14 +164,11 @@ slow_cycle:
 # ── /ask ───────────────────────────────────────────────────────────────────────
 ask:
   articles_with_recent_gaps:
-    - ask-usage-patterns
-    - epistemic-loop-in-rag
-    - epistemic-governance-multiagent
-    - paperclip-agent-orchestration
-    - sensorium-event-observability
-    - algedonic-channel-vsm
-    - capital-allocation-eval-loop
-  last_session: 2026-04-06/ask-21-24.md
+    - axelrod-1984-evolution-of-cooperation
+    - buchanan-1965-club-theory
+    - levenstein-suslow-2006-cartel-empirics
+    - fudenberg-levine-maskin-1994-folk-theorem-imperfect
+  last_session: 2026-04-08/ask-14-00.md
   synthesize_pending: []
   synthesize_completed:
     - pair: [autonomous-kb-failure-modes, self-improving-agents, groupthink-and-cascades]
@@ -440,6 +437,11 @@ synthesize:
       connection_type: EMERGE-DE
       article_created: wiki/concepts/evaluation-order-independence.md
       status: quarantine # aguarda promote
+    - pair:
+        - tacit-collusion
+        - collective-action-problem
+      ask_session: outputs/logs/sessions/2026-04-08/ask-14-00.md
+      connection_type: ANÁLOGO-A
   completed:
     - pair: [procurement-contract-design, requisite-variety]
       article: wiki/concepts/procurement-variety-gap.md

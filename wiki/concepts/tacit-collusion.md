@@ -26,6 +26,9 @@ source_quality: high
 interpretation_confidence: high
 resolved_patches: []
 provenance: synthesis
+reads: 1
+retrievals_correct: 1
+last_read: 2026-04-08
 synthesis_sources:
   - raw/papers/tirole-1988-ch6-dynamic-price-competition-tacit-collusion.md
   - raw/papers/ivaldi-et-al-2003-economics-tacit-collusion.pdf
