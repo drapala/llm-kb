@@ -153,3 +153,5 @@
 | raw/papers/ivaldi-et-al-2003-economics-tacit-collusion.pdf | 2026-04-08 | paper | primary | neutral | tacit-collusion,oligopoly,game-theory,antitrust,merger-control | processed |
 | raw/articles/chomsky-herman-1988-propaganda-model-ch1.md | 2026-04-08 | article | primary | neutral | propaganda-model,mass-media,five-filters,media-theory | processed |
 | raw/papers/pedro-caranana-2011-propaganda-model-21st-century.pdf | 2026-04-08 | paper | secondary | neutral | propaganda-model,digital-media,21st-century-filters | processed |
+| raw/papers/tirole-1988-ch6-dynamic-price-competition-tacit-collusion.md | 2026-04-08 | paper | primary | neutral | tacit-collusion,folk-theorem,supergames,dynamic-price-competition | processed |
+| raw/articles/mills-1956-power-elite-summary.md | 2026-04-08 | article | secondary | neutral | power-elite,elite-theory,institutional-coordination,democratic-decline | processed |

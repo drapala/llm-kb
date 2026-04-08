@@ -1,6 +1,10 @@
 ---
 title: "Tacit Collusion"
 sources:
+  - path: raw/papers/tirole-1988-ch6-dynamic-price-competition-tacit-collusion.md
+    type: paper
+    quality: primary
+    stance: neutral
   - path: raw/papers/ivaldi-et-al-2003-economics-tacit-collusion.pdf
     type: paper
     quality: primary
@@ -11,13 +15,16 @@ tags: [economics, industrial-organization, game-theory, oligopoly, antitrust]
 source_quality: high
 interpretation_confidence: high
 resolved_patches: []
-provenance: source
+provenance: synthesis
+synthesis_sources:
+  - raw/papers/tirole-1988-ch6-dynamic-price-competition-tacit-collusion.md
+  - raw/papers/ivaldi-et-al-2003-economics-tacit-collusion.pdf
 quarantine: false
 ---
 
 ## Resumo
 
-Conluio tácito é a manutenção de preços supra-competitivos por firmas oligopolistas sem acordo explícito — apenas pela ameaça implícita de retaliação em jogos repetidos. Ivaldi, Jullien, Rey, Seabright e Tirole (2003) sintetizam o campo para a DG Competition da Comissão Europeia, identificando os fatores estruturais que facilitam ou inibem o conluio e suas implicações para controle de fusões.
+Conluio tácito é a manutenção de preços supra-competitivos por firmas oligopolistas sem acordo explícito — apenas pela ameaça implícita de retaliação em jogos repetidos. Tirole (1988, Ch.6) fornece o tratamento teórico fundamental: Folk Theorem, estratégia grim trigger, três abordagens de tacit collusion. Ivaldi et al. (2003) aplicam o framework à política antitruste europeia, identificando 13 fatores estruturais e implicações para controle de fusões.
 
 ## Conteúdo
 
@@ -40,6 +47,31 @@ Para 2 firmas com produto homogêneo e custo unitário `c`, o preço collusivo `
 Intuição: cada firma compara o ganho de curto prazo do desvio (capturar todo o mercado por um período) contra a perda futura (eliminação de lucros collusivos para sempre). Se `δ < 1/2`, o futuro não vale o suficiente — desviar é racional.
 
 O fator de desconto captura tanto a taxa de juros (`δ = 1/(1+R)`) quanto a frequência de interação. Interação mais frequente aumenta δ efetivo.
+
+### Três abordagens de tacit collusion (Tirole, 1988)
+
+Tirole identifica três mecanismos distintos pelos quais o conluio tácito pode emergir em jogos repetidos:
+
+1. **Supergame / Bootstrap:** guerra de preços é fenômeno auto-realizador. Uma firma cobra preço baixo porque *espera* que a rival o faça (motivado por desvio passado). Fundação: Friedman (1971) + Folk Theorem (Fudenberg & Maskin, 1986).
+
+2. **Rigidez de preços de curto prazo:** a reação de uma firma a um price cut é motivada pela preservação de market share que continua sendo corroído pela estratégia agressiva da rival.
+
+3. **Reputação:** links intertemporais não-físicos emergem do aprendizado mútuo. Uma firma reage a um price cut porque o desvio *revelou informação* — o rival tem custo baixo ou não pode ser confiado para sustentar o conluio.
+
+"These should be thought of as describing complementary aspects of repeated price interaction" (Tirole, 1988).
+
+### Folk Theorem — formulação formal (Tirole, 1988 / Fudenberg & Maskin, 1986)
+
+Para o jogo de preço repetido com 2 firmas simétricas, o Folk Theorem afirma que **qualquer par de lucros `(π¹, π²)` com `π¹ > 0`, `π² > 0`, e `π¹ + π² < π^M`** é um per-period payoff de equilíbrio perfeito para δ suficientemente próximo de 1.
+
+Intuição da estratégia grim trigger com preço collusivo `p`:
+- Conforme: cada firma ganha `π(p)/2 × 1/(1−δ)` (fluxo perpétuo)
+- Desvio: ganha no máximo `π(p)` no período do desvio, depois lucro zero para sempre
+- Condição para conformidade: `δ ≥ 1/2` (caso base duopólio Bertrand)
+
+A estratégia ótima de punição não é grim trigger mas *maximal punishment* (Bertrand competitivo para sempre), que sustenta prices mais altos com δ menor.
+
+**Lacuna documental:** Fudenberg & Maskin (1986, Econometrica 54:533–554) — paper fundacional que generaliza o Folk Theorem para jogos com desconto e informação incompleta — não disponível fora de paywall. Os resultados estão cobertos por Tirole (1988) seção 6.3 e Ivaldi et al. (2003) seção II.
 
 ### Fatores que facilitam o conluio
 
@@ -97,7 +129,8 @@ O modelo prevê que fusões em mercados com produto homogêneo, poucos competido
 - complementsAt: [[incentive-theory-procurement]] — mesmo contexto teórico, mecanismos diferentes
 
 ## Fontes
-- [Ivaldi, Jullien, Rey, Seabright, Tirole (2003)](../../raw/papers/ivaldi-et-al-2003-economics-tacit-collusion.pdf) — relatório para DG Competition da Comissão Europeia; framework completo de conluio tácito, fatores facilitadores/inibidores, implicações para merger control
+- [Tirole (1988) Cap. 6](../../raw/papers/tirole-1988-ch6-dynamic-price-competition-tacit-collusion.md) — *The Theory of Industrial Organization*, MIT Press; três abordagens de tacit collusion, Folk Theorem formal, grim trigger, maximal punishment, supergames
+- [Ivaldi, Jullien, Rey, Seabright, Tirole (2003)](../../raw/papers/ivaldi-et-al-2003-economics-tacit-collusion.pdf) — relatório para DG Competition da Comissão Europeia; 13 fatores facilitadores/inibidores, implicações para merger control
 
 ## Quality Gate
 - [x] Wikilinks tipados: 2 relações (complementsAt ×2)
