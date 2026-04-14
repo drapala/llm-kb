@@ -58,12 +58,6 @@ next_actions:
     added_on: 2026-04-06
     # [EXECUTADO 2026-04-06] /lint-epistemic — quarantine_rate 17.7%, stance_core 26.1% OK
     # [PROMOVIDOS 2026-04-06] multiagent-debate-du-2023, self-preference-bias-llm-judge, block-organization-as-intelligence
-  - priority: 4
-    action: /lint-epistemic
-    why: 'ingest_count_since_last_lint atingiu 5 (threshold). 4 fontes ingeridas hoje: pressure-field, emergent-coord, agents-chaos, neurosymbolic.'
-    blocked_by: null
-    added_by: ingest
-    added_on: "2026-04-06"
   - priority: 5
     action: /challenge pressure-field-coordination (3 invalidated)
     why: 'Gate 3: 3 invalidated. Correções aplicadas mas revisão humana necessária.'
@@ -92,15 +86,45 @@ next_actions:
     action: /challenge ai-data-labor-global-south (1 invalidado + 4 weakened — World Bank estimate scope)
     why: 'Gate 3: World Bank 150-430M é gig workers broadly, não AI data workers. Correção necessária.'
     added_by: auto-promote
+  - priority: 1
+    action: /challenge procurement-fraud-ml-methods
+    why: Gate 3∥challenge — 4 claims weakened. Correções menores aplicadas. Humano decide se /promote.
+    blocked_by: null
+    added_by: auto-promote
+    added_on: "2026-04-08"
+  - priority: 1
+    action: /challenge procurement-manipulation-signals
+    why: Gate 3∥challenge — 1 claim invalidado (preço vs referência de mercado) + 5 weakened. Correções aplicadas. Humano decide se /promote.
+    blocked_by: null
+    added_by: auto-promote
+    added_on: "2026-04-08"
+  - priority: 1
+    action: /challenge debarment-evasion-phoenix-firms
+    why: Gate 3∥challenge — 2 claims invalidados (mecanismo incentivo + RAIS ≠ informalidade) + 4 weakened. Correções aplicadas. Humano decide se /promote.
+    blocked_by: null
+    added_by: auto-promote
+    added_on: "2026-04-08"
+  - priority: 2
+    action: /challenge zelox-mvp-laudo-aditivos
+    why: Gate 1 — interpretation_confidence:low. Promover requer validar claims de produto (preço, formato de evidência TCU, cobertura API PNCP).
+    blocked_by: null
+    added_by: auto-promote
+    added_on: "2026-04-08"
+  - priority: 3
+    action: /watch skill — adaptar prompts/watch.md do Feynman (MIT) como skill METAXON usando WebSearch nativo
+    why: Monitoring contínuo de novos papers/artigos em tópicos da KB (procurement, AI labor, B2G). Feynman watch usa WebSearch + baseline diff + relevance eval. Tudo disponível no Claude Code sem API paga.
+    blocked_by: null
+    added_by: ask
+    added_on: "2026-04-08"
 readiness_signal:
   can_ingest: true
-  stance_status: "borderline — 23.3% challenging cumulativo (OK), mas meses recentes exatamente em 20%. Próxima fonte DEVE ser challenging."
-  quarantine_load: "18 artigos em quarentena (18.0% do corpus) — ⚠️ acima de 15%"
-  bradford: "pausa — Zone3/Zone2 ≈ 0.85 (ok, sem alerta)"
+  stance_status: "challenging 17.4% — abaixo de 20%, busque fonte challenging"
+  quarantine_load: "54 artigos em quarentena (32% do corpus) — ⚠️ muito acima de 15%"
+  bradford: "expandir — Zone3/Zone2 = 0.15 (⚠️ abaixo de 0.8; possível artefato de classificação)"
   next_ingest_candidates:
-    - "Epistemic Diversity & Knowledge Collapse arXiv:2510.04226 — challenging (prioridade)"
-    - "MAST taxonomy arXiv 2503.13657 — neutral (postergar se stance não recuperar)"
-  warning: "quarantine_rate 18% > 15% — priorizar /challenge raw-design-constraints e evaluation-order-independence"
+    - "Epistemic Diversity & Knowledge Collapse arXiv:2510.04226 — challenging (prioridade máxima)"
+    - "Fonte challenging em procurement ou meta-KB — endereçar déficit adversarial"
+  warning: "stance baixo — busque fonte challenging"
 # ── Estado do ciclo rápido ──────────────────────────────────────────────────────
 emerge_queue:
   - pair:
@@ -144,70 +168,76 @@ emerge_queue:
 # resetado após sessão 9 (2026-04-06) — 4 artigos processados, 3 GENUINE: vsm×CLS, debate×JA, block×CLS
 
 ingest_chain:
-  depth: 0 # incremented per auto-ingest triggered by /challenge
+  depth: 0
+  status: open
   origin_article: null
-  last_challenge: 2026-04-06 # raw-design-constraints — CHAIN_IGNORED (no INVALIDA)
-  status: open # closed after 1 INVALIDA auto-ingested; reset on manual /ingest
-sessions_since_last_dream: 3
-ingest_count_since_last_lint: 3 # reset após lint 2026-04-06 run2
-last_session_documented: 2026-04-06 # part20
+  last_challenge: "2026-04-08"
+sessions_since_last_dream: 14
+ingest_count_since_last_lint: 10
+last_session_documented: 2026-04-12
+ask:
+  articles_with_recent_gaps:
+    - cryptocurrency-perpetual-futures-funding-rate # mencionado na query mas não existe no wiki
+    - statistical-arbitrage-pairs-trading # idem
+    - deep-learning-statistical-arbitrage # idem
+    - quant-finance-sharpe-comparison # domínio inteiro ausente do corpus
+  last_session: outputs/logs/sessions/2026-04-12/ask-sharpe-comparison.md
+  gap_domain: "quantitative trading / crypto perpetual futures / statistical arbitrage"
+  gap_detected_on: "2026-04-12"
 # ── Ciclo lento ──────────────────────────────────────────────────────────────
 slow_cycle:
   lint:
-    last_run: 2026-04-06
+    last_run: "2026-04-12"
     alerts:
-      - type: quarantine_rate
-        value: 18.0%
-        threshold: 15%
-        message: "18 artigos quarentenados (18.0% de 100). Acima de 15% — priorizar /challenge + /promote."
-      - type: stance_gauge_borderline
-        value: "20.0%"
+      - type: adversarial_gap
+        value: 6%
         threshold: 20%
-        message: "Meses 2026-04 e 2026-05 exatamente no limite de 20% challenging. Próxima ingestão deve ser challenging."
+        message: "2026-04: 18/314 fontes core challenging (6%) — déficit severo"
+      - type: quarantine_rate
+        value: 32%
+        threshold: 15%
+        message: "54/167 artigos em quarentena (32%) — muito acima do threshold"
+      - type: bradford_coverage
+        value: 0.15
+        threshold: 0.8
+        message: "Zone3/Zone2=0.15 — possível artefato de classificação; verificar antes de agir"
     findings:
-      stance_core: "23.3% challenging (21/90 core sources) — OK cumulativo; meses recentes no limite"
-      bradford: "Zone3/Zone2 ≈ 0.85 — pausa (0.8–1.2)"
-      hub_health: "58% artigos reads=0; 23 hubs in-degree≥5 nunca lidos diretamente"
-      quarantine_count: "18 quarentenados (3 prontos para /promote: raw-design-constraints, evaluation-order-independence, prometheus-as-nlah-substrate)"
-      synthesis_ratio: "não mensurável — circuit breaker (86/100 artigos sem seções epistêmicas no formato esperado)"
-    report: outputs/reports/epistemic-lint-2026-04-06b.md
+      stance_core: "6% challenging (18/314 core sources) — ⚠️ ALERTA SEVERO"
+      bradford: "Zone3/Zone2=0.15 — possível artefato (slug-based classification subestima laterais)"
+      hub_health: "reads não rastreados no registry. Top hubs por in-degree: autonomous-kb-failure-modes(40), kb-architecture-patterns(20), requisite-variety(20)"
+      quarantine_count: "54 quarentenados (32%) — crescimento desde lint anterior (31→54)"
+      synthesis_ratio: "20/167 artigos com ratio>50% (12%); top 3 têm conteúdo=0 (artefato estrutural)"
+    report: outputs/reports/epistemic-lint-2026-04-12.md
     corpus:
-      quarantined_articles: 18
+      quarantined_articles: 54
+      total_articles: 167
+      link_graph: "597 edges, 328 typed — primeiro lint com grafo disponível"
   dream:
     last_run: 2026-04-06
     context_before_pct: 89.1
     triggered_by: context
   scout:
-    last_run: "2026-04-08"
+    last_run: "2026-04-14"
+    last_gap_focus: stat-arb-regime-robustness
     candidates_pending:
-      - title: Citadel Securities 2026 Global Intelligence Crisis rebuttal
-        url: https://www.citadelsecurities.com/news-and-insights/2026-global-intelligence-crisis/
-        impact: INVALIDA
-        article: citrini-2026-intelligence-crisis-2028
-      - title: Impact of Generative AI on Online Labor Markets (arxiv 2308.05201)
-        url: https://arxiv.org/abs/2308.05201
-        impact: REFINA
-        article: gpt-labor-market-exposure
-      - title: Canaries in the Coal Mine — Stanford ADP payroll (Brynjolfsson & Chen, Nov 2025)
-        url: https://digitaleconomy.stanford.edu/wp-content/uploads/2025/11/CanariesintheCoalMine_Nov25.pdf
-        impact: REFINA
-        article: acemoglu-restrepo-task-displacement
-      - title: 'Winners and Losers of GenAI: Freelancer Demand (JEBOrg 2024)'
-        url: https://www.sciencedirect.com/science/article/pii/S0167268124004591
+      - title: Cação et al. 2022 — Tracking Environmental Policy in Brazilian DOU
+        url: arxiv.org/abs/2202.10221
         impact: CONFIRMA
-        article: gpt-labor-market-exposure
-      - title: Brookings — Reimagining AI Labor in the Global South (Oct 2025)
-        url: https://www.brookings.edu/articles/reimagining-the-future-of-data-and-ai-labor-in-the-global-south/
+        article: diario-oficial-segmentation-strategies
+      - title: Ma et al. 2025 — DocIQ DIQA Benchmark
+        url: arxiv.org/abs/2509.17012
         impact: REFINA
-        article: ai-harms-labor-governance
+        article: document-image-quality-assessment
+      - title: Peña et al. 2023 — Document Layout Public Affairs
+        url: arxiv.org/abs/2306.10046
+        impact: CONFIRMA
+        article: multilegalsbd-annotation
 # ── /ask ───────────────────────────────────────────────────────────────────────
 ask:
   articles_with_recent_gaps:
-    - axelrod-1984-evolution-of-cooperation
-    - buchanan-1965-club-theory
-    - levenstein-suslow-2006-cartel-empirics
-    - fudenberg-levine-maskin-1994-folk-theorem-imperfect
-  last_session: 2026-04-08/ask-14-00.md
+    - pdf-quality-classification-ocr-pipeline
+    - boundary-annotation-dataset-contratos-secao-iii
+  last_session: 2026-04-14/ask-pipeline-order.md
   synthesize_pending: []
   synthesize_completed:
     - pair: [autonomous-kb-failure-modes, self-improving-agents, groupthink-and-cascades]
@@ -276,6 +306,26 @@ ingest_queue_priority:
     why: "REFINA block-organization-as-intelligence: GenAI e redução de middle management — evidência empírica independente."
     auto_trigger: false
     added_by: challenge
+  - slug: tcu-acordao-2392-2018-subcontratacao-meios-proprios
+    url: https://pesquisa.apps.tcu.gov.br/resultado/acordao-completo/"2392%202018"
+    impact: REFINA
+    article: inexigibilidade-notoria-especializacao
+    claim: Personalíssimo + meios próprios — verificar se Acórdão 2.392/2018 aplica a PJ ou só PF
+    auto_trigger: false
+    trigger_condition: bradford_open
+    bradford_blocked: true
+    added_on: "2026-04-08"
+    added_by: ask
+  - slug: tcu-acordao-2993-2018-pj-notoria-especializacao-estatais
+    url: https://pesquisa.apps.tcu.gov.br/resultado/acordao-completo/"2993%202018"
+    impact: REFINA
+    article: inexigibilidade-notoria-especializacao
+    claim: PJ como detentora coletiva de notória especialização — verificar se tese de estatais generaliza para administração direta
+    auto_trigger: false
+    trigger_condition: bradford_open
+    bradford_blocked: true
+    added_on: "2026-04-08"
+    added_by: ask
 ingest_queue_single_brain:
   - source: "Graph-Native Cognitive Memory with Formal Belief Revision (arXiv 2603.17244, mar 2026)"
     why: "Gap 2. Belief revision formal que Graphiti/Zep não tem. URI addressing determinístico. Conecta com safeguards epistêmicos do llm-kb."
@@ -463,6 +513,21 @@ challenge:
       corrections_applied: true
       sprt_chain: CHAIN_IGNORED
       log: outputs/logs/sessions/2026-04-06/challenge-raw-design-constraints-23-06.md
+    - artigo: acemoglu-restrepo-reinstatement-new-tasks
+      verdict: CORRIGIDO_PROMOVIDO
+      data: "2026-04-08"
+      claims_survived: 0
+      claims_total: 3
+    - artigo: platform-moat-entrenchment
+      verdict: CORRIGIDO_PROMOVIDO
+      data: "2026-04-08"
+      claims_survived: 0
+      claims_total: 7
+    - artigo: regulacao-plataformas-digitais-brasil
+      verdict: CORRIGIDO_PROMOVIDO
+      data: "2026-04-08"
+      claims_survived: 1
+      claims_total: 8
 # ── /synthesize ────────────────────────────────────────────────────────────────
 synthesize:
   pending_from_ask:
@@ -481,6 +546,11 @@ synthesize:
         - collective-action-problem
       ask_session: outputs/logs/sessions/2026-04-08/ask-14-00.md
       connection_type: ANÁLOGO-A
+    - pair:
+        - acemoglu-restrepo-task-displacement
+        - inexigibilidade-notoria-especializacao
+      ask_session: outputs/logs/sessions/2026-04-08/ask-18-10.md
+      connection_type: EMERGE-DE
   completed:
     - pair: [procurement-contract-design, requisite-variety]
       article: wiki/concepts/procurement-variety-gap.md
@@ -562,7 +632,7 @@ stub_completion_queue:
       completion_priority: 0
       option_b_eligible: true
       ineligibility_reason: null
-last_updated: "2026-04-08" # /emerge sessão 9: 3 GENUINE (vsm×CLS, debate×JA, block×CLS)
+last_updated: "2026-04-14" # /emerge sessão 9: 3 GENUINE (vsm×CLS, debate×JA, block×CLS)
 last_emerge: 2026-04-05 # sessão 5: 1 GENUINE (vitality × VSM)
 system_state: healthy
 algedonic_events:
@@ -578,8 +648,8 @@ algedonic_events:
     resolved_at: null
 fast_cycle:
   ingest_count_since_last_scout: 0
-  ingest_count_since_last_lint: 6
-  sessions_since_last_dream: 2
+  ingest_count_since_last_lint: 13
+  sessions_since_last_dream: 8
 gaps:
   explicit:
     - id: it-offshoring-b2b-contract-renewal
@@ -604,3 +674,8 @@ gaps:
             - AI-led efficiency
       ingest_trigger: 'Quando sair transcript do earnings call: /ingest raw/articles/[tcs|wipro]-2026-q4-earnings-transcript.md'
       note: Earnings call transcripts são a fonte primária mais próxima disponível — dados reais de renovação, duração de contratos e headcount por deal. Nenhum paper acadêmico tem isso.
+corpus:
+  total_articles: 1
+  quarantined_articles: 1
+  quarantined_list:
+    - procurement-phoenix-graph-architecture
