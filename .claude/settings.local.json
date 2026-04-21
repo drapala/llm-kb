@@ -9,7 +9,38 @@
       "WebFetch(domain:www.axios.com)",
       "WebFetch(domain:raw.githubusercontent.com)",
       "WebFetch(domain:api.github.com)",
-      "Skill(schedule)"
+      "Skill(schedule)",
+      "mcp__llm-kb__kb_search",
+      "WebFetch(domain:www.boardx.us)",
+      "WebFetch(domain:www.darioamodei.com)",
+      "WebFetch(domain:sites.google.com)",
+      "WebFetch(domain:chomsky.info)",
+      "WebFetch(domain:api.semanticscholar.org)",
+      "WebFetch(domain:www.marxists.org)",
+      "WebFetch(domain:www.imf.org)",
+      "WebFetch(domain:webapps.ilo.org)",
+      "WebFetch(domain:ideas.repec.org)",
+      "WebFetch(domain:www.ilo.org)",
+      "WebFetch(domain:www.worldbank.org)",
+      "WebFetch(domain:www.citadelsecurities.com)",
+      "WebFetch(domain:www.brookings.edu)",
+      "WebFetch(domain:finance.yahoo.com)",
+      "WebFetch(domain:hai.stanford.edu)",
+      "WebFetch(domain:www.vellum.ai)",
+      "WebFetch(domain:llm-stats.com)",
+      "WebFetch(domain:revista.tcu.gov.br)",
+      "WebFetch(domain:licitacoesecontratos.tcu.gov.br)",
+      "WebFetch(domain:www.oecd.org)",
+      "WebFetch(domain:br-mm.com)",
+      "WebFetch(domain:www.businessatoecd.org)",
+      "WebFetch(domain:www.nber.org)",
+      "WebFetch(domain:zenite.blog.br)",
+      "WebFetch(domain:github.com)",
+      "Bash(cp /Users/drapala/.claude/projects/-Users-drapala-projects-llm-kb/c59d9f6a-9958-4449-95cc-e4bbedcc76dc/tool-results/webfetch-1776782421081-nfi8fe.pdf /Users/drapala/projects/llm-kb/raw/papers/chen-2025-enterprise-data-trade-secrets.pdf)",
+      "Bash(pdftotext -layout /Users/drapala/projects/llm-kb/raw/papers/chen-2025-enterprise-data-trade-secrets.pdf /tmp/chen-full.txt)",
+      "Bash(rtk wc *)",
+      "Bash(cp /Users/drapala/.claude/projects/-Users-drapala-projects-llm-kb/c59d9f6a-9958-4449-95cc-e4bbedcc76dc/tool-results/webfetch-1776785303667-pqyuye.pdf /Users/drapala/projects/llm-kb/raw/papers/yuan-2022-participation-gap-federated-learning.pdf)",
+      "Bash(pdftotext -layout /Users/drapala/projects/llm-kb/raw/papers/yuan-2022-participation-gap-federated-learning.pdf /tmp/yuan-full.txt)"
     ]
   },
   "hooks": {
@@ -18,7 +49,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/drapala/projects/metaxon/scripts/check-context-window.sh",
+            "command": "/Users/drapala/projects/llm-kb/scripts/check-context-window.sh",
             "timeout": 8,
             "statusMessage": "Checking context window..."
           }
@@ -31,7 +62,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/drapala/projects/metaxon/scripts/kb-telemetry.sh",
+            "command": "/Users/drapala/projects/llm-kb/scripts/kb-telemetry.sh",
             "timeout": 5,
             "statusMessage": "Logging command_started event..."
           }
@@ -44,27 +75,33 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/drapala/projects/metaxon/scripts/kb-telemetry.sh",
+            "command": "/Users/drapala/projects/llm-kb/scripts/kb-telemetry.sh",
             "timeout": 5,
             "statusMessage": "Logging telemetry event..."
           },
           {
             "type": "command",
-            "command": "/Users/drapala/projects/metaxon/scripts/enrich-from-pdf.sh",
+            "command": "/Users/drapala/projects/llm-kb/scripts/enrich-from-pdf.sh",
             "timeout": 30,
             "statusMessage": "Checking for arxiv PDF to enrich..."
           },
           {
             "type": "command",
-            "command": "/Users/drapala/projects/metaxon/scripts/check-over-synthesis.sh",
+            "command": "/Users/drapala/projects/llm-kb/scripts/check-over-synthesis.sh",
             "timeout": 5,
             "statusMessage": "Checking for over-synthesis..."
           },
           {
             "type": "command",
-            "command": "/Users/drapala/projects/metaxon/scripts/check-programme-health.sh",
+            "command": "/Users/drapala/projects/llm-kb/scripts/check-programme-health.sh",
             "timeout": 5,
             "statusMessage": "Checking programme health (Lakatos)..."
+          },
+          {
+            "type": "command",
+            "command": "/Users/drapala/projects/llm-kb/scripts/auto-drain-actions.sh",
+            "timeout": 8,
+            "statusMessage": "Checking for new next_actions..."
           }
         ]
       },
@@ -73,15 +110,21 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/drapala/projects/metaxon/scripts/kb-telemetry.sh",
+            "command": "/Users/drapala/projects/llm-kb/scripts/kb-telemetry.sh",
             "timeout": 5,
             "statusMessage": "Logging telemetry event..."
           },
           {
             "type": "command",
-            "command": "/Users/drapala/projects/metaxon/scripts/check-over-synthesis.sh",
+            "command": "/Users/drapala/projects/llm-kb/scripts/check-over-synthesis.sh",
             "timeout": 5,
             "statusMessage": "Checking for over-synthesis..."
+          },
+          {
+            "type": "command",
+            "command": "/Users/drapala/projects/llm-kb/scripts/auto-drain-actions.sh",
+            "timeout": 8,
+            "statusMessage": "Checking for new next_actions..."
           }
         ]
       },
@@ -90,7 +133,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/drapala/projects/metaxon/scripts/kb-telemetry.sh",
+            "command": "/Users/drapala/projects/llm-kb/scripts/kb-telemetry.sh",
             "timeout": 5,
             "statusMessage": "Logging telemetry event..."
           }
@@ -101,7 +144,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 /Users/drapala/projects/metaxon/scripts/track-skill-usage.py",
+            "command": "python3 /Users/drapala/projects/llm-kb/scripts/track-skill-usage.py",
             "timeout": 10,
             "statusMessage": "Tracking skill usage..."
           }

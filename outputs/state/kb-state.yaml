@@ -116,64 +116,38 @@ next_actions:
     blocked_by: null
     added_by: ask
     added_on: "2026-04-08"
+  - priority: 1
+    action: /promote feddca-cross-client-domain-coverage após 2026-04-21
+    why: 'Challenge completo 2026-04-20: 1 survived / 2 weakened / 1 invalidated. Requer review_frio (≥24h após ingest via scout). Correções pendentes: claim 1 (trocar “não heterogeneity” por “além de”), claim 2 (qualificar 29.19% como pior-baseline), claim 4 (atribuir “manageable privacy” ao paper, não endossar).'
+    blocked_by: null
+    added_by: challenge
+    added_on: "2026-04-20"
+  - priority: 1
+    action: /promote uni-ctr-multidomain-seesaw após 2026-04-21
+    why: 'Stub upgrade concluído 2026-04-20 (PDF via mcp__arxiv__download_paper 2312.10743). Challenge addendum pós-PDF confirma CLAIMs 1/2/3 SURVIVED; RelaImpr vs absolute AUC reconciliados (coexistem, não contradizem). Aguarda apenas review_frio 24h.'
+    blocked_by: null
+    added_by: challenge
+    added_on: "2026-04-20"
 readiness_signal:
   can_ingest: true
-  stance_status: "challenging 17.4% — abaixo de 20%, busque fonte challenging"
+  stance_status: "baixo"
   quarantine_load: "54 artigos em quarentena (32% do corpus) — ⚠️ muito acima de 15%"
   bradford: "expandir — Zone3/Zone2 = 0.15 (⚠️ abaixo de 0.8; possível artefato de classificação)"
   next_ingest_candidates:
     - "Epistemic Diversity & Knowledge Collapse arXiv:2510.04226 — challenging (prioridade máxima)"
     - "Fonte challenging em procurement ou meta-KB — endereçar déficit adversarial"
-  warning: "stance baixo — busque fonte challenging"
+  warning: "stance 18% — abaixo de 20%; busque fonte challenging"
 # ── Estado do ciclo rápido ──────────────────────────────────────────────────────
-emerge_queue:
-  - pair:
-      - strategy/epistemic-federation-distributed
-      - concepts/stigmergic-coordination
-    stability: stable
-    added_by: foresight
-    added_on: "2026-04-07"
-  - pair:
-      - strategy/metaxon-federation-protocol
-      - strategy/epistemic-federation-distributed
-    stability: tentative
-    added_by: foresight
-    added_on: "2026-04-07"
-  - pair:
-      - strategy/metaxon-federation-protocol
-      - concepts/stigmergic-coordination
-    stability: tentative
-    added_by: foresight
-    added_on: "2026-04-07"
-  - pair:
-      - strategy/metaxon-federation-protocol
-      - concepts/autonomous-kb-failure-modes
-    stability: tentative
-    added_by: foresight
-    added_on: "2026-04-07"
-  - pair:
-      - strategy/kalshib-t0-rag
-      - concepts/epistemic-necessity-tool-use
-    stability: tentative
-    note: epistemic-necessity-tool-use em quarentena
-    added_by: foresight
-    added_on: "2026-04-07"
-  - pair:
-      - strategy/kalshib-t0-rag
-      - strategy/metaxon-federation-protocol
-    stability: tentative
-    note: 'Propriedade 6: calibração ≠ concordância — Braço C testa este claim'
-    added_by: foresight
-    added_on: "2026-04-07"
+emerge_queue: []
 # resetado após sessão 9 (2026-04-06) — 4 artigos processados, 3 GENUINE: vsm×CLS, debate×JA, block×CLS
 
 ingest_chain:
   depth: 0
   status: open
   origin_article: null
-  last_challenge: "2026-04-08"
-sessions_since_last_dream: 14
-ingest_count_since_last_lint: 10
+  last_challenge: "2026-04-20"
+sessions_since_last_dream: 18
+ingest_count_since_last_lint: 13
 last_session_documented: 2026-04-12
 ask:
   articles_with_recent_gaps:
@@ -217,27 +191,83 @@ slow_cycle:
     context_before_pct: 89.1
     triggered_by: context
   scout:
-    last_run: "2026-04-14"
-    last_gap_focus: stat-arb-regime-robustness
+    last_run: "2026-04-20"
+    last_gap_focus: e39-multitenancy-isolation
     candidates_pending:
-      - title: Cação et al. 2022 — Tracking Environmental Policy in Brazilian DOU
-        url: arxiv.org/abs/2202.10221
-        impact: CONFIRMA
-        article: diario-oficial-segmentation-strategies
-      - title: Ma et al. 2025 — DocIQ DIQA Benchmark
-        url: arxiv.org/abs/2509.17012
+      - title: SafeKV — Selective KV-Cache Sharing
+        arxiv_id: "2508.08438"
         impact: REFINA
-        article: document-image-quality-assessment
-      - title: Peña et al. 2023 — Document Layout Public Affairs
-        url: arxiv.org/abs/2306.10046
+        article: wiki/concepts/safekv-selective-kv-cache-isolation.md
+        status: ingested
+      - title: SMTA + Burn-After-Use Enterprise LLM
+        arxiv_id: "2601.06627"
+        impact: CONFIRMA+REFINA
+        article: wiki/concepts/smta-burn-after-use-enterprise-llm.md
+        status: ingested
+      - title: FedDCA — Cross-Client Domain Coverage
+        arxiv_id: "2409.20135"
         impact: CONFIRMA
-        article: multilegalsbd-annotation
+        article: wiki/concepts/feddca-cross-client-domain-coverage.md
+        status: ingested
+      - title: C-FedRAG — Confidential Federated RAG
+        arxiv_id: "2412.13163"
+        impact: CONFIRMA
+        article: null
+        status: pending
+      - title: Federated RAG Systematic Mapping Study
+        arxiv_id: "2505.18906"
+        impact: CONFIRMA
+        article: null
+        status: pending
+      - title: Uni-CTR — Multi-Domain CTR via LLMs (seesaw phenomenon)
+        arxiv_id: "2312.10743"
+        impact: CONFIRMA (Gap 2 sectoral bias)
+        article: wiki/concepts/uni-ctr-multidomain-seesaw.md
+        status: ingested
+        source: deep-research-2026-04-20
+      - title: LLM-RecG — Semantic Bias-Aware ZCDSR (shared-generalization loss)
+        arxiv_id: "2501.19232"
+        impact: CONFIRMA (Gap 2 sectoral bias)
+        article: wiki/concepts/llm-recg-semantic-bias-shared-layer.md
+        status: ingested
+        source: deep-research-2026-04-20
+      - title: What Do We Mean by Generalization in FL (participation gap)
+        arxiv_id: "2110.14216"
+        impact: INFORMA (Gaps 1+4 — método não threshold)
+        article: wiki/concepts/federated-learning-participation-gap.md
+        status: ingested
+        source: deep-research-2026-04-20
+      - title: Trade Secrets and AI (Hrdy 2025, reasonable measures)
+        ssrn_id: "5350892"
+        impact: FECHA (Gap 3 NDA/IP)
+        article: wiki/concepts/trade-secrets-ai-hrdy-2025.md
+        status: ingested
+        source: deep-research-2026-04-20
+      - title: Enterprise Data as Trade Secrets (Chen 2025, 3 categorias)
+        ssrn_id: "5456754"
+        impact: FECHA (Gap 3 NDA/IP)
+        article: wiki/concepts/enterprise-data-trade-secrets-chen-2025.md
+        status: ingested
+        source: deep-research-2026-04-20
+  emerge:
+    last_run: "2026-04-17"
+    top_pairs:
+      - pair:
+          - coconut-continuous-latent-reasoning
+          - file-as-bus-workspace
+        verdict: GENUINE
+        score: 8
+        oracle_mode: gemini-only
+        pearl_level: L2
+        connection_type: ANÁLOGO-A
+        espurio_risk: médio
+        verification_cost: baixo
+        stability: tentative
 # ── /ask ───────────────────────────────────────────────────────────────────────
 ask:
   articles_with_recent_gaps:
-    - pdf-quality-classification-ocr-pipeline
-    - boundary-annotation-dataset-contratos-secao-iii
-  last_session: 2026-04-14/ask-pipeline-order.md
+    - paperclip-framework
+  last_session: 2026-04-20/ask-18-34.md
   synthesize_pending: []
   synthesize_completed:
     - pair: [autonomous-kb-failure-modes, self-improving-agents, groupthink-and-cascades]
@@ -306,26 +336,6 @@ ingest_queue_priority:
     why: "REFINA block-organization-as-intelligence: GenAI e redução de middle management — evidência empírica independente."
     auto_trigger: false
     added_by: challenge
-  - slug: tcu-acordao-2392-2018-subcontratacao-meios-proprios
-    url: https://pesquisa.apps.tcu.gov.br/resultado/acordao-completo/"2392%202018"
-    impact: REFINA
-    article: inexigibilidade-notoria-especializacao
-    claim: Personalíssimo + meios próprios — verificar se Acórdão 2.392/2018 aplica a PJ ou só PF
-    auto_trigger: false
-    trigger_condition: bradford_open
-    bradford_blocked: true
-    added_on: "2026-04-08"
-    added_by: ask
-  - slug: tcu-acordao-2993-2018-pj-notoria-especializacao-estatais
-    url: https://pesquisa.apps.tcu.gov.br/resultado/acordao-completo/"2993%202018"
-    impact: REFINA
-    article: inexigibilidade-notoria-especializacao
-    claim: PJ como detentora coletiva de notória especialização — verificar se tese de estatais generaliza para administração direta
-    auto_trigger: false
-    trigger_condition: bradford_open
-    bradford_blocked: true
-    added_on: "2026-04-08"
-    added_by: ask
 ingest_queue_single_brain:
   - source: "Graph-Native Cognitive Memory with Formal Belief Revision (arXiv 2603.17244, mar 2026)"
     why: "Gap 2. Belief revision formal que Graphiti/Zep não tem. URI addressing determinístico. Conecta com safeguards epistêmicos do llm-kb."
@@ -528,29 +538,80 @@ challenge:
       data: "2026-04-08"
       claims_survived: 1
       claims_total: 8
+    - artigo: looped-transformer
+      verdict: PRECISA_CORREÇÃO
+      data: "2026-04-16"
+      claims_survived: 1
+      claims_total: 3
+    - artigo: grokking-implicit-reasoning
+      verdict: PRECISA_CORREÇÃO
+      data: "2026-04-16"
+      claims_survived: 2
+      claims_total: 3
+    - artigo: depth-extrapolation-recurrent
+      verdict: PUBLICÁVEL
+      data: "2026-04-16"
+      claims_survived: 3
+      claims_total: 3
+    - artigo: looped-transformer
+      verdict: PUBLICÁVEL
+      data: "2026-04-17"
+      claims_survived: 3
+      claims_total: 3
+    - artigo: grokking-implicit-reasoning
+      verdict: PUBLICÁVEL
+      data: "2026-04-17"
+      claims_survived: 3
+      claims_total: 3
+    - artigo: coconut-continuous-latent-reasoning
+      verdict: PUBLICÁVEL
+      data: "2026-04-17"
+      claims_survived: 2
+      claims_total: 3
+      gate3_mode: gemini-only
+    - artigo: feddca-cross-client-domain-coverage
+      verdict: PRECISA_CORREÇÃO
+      data: "2026-04-20"
+      claims_survived: 1
+      claims_total: 4
+      claims_weakened: 2
+      claims_invalidated: 1
+      prior_work_found: 7
+      quarantine_criteria_satisfied: adversarial_or_scout_or_prediction
+      challenge_type: clean
+      counts_for_promote: true
+      gate3_status: partial_openai_unavailable_gemini_only
+      gate3_claims_invalidated: 1
+      gate3_claims_weakened: 2
+      corrections_applied: false
+      e39_transfer_analysis: AUGMENT
+      log: outputs/logs/sessions/2026-04-20/challenge-feddca-cross-client-domain-coverage-10-00.md
+    - artigo: uni-ctr-multidomain-seesaw
+      verdict: PRECISA_CORREÇÃO
+      data: "2026-04-20"
+      claims_survived: 1
+      claims_total: 3
+      claims_weakened: 2
+      claims_invalidated: 0
+      prior_work_found: 5
+      quarantine_criteria_satisfied: adversarial_with_prior_work
+      challenge_type: clean
+      counts_for_promote: true
+      gate3_status: skipped_staleness
+      gate3_reason: source 2025-12 > oracle cutoff 2025-06
+      stub_caveat: true
+      e39_ac17_support: ADJACENT
+      corrections_applied: false
+      log: outputs/logs/sessions/2026-04-20/challenge-uni-ctr-multidomain-seesaw-11-28.md
 # ── /synthesize ────────────────────────────────────────────────────────────────
 synthesize:
   pending_from_ask:
-    - pair: [agent-memory-architectures, stigmergic-coordination]
-      ask_session: outputs/logs/sessions/2026-04-05/ask-12-34.md
-      connection_type: ANÁLOGO-A
-      article_created: wiki/concepts/single-brain-data-ontology.md
-      status: quarantine # aguarda promote
-    - pair: [curse-of-knowledge-llm-judge, causal-reasoning-pearl]
-      ask_session: outputs/logs/sessions/2026-04-05/ask-curse-knowledge-pearl.md
-      connection_type: EMERGE-DE
-      article_created: wiki/concepts/evaluation-order-independence.md
-      status: quarantine # aguarda promote
     - pair:
-        - tacit-collusion
-        - collective-action-problem
-      ask_session: outputs/logs/sessions/2026-04-08/ask-14-00.md
+        - coconut-continuous-latent-reasoning
+        - file-as-bus-workspace
+      ask_session: outputs/logs/sessions/2026-04-17/ask-02-15.md
       connection_type: ANÁLOGO-A
-    - pair:
-        - acemoglu-restrepo-task-displacement
-        - inexigibilidade-notoria-especializacao
-      ask_session: outputs/logs/sessions/2026-04-08/ask-18-10.md
-      connection_type: EMERGE-DE
+      archived_as: stacked-bottleneck-avoidance
   completed:
     - pair: [procurement-contract-design, requisite-variety]
       article: wiki/concepts/procurement-variety-gap.md
@@ -560,6 +621,14 @@ synthesize:
       ask_session: outputs/logs/sessions/2026-04-06/ask-21-24.md
       connection_type: ANÁLOGO-A
       status: quarantine # aguarda promote
+  synthesize_pending:
+    - pair:
+        - coconut-continuous-latent-reasoning
+        - file-as-bus-workspace
+      ask_session: outputs/logs/sessions/2026-04-17/ask-02-15.md
+      connection_type: ANÁLOGO-A
+      archived_as: wiki/concepts/stacked-bottleneck-avoidance.md
+      status: quarantine_by_design
 last_session_documented: "2026-04-07" # part17
 reading_list: outputs/reading-list.md # Gentner 1983 adicionado — gap 2 (emerge threshold)
 # Rastreia artigos auto-completados para validação de retrieval (Fase 0.5 do /dream)
@@ -632,7 +701,7 @@ stub_completion_queue:
       completion_priority: 0
       option_b_eligible: true
       ineligibility_reason: null
-last_updated: "2026-04-14" # /emerge sessão 9: 3 GENUINE (vsm×CLS, debate×JA, block×CLS)
+last_updated: "2026-04-19" # /emerge sessão 9: 3 GENUINE (vsm×CLS, debate×JA, block×CLS)
 last_emerge: 2026-04-05 # sessão 5: 1 GENUINE (vitality × VSM)
 system_state: healthy
 algedonic_events:
@@ -647,9 +716,9 @@ algedonic_events:
     resolved: false
     resolved_at: null
 fast_cycle:
-  ingest_count_since_last_scout: 0
-  ingest_count_since_last_lint: 13
-  sessions_since_last_dream: 8
+  ingest_count_since_last_scout: 9
+  ingest_count_since_last_lint: 32
+  sessions_since_last_dream: 11
 gaps:
   explicit:
     - id: it-offshoring-b2b-contract-renewal
@@ -679,3 +748,10 @@ corpus:
   quarantined_articles: 1
   quarantined_list:
     - procurement-phoenix-graph-architecture
+concepts:
+  ticket-pre-validation-agentic-planning:
+    reads: 1
+    retrievals_correct: 1
+  pr-creation-orchestration:
+    reads: 1
+    retrievals_correct: 1

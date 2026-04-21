@@ -4,6 +4,20 @@
       "command": "/Users/drapala/projects/metaxon/.venv/bin/python",
       "args": ["/Users/drapala/projects/metaxon/mcp_server.py"],
       "cwd": "/Users/drapala/projects/metaxon"
+    },
+    "arxiv": {
+      "command": "uvx",
+      "args": ["arxiv-mcp-server"],
+      "env": {
+        "ARXIV_STORAGE_PATH": "/Users/drapala/projects/llm-kb/raw/papers"
+      }
+    },
+    "tavily": {
+      "command": "npx",
+      "args": ["-y", "@tavily/mcp"],
+      "env": {
+        "TAVILY_API_KEY": "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"
+      }
     }
   }
 }
