@@ -78,6 +78,9 @@ Exit codes:
   1 — erro de API ou configuração
   2 — input inválido
   3 — SUPERFICIAL, SPLIT, ou article-challenge com ≥1 weakened/invalidated
+  4 — article-challenge skipped by staleness (fontes pós-cutoff dos oracles);
+      output contém staleness_skip: true, gates devem tratar como "inconclusive"
+      e exigir /challenge manual + verificação adversarial por humano.
 
 Dependências: openai>=1.0, google-genai>=1.0
   uv pip install openai google-genai
@@ -197,6 +200,74 @@ Respond ONLY with valid JSON (no markdown, no code fences):
 
 
 # ── Article content extraction ────────────────────────────────────────────────
+# Oracle effective knowledge cutoffs — *empíricos*, não os anunciados pelos providers.
+# Calibrado em 2026-04-17 após observar que Gemini 3.1-pro-preview marca papers de
+# jul/set 2025 como "chronological error / impossible timeframe", indicando cutoff
+# efetivo ~junho/2025 mesmo com data oficial outubro/2025.
+# GPT-5.4 não foi testado standalone aqui (OpenAI 401 ativo); mantido conservador.
+# STALENESS_MAX_CUTOFF é o LIMITE INFERIOR — qualquer source mais recente que ele
+# triggera skip. Use o min() para que qualquer oracle estoura → o pipeline pula.
+# Atualizar quando trocar modelos OU quando observar falsos negativos novos.
+ORACLE_CUTOFF_YYYYMM = {
+    "gpt-5.4": "2025-06",
+    "gemini-3.1-pro-preview": "2025-06",
+}
+STALENESS_MAX_CUTOFF = min(
+    ORACLE_CUTOFF_YYYYMM.values()
+)  # mais conservador dos oracles
+
+
+def detect_staleness(article_path: str) -> dict:
+    """Detecta se fontes do artigo são posteriores ao cutoff dos oracles.
+
+    Heurística: extrai ano do path da source (raw/papers/AUTHOR-YYYY-*) ou do
+    frontmatter (campo `year` se presente). Se qualquer source tem year-month
+    > STALENESS_MAX_CUTOFF, marca stale.
+
+    Retorna {stale: bool, newest_source: str, newest_year_month: str, cutoff: str}.
+    """
+    import re as _re
+
+    path = Path(article_path)
+    if not path.exists():
+        return {"stale": False, "reason": "article not found"}
+
+    raw = path.read_text()
+    # Parse frontmatter sources
+    fm_match = _re.match(r"^---\n(.*?)\n---", raw, _re.DOTALL)
+    if not fm_match:
+        return {"stale": False, "reason": "no frontmatter"}
+    fm = fm_match.group(1)
+
+    # Coleta paths de sources
+    source_paths = _re.findall(r"- path:\s*(\S+)", fm)
+    newest_ym = "0000-00"
+    newest_src = ""
+    for p in source_paths:
+        stem = Path(p).stem
+        # Prefere YYYY-MM explícito (ex: "2026-04-15-slug")
+        explicit = _re.search(r"(\d{4})-(\d{2})\b", stem)
+        if explicit:
+            ym = f"{explicit.group(1)}-{explicit.group(2)}"
+        else:
+            # Fallback: só ano (ex: "author-2025-title"). Default month=12 —
+            # assume limite superior do ano. Default=01 causa falso negativo
+            # quando paper YYYY na verdade é dezembro/YYYY.
+            year_only = _re.search(r"(\d{4})", stem)
+            ym = f"{year_only.group(1)}-12" if year_only else "0000-00"
+        if ym > newest_ym:
+            newest_ym = ym
+            newest_src = p
+
+    stale = newest_ym > STALENESS_MAX_CUTOFF
+    return {
+        "stale": stale,
+        "newest_source": newest_src,
+        "newest_year_month": newest_ym,
+        "cutoff": STALENESS_MAX_CUTOFF,
+    }
+
+
 def extract_article_content(article_path: str) -> tuple[str, str]:
     """Returns (article_name, content_section) from a wiki markdown article.
 
@@ -466,6 +537,14 @@ def main():
             "article-challenge = challenge claims in a wiki article (Gate 3 of /auto-promote)"
         ),
     )
+    parser.add_argument(
+        "--allow-stale",
+        action="store_true",
+        help=(
+            "article-challenge: bypassa o staleness check e chama os oracles "
+            "mesmo quando sources são pós-cutoff. Use só quando quiser o ruído."
+        ),
+    )
     args = parser.parse_args()
 
     # ── Article-challenge mode ────────────────────────────────────────────────
@@ -476,6 +555,36 @@ def main():
                 file=sys.stderr,
             )
             sys.exit(2)
+
+        # Pre-check: staleness — se sources são pós-cutoff dos oracles,
+        # Gate 3 produz falso-negativo (invalidated = "não verificável" ≠ falso).
+        if not args.allow_stale:
+            staleness = detect_staleness(args.article)
+            if staleness.get("stale"):
+                article_name = Path(args.article).stem
+                output = {
+                    "article": article_name,
+                    "mode": "article-challenge",
+                    "staleness_skip": True,
+                    "newest_source": staleness["newest_source"],
+                    "newest_year_month": staleness["newest_year_month"],
+                    "oracle_cutoff": staleness["cutoff"],
+                    "oracle_models": list(ORACLE_CUTOFF_YYYYMM.keys()),
+                    "claims_challenged": 0,
+                    "claims_survived": 0,
+                    "claims_weakened": 0,
+                    "claims_invalidated": 0,
+                    "auto_promote_eligible": False,
+                    "reason": (
+                        f"Source {staleness['newest_source']} é "
+                        f"{staleness['newest_year_month']} — posterior ao cutoff "
+                        f"{staleness['cutoff']} de todos os oracles. Gate 3 "
+                        f"retornaria falsos-negativos por não-verificabilidade. "
+                        f"Requer /challenge manual com web search."
+                    ),
+                }
+                print(json.dumps(output, ensure_ascii=False, indent=2))
+                sys.exit(4)
 
         article_name, content = extract_article_content(args.article)
         print(

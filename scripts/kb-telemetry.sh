@@ -22,7 +22,7 @@ HOOK_EVENT=$(echo "$INPUT" | jq -r '.hook_event // empty' 2>/dev/null || echo ""
 
 [ -z "$FILE_PATH" ] && exit 0
 
-PROJECT_ROOT="/Users/drapala/projects/metaxon"
+PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 EVENTS_DIR="$PROJECT_ROOT/raw/meta/ops/events"
 mkdir -p "$EVENTS_DIR"
 

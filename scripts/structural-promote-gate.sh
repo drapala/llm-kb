@@ -13,7 +13,7 @@ if [ -z "$FILE" ] || [ ! -f "$FILE" ]; then
   exit 2
 fi
 
-PROJECT_ROOT="/Users/drapala/projects/metaxon"
+PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 ABS_FILE="$FILE"
 if [ ! -f "$ABS_FILE" ]; then
   ABS_FILE="${PROJECT_ROOT}/${FILE}"

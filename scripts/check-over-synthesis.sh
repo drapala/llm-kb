@@ -12,7 +12,7 @@ FILE_PATH=$(echo "$INPUT" | jq -r '.tool_input.file_path // .tool_response.fileP
 # Resolve to absolute path if needed
 if [ ! -f "$FILE_PATH" ]; then
   # Try from the project root
-  PROJECT_ROOT="/Users/drapala/projects/metaxon"
+  PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
   FILE_PATH="${PROJECT_ROOT}/${FILE_PATH}"
   [ -f "$FILE_PATH" ] || exit 0
 fi

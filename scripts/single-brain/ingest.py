@@ -259,6 +259,29 @@ def hub_order(paths: list[Path]) -> list[Path]:
     return sorted(paths, key=lambda p: text.count(p.stem), reverse=True)
 
 
+SCRIPTS_KB = ROOT / "scripts" / "kb"
+
+
+def run_link_graph(dry_run: bool = False) -> None:
+    cmd = [sys.executable, str(SCRIPTS_KB / "link_graph.py")]
+    if dry_run:
+        cmd.append("--dry-run")
+    print("\n── Link graph ──")
+    result = subprocess.run(cmd, cwd=str(ROOT))
+    if result.returncode != 0:
+        print("  warn: link_graph.py exited non-zero — impact propagation skipped")
+
+
+def run_impact_propagation(slugs: list[str], dry_run: bool = False) -> None:
+    script = str(SCRIPTS_KB / "impact_propagation.py")
+    print("\n── Impact propagation ──")
+    for slug in slugs:
+        cmd = [sys.executable, script, "--trigger", slug]
+        if dry_run:
+            cmd.append("--dry-run")
+        subprocess.run(cmd, cwd=str(ROOT))
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--dry-run", action="store_true")
@@ -267,6 +290,11 @@ def main():
         "--rebuild",
         action="store_true",
         help="Drop and recreate table (needed after schema change)",
+    )
+    parser.add_argument(
+        "--impact",
+        action="store_true",
+        help="Run link_graph + impact_propagation after ingestion (step 11)",
     )
     args = parser.parse_args()
 
@@ -284,11 +312,22 @@ def main():
     )
 
     total = 0
+    ingested_slugs = []
     print(f"{'DRY RUN — ' if args.dry_run else ''}Ingesting {len(paths)} articles...")
     for path in paths:
-        total += ingest_file(path, table, dry_run=args.dry_run)
+        n = ingest_file(path, table, dry_run=args.dry_run)
+        total += n
+        if n > 0:
+            ingested_slugs.append(path.stem)
 
     print(f"\n✓ {len(paths)} articles → {total} chunks in {DB_PATH}")
+
+    if args.impact and not args.dry_run:
+        run_link_graph(dry_run=False)
+        run_impact_propagation(ingested_slugs, dry_run=False)
+    elif args.impact and args.dry_run:
+        run_link_graph(dry_run=True)
+        run_impact_propagation(ingested_slugs, dry_run=True)
 
 
 if __name__ == "__main__":
