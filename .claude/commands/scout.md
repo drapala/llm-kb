@@ -1,6 +1,6 @@
 # /scout
 
-Descobre papers adjacentes que a KB não contém. Olha pra fora via web search.
+Descobre papers adjacentes que a KB não contém. Usa arxiv MCP como fonte primária.
 
 ## Processo
 
@@ -9,15 +9,16 @@ Descobre papers adjacentes que a KB não contém. Olha pra fora via web search.
    Para cada um, extraia os 2-3 conceitos centrais que definem o artigo.
 
 2. **Gerar queries de busca:**
-   Para cada conceito, gere 2-3 queries:
-   - "[conceito] arxiv 2024 2025 2026"
-   - "[conceito] survey OR benchmark site:arxiv.org"
-   - "[conceito] limitations OR criticism"
+   Para cada conceito, gere 2-3 queries para usar em `search_papers`:
+   - "[conceito] survey" com date_from: ano-2 até hoje
+   - "[conceito] benchmark" com categorias relevantes (cs.AI, cs.LG, cs.CL etc.)
+   - "[conceito] limitations OR failure" sem filtro de categoria
 
-3. **Web search + triagem:**
-   Rode web search. Para cada resultado:
-   - Já existe em raw/papers/? Se sim, skip.
-   - É paper primary (arxiv, conference, journal)? Descartar blogs/tweets.
+3. **Busca via arxiv MCP + triagem:**
+   Para cada query, chame `search_papers` (arxiv MCP).
+   Para conceitos fora do escopo arxiv (ex: economia, biologia), use web search como fallback.
+   Para cada resultado:
+   - Chame `list_papers` para verificar se o arXiv ID já está em raw/papers/ — se sim, skip.
    - Cobre terreno similar a algum artigo de síntese?
    - Potencialmente invalida, confirma ou refina algum claim?
 
@@ -27,6 +28,13 @@ Descobre papers adjacentes que a KB não contém. Olha pra fora via web search.
    b. Papers que REFINAM claims com dados novos
    c. Papers que CONFIRMAM com evidência independente
    d. Surveys recentes que cobrem o mesmo terreno
+
+4.5. **Citation expansion (top 3 candidatos):**
+   Para cada um dos top 3 do ranking, chame `citation_graph` (arxiv MCP).
+   Examine referências e citantes — adicione ao ranking qualquer paper que:
+   - Contradiga claims existentes no wiki
+   - Seja survey do mesmo terreno com cobertura maior
+   Limite: max 3 candidatos extras via citation_graph (não inflar o pool).
 
 5. **Salvar report:**
    Gere outputs/reports/scout-YYYY-MM-DD.md com:
@@ -55,8 +63,11 @@ Descobre papers adjacentes que a KB não contém. Olha pra fora via web search.
    - [papers irrelevantes + motivo]
    ```
 
-6. **NÃO ingira automaticamente.**
-   Reporte candidatos. Usuário decide quais ingerir.
+6. **Baixar e ingerir os top 2-3 candidatos (prioridade ALTA/MÉDIA) após o relatório.**
+   Para cada candidato, chame `download_paper` (arxiv MCP) com o arXiv ID.
+   O arquivo vai para `raw/papers/` automaticamente (ARXIV_STORAGE_PATH configurado).
+   Depois, rode /ingest nestes arquivos sem confirmação.
+   Reportar o que foi baixado e ingerido ao final.
 
 ## Quando rodar
 

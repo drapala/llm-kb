@@ -83,6 +83,73 @@ janela_atual:
     - z_score_aditivo_por_tipo
     - flag_prefeito_ultimo_mandato
 
+# ─── IMPLEMENTATION STATE ────────────────────────────────────────────────────
+# Atualizado por: cd ~/projects/zelox && make context
+# Snapshot completo em: raw/notes/zelox-codebase-snapshot.md
+
+implementation_state:
+
+  deployed_features:
+    # features ativas em risk.feature_vector (V1.1)
+    - key: sanction_ceis_count
+      type: numeric
+      status: deployed
+    - key: sanction_cnep_count
+      type: numeric
+      status: deployed
+    - key: sanction_cepim_count
+      type: numeric
+      status: deployed
+    - key: has_public_contract
+      type: boolean
+      status: deployed
+    - key: shareholder_count
+      type: numeric
+      status: deployed
+
+  risk_logic:
+    version: "V1.1"
+    description: >
+      Heurístico 3-tier: sanctions → high, has_public_contract → medium, else → low.
+      Sem z-score, sem IQR, sem rede. Lógica em supplier_risk_check_v1.py.
+
+  pending_features:
+    # features no BACKLOG mas não no código
+    - key: z_score_aditivo_por_tipo
+      status: pending
+      adr: docs/spec-driven/adrs/001-zscore-to-iqr-aditivo.md
+      note: "será substituído por iqr_score_aditivo (ADR-001 aceito)"
+    - key: iqr_score_aditivo
+      status: pending
+      priority: "🔴"
+      adr: docs/spec-driven/adrs/001-zscore-to-iqr-aditivo.md
+    - key: aditivo_teto
+      status: pending
+      priority: "🔴"
+    - key: rede_empresas_score
+      status: pending
+      priority: "🟢"
+    - key: threshold_gaming_score
+      status: pending
+      priority: "🟡"
+      note: "urgente quando Zelox virar produto público"
+    - key: flag_prefeito_ultimo_mandato
+      status: pending
+      priority: "🟢"
+
+  pre_filters:
+    # não entram no score — são checks binários antes do pipeline
+    - key: ceis_prefilter
+      status: "formalização pendente (hoje está no score, deveria ser pré-filtro)"
+    - key: cnae_objeto_prefilter
+      status: "bloqueado — tabela mapeamento CNAE→objeto não pública"
+
+  key_files:
+    risk_packet: "src/zelox/packets/supplier_risk_check_v1.py"
+    feature_compute: "src/zelox/loaders/feature_compute.py"
+    sanctions_loader: "src/zelox/loaders/ceis_cnep_cepim.py"
+    pncp_loader: "src/zelox/loaders/pncp_contracts.py"
+
 # ─── OUTPUT PATHS ────────────────────────────────────────────────────────────
 
 output:

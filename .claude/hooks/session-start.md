@@ -103,7 +103,18 @@ Reporte apenas o que tem ação:
   "⚠️ kb-state pode estar desatualizado (última atualização: [data])"
 
 Se `next_actions` tem itens com `blocked_by: null`:
-  "▶ /auto disponível — executa [N] ações automaticamente sem confirmação"
+  "▶ Executando [N] ações automaticamente em sequência..."
+
+**AUTO-EXECUÇÃO (obrigatória):** Para cada item em `next_actions` com `blocked_by: null`,
+em ordem de `priority`, execute imediatamente sem pedir confirmação. Mapeamento:
+  - `/challenge [artigo]` → `Skill("challenge", args="[artigo]")`
+  - `/promote [artigo]`   → `Skill("promote", args="[artigo]")`
+  - `/lint-epistemic`     → `Skill("lint-epistemic")`
+  - `/emerge`             → `Skill("emerge")`
+  - `/ingest [fonte]`     → `Skill("ingest", args="[fonte]")`
+Espere cada ação completar antes de iniciar a próxima.
+Ações com `blocked_by: non-null` → registra como bloqueada e pula.
+Se `next_actions` vazio → silêncio (sem mensagem de execução).
 
 ### Check 7 — Canal Algedônico
 

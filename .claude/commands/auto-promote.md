@@ -40,6 +40,15 @@ Parse o JSON de output:
 - `pass: true` → prossegue para Gate 3 ∥ /challenge
 - `pass: false` → QUARENTENA com `quarantine_reason: "Gate 2 — [failures[]]"`
 
+**Exit 4 (staleness skip):** se `cross-model-challenge.py` retornar exit 4 com
+`staleness_skip: true`, Gate 3 é inconclusivo por design (oracles não cobrem sources
+pós-cutoff). Neste caso:
+- Se `/challenge` retornou `PUBLICÁVEL`: considera Gate 3 "satisfeito por proxy" —
+  elegível para Gate 4. O `/challenge` com web search tem cobertura temporal maior.
+- Se `/challenge` retornou `PRECISA_CORREÇÃO` ou `RISCO_ALTO`: quarentena com
+  `quarantine_reason: "Gate 3 staleness — /challenge: [verdict]"`.
+- Registre no frontmatter: `gate3_skipped: staleness` + `newest_source_yyyymm`.
+
 ---
 
 ## Gate 3 ∥ /challenge — Revisão independente paralela

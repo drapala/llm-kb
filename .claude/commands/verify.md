@@ -43,15 +43,20 @@ PREDIÇÃO: contracts under contratação integrada têm taxa de aditivo_teto
           significativamente menor que contratos tradicionais de igual complexidade
 
 QUERY PNCP:
-  - Endpoint: [PLACEHOLDER — mapear endpoint PNCP para modalidade de contratação]
-  - Filtros: modalidade IN ('integrada', 'semi-integrada', 'tradicional')
-             AND objeto_categoria = [mesma categoria]
-             AND valor BETWEEN [faixa]
-  - Métrica: COUNT(aditivo > 0.23 * valor_original) / COUNT(*)
-  - Resultado esperado: taxa_integrada < taxa_tradicional * 0.7
+  - Busca inicial: `GET https://pncp.gov.br/api/search?tipos_documento=contrato&q=<termo>&pagina=N`
+  - Detalhe de contrato: `GET https://pncp.gov.br/api/pncp/v1/orgaos/{orgao_cnpj}/contratos/{ano}/{sequencial}`
+  - Termos do contrato: `GET https://pncp.gov.br/api/pncp/v1/orgaos/{orgao_cnpj}/contratos/{ano}/{sequencial}/termos?pagina=1`
+  - Chaves obtidas no search: `item_url`, `orgao_cnpj`, `ano`, `numero_sequencial`, `modalidade_licitacao_nome`
+  - Campos obtidos no detalhe: `niFornecedor`, `valorInicial`, `valorGlobal`, `objetoContrato`, `categoriaProcesso`, `tipoContrato`
+  - Filtros: `modalidade_licitacao_nome IN ('Contratação Integrada', 'Contratação Semi-Integrada', 'Concorrência', 'Pregão - Eletrônico', ...)`
+             AND `categoriaProcesso.nome` = [mesma categoria]
+             AND `valorInicial` BETWEEN [faixa]
+  - Métrica operacional: `aditivo_ratio = (valorGlobal - valorInicial) / valorInicial`
+  - Proxy de alerta: `COUNT(aditivo_ratio >= 0.23) / COUNT(*)`
+  - Resultado esperado: `taxa_integrada < taxa_tradicional * 0.7`
 
-STATUS: PLACEHOLDER — endpoint PNCP não mapeado ainda
-PRÓXIMO PASSO: /ask "qual endpoint PNCP expõe modalidade de contratação?"
+STATUS: `search` + `detail` mapeados e testados em 2026-04-08; consulta pública funciona
+LIMITAÇÃO: `api/search` é textual e exige pós-filtro por `detail.niFornecedor`; termos podem retornar `204`
 ```
 
 Salva query em `outputs/reports/pncp-queries/[artigo]-YYYY-MM-DD.md`.

@@ -60,6 +60,13 @@ yq '.ingest_chain.status' outputs/state/kb-state.yaml
 
 ---
 
+**Resolução de fonte arxiv** (antes de tudo):
+Se a entrada for um arXiv ID (ex: `2401.12345`) ou URL (`https://arxiv.org/abs/XXXX`),
+chame `download_paper` (arxiv MCP) para baixar em `raw/papers/` antes de processar.
+Se o arquivo já existe em `raw/papers/`: skip do download, prossiga com o arquivo local.
+
+---
+
 Compare raw/ com wiki/_registry.md. Para cada fonte nova:
 
 1. Leia o conteúdo (para PDFs, extraia texto; para imagens, descreva;
@@ -163,9 +170,9 @@ Compare raw/ com wiki/_registry.md. Para cada fonte nova:
     - `bridge_creation` — nova conexão interpretativa importante entre dois blocos
     - `obsolete_framing` — framing central ficou datado
 
-    **11d — Gerar patch candidate e decidir ação:**
+    **11d — Gerar patch candidate e decidir ação (3 saídas explícitas):**
 
-    *Auto-apply* (score > 0.85 E impact_type ∈ {new_support, claim_refinement, scope_expansion}):
+    *Saída 1 — Auto-apply* (score > 0.85 E impact_type ∈ {new_support, claim_refinement, scope_expansion}):
     Injete `> [!patch]` diretamente no artigo afetado:
     ```
     > [!patch]
@@ -182,7 +189,7 @@ Compare raw/ com wiki/_registry.md. Para cada fonte nova:
     > created_at: YYYY-MM-DD
     ```
 
-    *Queue for review* (0.45 ≤ score ≤ 0.85 OU impact_type ∈ {claim_contradiction, bridge_creation, obsolete_framing}):
+    *Saída 2 — Queue for review* (0.45 ≤ score ≤ 0.85 OU impact_type ∈ {bridge_creation, obsolete_framing}):
     Adicione a `outputs/state/patch-queue.yaml` (não injete no artigo):
     ```yaml
     - patch_id: patch-YYYY-MM-DD-NNN
@@ -198,15 +205,46 @@ Compare raw/ com wiki/_registry.md. Para cada fonte nova:
     Adicione entrada em `next_actions` de `kb-state.yaml`:
     `"[patch-id]: review patch em [artigo] (impact: [tipo])"`
 
-    **11e — Atualizar article-health.yaml:**
-    Para cada artigo que recebeu patch (auto-apply ou queue):
+    *Saída 3 — Mark under_review* (impact_type = claim_contradiction, qualquer score acima de 0.45):
+    Não injete patch no artigo. Atualize diretamente o status do artigo:
     ```yaml
-    freshness_status: impacted          # ou under_review se contradiction
+    freshness_status: under_review
+    epistemic_risk: high          # novo campo
     pending_patch_count: [N+1]
     last_impact_at: YYYY-MM-DD
     ```
-    Se impact_type = claim_contradiction de alta confiança:
-    `freshness_status: under_review`
+    Adicione a `patch-queue.yaml` com `status: escalated` (não pending):
+    ```yaml
+    - patch_id: patch-YYYY-MM-DD-NNN
+      article_slug: [slug]
+      trigger_slug: [novo-artigo]
+      status: escalated
+      impact_type: claim_contradiction
+      materiality: [score]
+      auto_apply_eligible: false
+      affected_claims: [c001, c002, ...]
+      summary: [o que contradiz e como]
+      created_at: YYYY-MM-DD
+    ```
+    Adicione entrada em `next_actions`:
+    `"CONTRADIÇÃO: /challenge [artigo] (trigger: [novo-artigo])"`
+
+    **11e — Atualizar article-health.yaml:**
+    Para cada artigo que recebeu patch (saídas 1 ou 2):
+    ```yaml
+    freshness_status: impacted
+    pending_patch_count: [N+1]
+    last_impact_at: YYYY-MM-DD
+    ```
+    Para saída 3 (claim_contradiction):
+    ```yaml
+    freshness_status: under_review
+    epistemic_risk: high
+    pending_patch_count: [N+1]
+    last_impact_at: YYYY-MM-DD
+    ```
+    Quando contradição for resolvida via /challenge e artigo atualizado:
+    `epistemic_risk: null  # ou remover o campo`
 
     **11f — Salvar relatório:**
     `outputs/reports/impact-[novo-artigo-slug].md` com lista de candidatos,

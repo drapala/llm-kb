@@ -157,6 +157,26 @@ Ver `.claude/hooks/utility-tracker.md` para instruções completas.
 
 ---
 
+## Pipeline — Contexto de Projeto (Zelox-adjacent)
+
+Se a sessão é **Zelox-adjacent** (≥1 artigo lido pertence a `_index-econ-poli.md`,
+`_index-strategy.md`, `_index-ai-tech-debt.md`, ou `_index-meta-kb.md[zelox tags]`):
+
+**Antes de processar a query**, leia em paralelo:
+1. `.claude/contexts/zelox.yaml` — seção `implementation_state` (features deployed vs. pending)
+2. `raw/notes/zelox-codebase-snapshot.md` — snapshot atual do código
+
+Use estes arquivos para:
+- Distinguir features implementadas de features planejadas ao fazer sugestões
+- Identificar se uma sugestão de feature já existe com outro nome
+- Calibrar urgência: features `🔴` têm bloqueio ativo, não sugerir workarounds
+
+Se `raw/notes/zelox-codebase-snapshot.md` não existir:
+- Avise: "Snapshot do Zelox desatualizado. Rode `make context` no projeto zelox."
+- Continue com o que estiver em `.claude/contexts/zelox.yaml`
+
+---
+
 ## Pipeline — kb-state.yaml
 
 ### Lê (início)
@@ -188,3 +208,23 @@ synthesize:
 | Conexão cross-cluster confirmada nesta sessão | `💡 /synthesize — conexão [A]×[B] confirmada. Rode /synthesize para criar artigo.` |
 | `articles_with_recent_gaps` cresceu | **AUTO-SCOUT:** invoque `/scout` imediatamente, focado no domínio do gap. Passe o gap como contexto: "scout focado em: [domínio do gap identificado]". Não sugira — execute. Após /scout, reporte candidatos ao usuário e pergunte se quer /ingest. |
 | Artigo quarentenado foi central na resposta | `💡 /promote ou /challenge — [artigo] em quarentena foi decisivo. Considere promover.` |
+| **Sessão Zelox-adjacent** E resposta contém conclusão de design | **TRADUÇÃO METAXON→ZELOX:** pergunte ao final: "Esta conclusão precisa de ADR ou item de backlog no Zelox? (ADR: mudança de design com alternativas; backlog: implementação pendente)" — e execute se sim. |
+
+**Clusters Zelox-adjacent** (condição da última linha):
+A sessão é Zelox-adjacent se ≥1 artigo lido pertence a qualquer um destes índices:
+- `_index-econ-poli.md` — procurement, licitações, fraude, Zelox features
+- `_index-strategy.md` — Zelox architecture, ADRs, conjecturas de produto
+- `_index-ai-tech-debt.md` — padrões de degradação de sistemas ML
+- `_index-meta-kb.md` com tags: `[ml-systems, anti-patterns, ground-truth, zelox]`
+
+**Conclusão de design** (condição da última linha):
+A resposta contém conclusão de design se inclui qualquer um de:
+- Recomendação de método/algoritmo específico (ex: "usar IQR em vez de z-score")
+- Decisão de não implementar algo com justificativa (ex: "CNAE não é feature do score")
+- Identificação de bug de campo ou semântica de dado no Zelox
+- Threshold, parâmetro ou configuração com backing teórico/empírico
+- Anti-padrão identificado como ativo no Zelox atual
+
+**Destino:**
+- ADR → `~/projects/zelox/docs/spec-driven/adrs/NNN-slug.md`
+- Backlog → `~/projects/zelox/BACKLOG.md` (adicionar linha na seção "Pendente")
