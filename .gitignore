@@ -1,6 +1,8 @@
 .DS_Store
 outputs/
 .claude/settings.local.json
+.claude/projects/
+.playwright-mcp/
 .env
 *.pyc
 __pycache__/
