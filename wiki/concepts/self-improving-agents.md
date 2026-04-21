@@ -7,6 +7,10 @@ sources:
   - path: raw/papers/erl-experiential-reflective-learning.md
     type: paper
     quality: primary
+  - path: raw/papers/han-2026-swe-trace-rubric-prm.md
+    type: paper
+    quality: primary
+    stance: confirming
   - path: raw/papers/self-evolving-agents-survey.md
     type: paper
     quality: primary
@@ -28,10 +32,10 @@ tags: [agent-architecture, self-improvement, reflection, learning]
 source_quality: high
 interpretation_confidence: high
 resolved_patches: []
-reads: 1
-retrievals_correct: 0
+reads: 2
+retrievals_correct: 1
 retrievals_gap: 0
-last_read: 2026-04-04
+last_read: 2026-04-18
 provenance: synthesis
 synthesis_sources:
   - wiki/concepts/memory-consolidation.md
@@ -182,6 +186,25 @@ Our pipeline loosely parallels self-improvement patterns:
 - [[multi-agent-orchestration]] — Agent KB enables cross-framework knowledge transfer
 - emerge-para: [[autoresearch-reliability-triad]] ON "Reflexion: grounding = testes executáveis (não leitura); Absolute Zero como oracle externo independente"
 - contradicts: [[causal-reasoning-pearl]] ON "Pearl hierarchy exposes: verbal reflection CORRELATES with improvement (L1/associação) — mechanism claim (L2/intervenção) requires ablation isolating verbalidade from ancoragem; not yet done at adequate scale"
+
+## SWE-TRACE: Rubric-Based PRM (2026)
+
+Han et al. (2026) confirma e estende o finding ERL no contexto de SWE agents (SWE-bench Verified):
+
+**Rubric-Based Process Reward Model (PRM)**
+- Auxiliary Rubric-Agent gera critérios de avaliação específicos por step (dinâmico, não estático)
+- Fornece feedback denso em steps intermediários — não apenas outcome binário pass/fail
+- Integrado em RL pipeline (Memory-Augmented Agentic RL)
+
+**Heuristic-Guided Test-Time Scaling (HG-TTS)**
+- Reusa o Rubric PRM para poda de ação candidates em inference
+- Mais eficiente que sampling paralelo (TTS@16) sem overhead de latência
+
+**Resultados SWE-bench Verified:**
+- SWE-TRACE-30B + HG-TTS: **71.2%** (vs. Gemini 3 Pro: 74.2%, DeepSWE-32B+TTS@16: 59.0%)
+- 60K SFT corpus biased toward shortest-path trajectories (filtra exploração redundante)
+
+**Convergência com ERL:** tanto ERL quanto Rubric PRM confirmam que feedback estruturado por step > reward esparso por outcome. ERL usa heurísticas recuperadas; Rubric PRM gera critérios dinamicamente — mecanismos distintos, conclusão convergente.
 
 ## Fontes
 

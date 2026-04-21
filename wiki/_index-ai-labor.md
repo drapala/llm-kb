@@ -6,6 +6,7 @@
 
 - [Automation & Labor — Brazil/LatAm](concepts/automation-labor-brazil.md) — 5 estudos empíricos: 55–62% empregos em alto risco; +0.10pp desemprego/robô; informal como buffer; desindustrialização por automação estrangeira
 - [Task Displacement & Wage Inequality](concepts/acemoglu-restrepo-task-displacement.md) — Acemoglu & Restrepo (Econometrica 2022): deslocamento de tarefas explica 50–70% das mudanças salariais EUA 1980–2016; salários −8.8% para sem diploma
+- [Reinstatement Effect & New Tasks](concepts/acemoglu-restrepo-reinstatement-new-tasks.md) — A&R (JEP 2019): framework dual displacement+reinstatement; reinstatement sempre aumenta labor share; EUA 1980–2016: displacement acelerou, reinstatement desacelerou
 - [GPT Labor Market Exposure](concepts/gpt-labor-market-exposure.md) — Eloundou et al. (2024): 80% workforce EUA com ≥10% tarefas expostas a LLMs; empregos de maior renda têm maior exposição
 - [AI Harms: Labor, Data, Governance](concepts/ai-harms-labor-governance.md) — Acemoglu (NBER 2021): 3 domínios de danos teóricos (labor/data/political); monitoramento deprime salários. Framework pré-LLMs
 - [AI and Economic Growth — Goldman Sachs](concepts/ai-economic-growth-projections.md) — Briggs/Kodnani (2023): ~25% do trabalho global exposto; +7% PIB; +1.5pp produtividade. source_quality:medium (não peer-reviewed)

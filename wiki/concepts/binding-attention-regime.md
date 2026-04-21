@@ -13,10 +13,10 @@ tags: [emergence, information-theory, decision-theory, bounded-rationality, retr
 source_quality: medium
 interpretation_confidence: low
 resolved_patches: []
-reads: 0
-retrievals_correct: 0
+reads: 1
+retrievals_correct: 1
 retrievals_gap: 0
-last_read: null
+last_read: 2026-04-12
 quarantine: true
 quarantine_created: 2026-04-04
 quarantine_reason: "Artigo emergido de /ask cross-domain (info-theory × cognitivo) — aguarda confirmação adversarial e review frio"

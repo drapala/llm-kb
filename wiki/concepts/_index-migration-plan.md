@@ -18,7 +18,17 @@ Plano para dividir `_index.md` (51 entradas) em sub-índices temáticos quando o
 
 ---
 
-## Estado atual (2026-04-04)
+## Estado atual (2026-04-08) — MIGRAÇÃO EXECUTADA
+
+126 artigos → 8 sub-índices criados. _index.md é agora pointer-only (8 linhas).
+
+Sub-índices criados: _index-agents.md (19), _index-retrieval.md (12), _index-meta-kb.md (29),
+_index-info-theory.md (12), _index-econ-poli.md (18), _index-ai-labor.md (7),
+_index-lateral.md (15), _index-strategy.md (14).
+
+Novos clusters além do plano original: econ-poli, ai-labor, strategy (emergiram de Zone 3 + conjecturas).
+
+## Estado original (2026-04-04)
 
 51 artigos. Sem evidência observável de degradação de Layer 1 até o momento.
 

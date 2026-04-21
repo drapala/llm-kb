@@ -97,6 +97,19 @@ Automação afeta não apenas os trabalhadores diretamente deslocados:
 ## Fontes
 - [Acemoglu & Restrepo (2022)](../../raw/papers/acemoglu-restrepo-2022-tasks-automation-wage-inequality.md) — Econometrica 90(5); task displacement framework; 500 demographic groups; ripple effects
 
+> [!patch]
+> id: patch-2026-04-08-001
+> status: pending
+> trigger: ingest/acemoglu-restrepo-reinstatement-new-tasks
+> impact_type: scope_expansion
+> materiality: high
+> affected_claims: [verificacao-adversarial-c001]
+> summary: A&R 2019 (JEP) provê o framework teórico completo que inclui o reinstatement effect ausente neste artigo. A nota "Não modela criação de novos empregos e tarefas" pode ser expandida para apontar ao framework dual.
+> action: Adicionar seção "Relação com A&R 2019" ou incorporar no ## Conteúdo: o paper 2022 testa empiricamente o displacement; o paper 2019 (JEP) modela displacement + reinstatement como efeitos opostos. Adicionar wikilink para [[acemoglu-restrepo-reinstatement-new-tasks]].
+> sources:
+>   - wiki/concepts/acemoglu-restrepo-reinstatement-new-tasks.md
+> created_at: 2026-04-08
+
 ## Quality Gate
 - [x] Wikilinks tipados: nenhum — Zone 3
 - [x] Instance→class: achados qualificados como análise histórica EUA 1980–2016

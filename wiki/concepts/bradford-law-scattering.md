@@ -14,7 +14,7 @@ resolved_patches: []
 provenance: source
 reads: 1
 retrievals_correct: 1
-retrievals_gap: 0
+retrievals_gap: 1
 last_read: 2026-04-04
 quarantine: false
 ---

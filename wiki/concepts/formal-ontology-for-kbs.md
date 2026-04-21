@@ -27,10 +27,10 @@ source_quality: high
 # updated: 2026-04-06 (added Luong 2026 — inverse parametric knowledge effect)
 interpretation_confidence: medium
 resolved_patches: []
-reads: 0
+reads: 1
 retrievals_correct: 0
 retrievals_gap: 0
-last_read: null
+last_read: 2026-04-12
 provenance: emergence
 emergence_trigger:
   pair: [question-taxonomy, kb-architecture-patterns]
@@ -179,6 +179,7 @@ Resultados em 600 runs controlados: Metric Accuracy (W=.460, p<.001), Regulatory
 
 ## Conexões
 
+- emerge-para: [[epistemic-dependency-copula]] ON "wikilinks tipados como dependência declarada (cointegração epistêmica); lacuna: co-ativações empíricas sem wikilink = fat tails invisíveis"
 - [[question-taxonomy]] — Noy Step 1 (competency questions) is what /question retroactively provides
 - [[tension-resolution]] — "contradicts" relation type would formalize tension detection
 - [[kb-architecture-patterns]] — ontology would add class hierarchy to flat article structure

@@ -5,18 +5,34 @@ sources:
     type: paper
     quality: primary
     stance: confirming
+  - path: raw/papers/villamil-kertesz-fazekas-2024-collusion-corporate-networks.md
+    type: paper
+    quality: primary
+    stance: confirming
 created: 2026-04-04
-updated: 2026-04-04
-tags: [corruption, procurement, bid-rigging, italy, b2g, manipulation, political-connections, zelox-signals]
-source_quality: medium
+updated: 2026-04-08
+tags: [corruption, procurement, bid-rigging, italy, sweden, b2g, manipulation, political-connections, network-analysis, zelox-signals]
+source_quality: high
 interpretation_confidence: medium
 resolved_patches: []
 provenance: source
-reads: 0
-retrievals_correct: 0
+reads: 3
+retrievals_correct: 3
 retrievals_gap: 0
-last_read: null
-quarantine: false
+last_read: 2026-04-12
+quarantine: true
+quarantine_created: 2026-04-08
+quarantine_reason: "Gate 3∥challenge — 1 claim invalidado (sinal preço vs referência) + 5 weakened após update Villamil 2024"
+quarantine_criteria_met:
+  gates_passed: [1, 2]
+  gates_failed: [3]
+  gate3_run: 2026-04-08
+  gate3_models: [gpt-5.4, gemini-3.1-pro-preview]
+  gate3_claims_challenged: 8
+  gate3_claims_survived: 2
+  gate3_claims_weakened: 5
+  gate3_claims_invalidated: 1
+  challenge_verdict: PRECISA_CORREÇÃO
 ---
 
 ## Resumo
@@ -35,12 +51,12 @@ Decarolis, Fisman, Pinotti & Vannutelli (2020) documentam manipulação sistemá
 
 ### Resultados Principais
 
-**Magnitude da vantagem de empresas conectadas:**
-- Vencem 20-30% mais frequentemente que empresas não-conectadas
-- Pagam preços 4-8% maiores que vencedoras não-conectadas comparáveis
+**Magnitude da vantagem de empresas conectadas (Decarolis et al. 2020, Itália):**
+- Vencem **20-30% mais frequentemente** que empresas não-conectadas (magnitude relativa; específico ao contexto italiano)
+- Preços **4-8% maiores** que vencedoras não-conectadas comparáveis (potencialmente conflation de prêmio de conexão política + markup de cartel — os dois mecanismos coexistem no paper)
 - O prêmio cresce com a força da conexão política
 
-**Evidência de causalidade:** Pós-eleição, empresas conectadas ao partido perdedor perdem a vantagem — mostra que conexões são instrumentos ativos, não proxies de qualidade de empresa.
+**Evidência de causalidade:** Pós-eleição, empresas conectadas ao partido perdedor perdem a vantagem — resultado *consistente com* conexões como instrumentos ativos (não prova definitiva; alternativa: outros fatores que mudam com eleições). Gemini confirma como identificação DiD padrão na literatura.
 
 ### Os Dois Canais de Manipulação
 
@@ -58,8 +74,25 @@ Coordenando múltiplas propostas, as empresas conectadas *deslocam* o ponto de r
 |-------|-------|---------------------|
 | Empresas com sócios sobrepostos submetendo propostas | Bid rigging | Sim (dados de CNPJ) |
 | Preços agrupados próximos à média de exclusão | Exploração de regra | Sim (distribuição de lances) |
-| Empresa vencedora com preço sistematicamente acima dos concorrentes | Canal 1+2 | Sim (comparação com referência) |
+| Empresa vencedora com preço sistematicamente acima de referência de mercado (SINAPI, pesquisa de preços) — não acima dos concorrentes (que em menor-preço seriam eliminados) | Canal 1+2 | Sim (comparação com referência de mercado) |
 | Mesmo fornecedor vencendo >50% de contratos por categoria/município | Concentração | Sim (histórico de winners) |
+
+### Confirmação Cross-Country: Temporal Multiplex Networks (Villamil, Kertész & Fazekas 2024)
+
+Evidência independente com dados suecos (2010-2015) usando redes temporais multiplex:
+
+**Dois layers combinados:**
+- **Ownership layer:** grafo de sócios compartilhados entre empresas (análogo CNPJ)
+- **Co-bidding layer:** grafo de empresas que submetem propostas no mesmo processo (análogo PNCP)
+
+**Achados (Scientific Reports, 2024):**
+- Mercados com empresas mais centrais no ownership network → maior incidência de **single bidding** (apenas 1 licitante) e **missing bidders** (concorrentes esperados que não aparecem)
+- Empresas com alta centralidade em ownership network vencem contratos significativamente mais frequentemente, controlando por características da firma
+- O efeito é temporal: relacionamentos de ownership *anteriores* ao processo licitatório predizem o resultado do processo
+
+**Implicação metodológica:** o `rede_empresas_score` não precisa verificar apenas sobreposição estática de sócios no momento da licitação — a centralidade histórica no grafo de ownership é *sugestiva* de risco de colusão. Isso é *consistente com* usar grafos societários longitudinais (dados suecos; alta centralidade pode ter explicações alternativas além de colusão). Não generaliza automaticamente para o contexto legal brasileiro.
+
+*Qualificação: dados suecos — regras de licitação diferentes do Brasil. Mecanismo de rede se generaliza, mas thresholds específicos precisam calibração com dados PNCP brasileiros.*
 
 ## Interpretação
 
@@ -89,8 +122,18 @@ Coordenando múltiplas propostas, as empresas conectadas *deslocam* o ponto de r
 - validates: [[corruption-audits-brazil]] ON "identificação de bid rigging como canal de corrupção em procurement; CGU audita os mesmos tipos de irregularidade"
 - relates: [[procurement-renegotiation]] ON "aditivos (hold-up) e bid rigging são duas estratégias de extração — Tirole modela a primeira, Decarolis a segunda"
 - relates: [[market-for-lemons]] ON "bid rigging agrava adverse selection: compradores não conseguem distinguir proposta genuína de colusiva"
+- emerge-para: [[procurement-phoenix-graph-architecture]] ON "temporal multiplex ownership+co-bidding (Villamil 2024) = estrutura empiricamente validada que ancora a arquitetura de detecção de phoenix"
 - relates: [[audit-risk-rent-extraction]] ON "Zamboni & Litschig documenta redução de irregularidades via auditoria; Decarolis documenta quais irregularidades existem"
 
 ## Fontes
 
 - [Decarolis et al. (2020)](../../raw/papers/decarolis-2020-procurement-manipulation.md) — RES 87(6), 2465-2502. Licitações italianas 2000-2016, +20-30% win rate empresas conectadas, +4-8% preços, bid rigging + exploração de regra de média. ⚠️ Stub — texto completo não lido.
+- [Villamil, Kertész & Fazekas (2024)](../../raw/papers/villamil-kertesz-fazekas-2024-collusion-corporate-networks.md) — Scientific Reports Vol.14. Dados suecos 2010-2015. Temporal multiplex (ownership + co-bidding): centralidade no ownership network prediz single bidding e win rate. Confirmação cross-country independente. ⚠️ Baseado em abstract/descrição secundária.
+
+> ⚠️ QUARENTENA: Gate 3∥challenge — 1 invalidado + 5 weakened. Correções aplicadas (verificar):
+> 1. [INVALIDADO] 'Preço acima dos concorrentes' → corrigido para 'preço acima de referência de mercado' (SINAPI, pesquisa de preços)
+> 2. [WEAKENED] Magnitudes 20-30%/4-8% qualificadas — podem conflate connection premium + cartel markup
+> 3. [WEAKENED] 'Mostra que conexões são instrumentos ativos' → 'consistente com'
+> 4. [WEAKENED] Centralidade de rede como proxy de colusão → 'sugestiva', não definitiva
+> 5. [WEAKENED] Generalização cross-country dos achados suecos → qualificada
+> 6. [WEAKENED] '20-30%' sem spec de modelo/fonte → contexto Decarolis Itália adicionado

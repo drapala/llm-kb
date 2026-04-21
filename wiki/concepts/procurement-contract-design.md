@@ -12,10 +12,10 @@ source_quality: medium
 interpretation_confidence: medium
 resolved_patches: []
 provenance: source
-reads: 1
-retrievals_correct: 1
+reads: 4
+retrievals_correct: 3
 retrievals_gap: 0
-last_read: 2026-04-04
+last_read: 2026-04-08
 quarantine: false
 ---
 

@@ -13,7 +13,7 @@ interpretation_confidence: high
 resolved_patches: []
 reads: 0
 retrievals_correct: 0
-retrievals_gap: 0
+retrievals_gap: 1
 last_read: null
 quarantine: false
 provenance: source

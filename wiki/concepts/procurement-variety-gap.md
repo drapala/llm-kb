@@ -27,10 +27,10 @@ resolved_patches:
     fix: "Contrato de eficiência: escopo corrigido — especificamente 'proporcionar economia ao contratante' (Art. 6, LIII), não 'qualquer método para outcome'"
   - date: 2026-04-04
     fix: "Mecanismo de segunda ordem CONFIRMADO empiricamente: anteprojeto obrigatório de 10 elementos (TCU) codifica a superespecificação. 'Aditamentos ilegais quando baseados em erros do anteprojeto' (jurisprudência TCU) — confirma que error floor é estruturalmente menor sob contratação integrada"
-reads: 1
-retrievals_correct: 1
+reads: 7
+retrievals_correct: 6
 retrievals_gap: 0
-last_read: 2026-04-04
+last_read: 2026-04-08
 quarantine: false
 quarantine_created: 2026-04-04
 quarantine_reason: "Artigo emergido de /ask cross-domain (b2g × sistemas). Gap crítico: Lei 14.133 e TCU Manual não estavam em raw/."
