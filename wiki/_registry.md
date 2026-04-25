@@ -354,3 +354,4 @@
 | raw/articles/dora-metrics-history.md | 2026-04-25 | insight-article | primary | neutral | dora-metrics-history-evolution | processed; 4→5 metrics, MTTR→Failed Deployment Recovery Time, deployment rework rate |
 | raw/articles/cncf-platform-engineering-maturity-model.md | 2026-04-25 | whitepaper | primary | neutral | cncf-platform-engineering-maturity-model | processed; 5 aspects × 4 levels; anti-Goodhart awareness |
 | raw/articles/github-artifact-attestations.md | 2026-04-25 | docs | primary | neutral | github-artifact-attestations | processed; SLSA L2 default; Sigstore signing; generation ≠ verification asymmetry |
+| wiki/concepts/platform-as-variety-amplifier-for-ai.md | 2026-04-25 | synthesis | primary | neutral | platform-as-variety-amplifier-for-ai | processed; EMERGIDO: dora-2025-ai-as-amplifier × variety-amplification-llm-review; INSTANCIA L2 |

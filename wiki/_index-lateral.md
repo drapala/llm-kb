@@ -11,6 +11,7 @@
 - [DORA Metrics — Evolution 4→5](concepts/dora-metrics-history-evolution.md) — 5 métricas (2024): Throughput (lead time, freq, recovery time) vs Instability (change fail rate, deployment rework rate). MTTR renomeado em 2023
 - [CNCF Platform Engineering Maturity Model](concepts/cncf-platform-engineering-maturity-model.md) — 5 aspectos (Investment/Adoption/Interfaces/Operations/Measurement) × 4 níveis (Provisional→Operational→Scalable→Optimizing). Auto-aware de Goodhart
 - [GitHub Artifact Attestations + SLSA](concepts/github-artifact-attestations.md) — provenance assinada via Sigstore; SLSA L2 default, L3 com reusable workflows. Princípio: gerar ≠ verificar; só verify cria valor
+- [Platform como Variety Amplifier para AI](concepts/platform-as-variety-amplifier-for-ai.md) — ⏳EMERGE 2026-04-25. DORA "AI as amplifier" + SGCR 22%→42% = mesmo loop de regulação Ashby. Plataforma É o V(R) calibrador do AI, não metáfora
 
 
 - [Stigmergic Coordination (Grassé)](concepts/stigmergic-coordination.md) — KB = stigmergic system: wiki is environment, wikilinks are pheromones. Observado: /ingest sem conexões → /ask descobriu espontaneamente
