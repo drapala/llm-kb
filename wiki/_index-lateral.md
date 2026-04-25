@@ -1,8 +1,17 @@
 # Index — Domínios Laterais
 
-<!-- ~17 artigos: ecologia, economia comportamental, neurociência, filosofia da ciência, finanças pessoais -->
+<!-- ~21 artigos: ecologia, economia comportamental, neurociência, filosofia da ciência, finanças pessoais, platform engineering -->
 <!-- Viveiro: artigos com ≤3 citações. Regra: ≥4 citações → graduar para sub-índice funcional -->
 <!-- PAC-Bayes aqui por ser fundações matemáticas sem vínculo direto com KB/agents ainda -->
+<!-- Cluster platform-eng (2026-04-25): DORA + CNCF + supply-chain — ingerido p/ challenge externo, candidato a sub-índice se crescer -->
+
+## Platform Engineering / DevEx (cluster 2026-04)
+
+- [DORA 2025 — AI as Platform Amplifier](concepts/dora-2025-ai-as-amplifier.md) — AI amplifica plataforma boa OU má; "shift down complexity into the platform"; 90% das orgs com IDP, 76% com platform team
+- [DORA Metrics — Evolution 4→5](concepts/dora-metrics-history-evolution.md) — 5 métricas (2024): Throughput (lead time, freq, recovery time) vs Instability (change fail rate, deployment rework rate). MTTR renomeado em 2023
+- [CNCF Platform Engineering Maturity Model](concepts/cncf-platform-engineering-maturity-model.md) — 5 aspectos (Investment/Adoption/Interfaces/Operations/Measurement) × 4 níveis (Provisional→Operational→Scalable→Optimizing). Auto-aware de Goodhart
+- [GitHub Artifact Attestations + SLSA](concepts/github-artifact-attestations.md) — provenance assinada via Sigstore; SLSA L2 default, L3 com reusable workflows. Princípio: gerar ≠ verificar; só verify cria valor
+
 
 - [Stigmergic Coordination (Grassé)](concepts/stigmergic-coordination.md) — KB = stigmergic system: wiki is environment, wikilinks are pheromones. Observado: /ingest sem conexões → /ask descobriu espontaneamente
 - [Complexity and Emergence (Waldrop)](concepts/complexity-emergence.md) — VOCABULARY: emergence, edge of chaos, fitness landscape, path dependence. May (1972) âncora os claims. KB drifting toward order-death

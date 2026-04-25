@@ -349,3 +349,8 @@
 | raw/papers/vijayvargiya-2026-ambig-swe-underspecification.md | 2026-04-19 | paper | primary | confirming | ticket-pre-validation-agentic-planning | ICLR 2026; +74% underspecified SWE-bench com clarificação; detecção como gargalo |
 | raw/papers/edwards-2026-ask-or-assume-clarification.md | 2026-04-19 | paper | primary | confirming | ticket-pre-validation-agentic-planning | decoupled detection/execution; 69.40% vs 61.20%; uncertainty calibrada |
 | raw/papers/benkovich-2026-agyn-team-based-swe.md | 2026-04-19 | paper | primary | confirming | pr-creation-orchestration | 72.2% SWE-bench 500; PR como acceptance signal; 4 roles; produção-deployed |
+| raw/articles/dora-2025-ai-amplifier.md | 2026-04-25 | report | primary | neutral | dora-2025-ai-as-amplifier | processed; AI as amplifier; platform-eng challenge ingest |
+| raw/articles/dora-platform-engineering-capability.md | 2026-04-25 | capability-page | primary | neutral | dora-2025-ai-as-amplifier | processed; "shift down" + governance-for-AI; consolidated with 2025-report |
+| raw/articles/dora-metrics-history.md | 2026-04-25 | insight-article | primary | neutral | dora-metrics-history-evolution | processed; 4→5 metrics, MTTR→Failed Deployment Recovery Time, deployment rework rate |
+| raw/articles/cncf-platform-engineering-maturity-model.md | 2026-04-25 | whitepaper | primary | neutral | cncf-platform-engineering-maturity-model | processed; 5 aspects × 4 levels; anti-Goodhart awareness |
+| raw/articles/github-artifact-attestations.md | 2026-04-25 | docs | primary | neutral | github-artifact-attestations | processed; SLSA L2 default; Sigstore signing; generation ≠ verification asymmetry |
