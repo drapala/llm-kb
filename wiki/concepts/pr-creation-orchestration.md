@@ -6,7 +6,7 @@ sources:
     quality: primary
     stance: confirming
 created: 2026-04-19
-updated: 2026-04-19
+updated: 2026-04-23
 tags: [agents, pull-request, orchestration, swe, github, multi-agent, production]
 source_quality: medium
 interpretation_confidence: high
@@ -15,7 +15,9 @@ provenance: source
 reads: 1
 retrievals_correct: 1
 retrievals_gap: 0
-freshness_status: current
+freshness_status: impacted
+pending_patch_count: 1
+last_impact_at: 2026-04-23
 quarantine: false
 quarantine_promoted: 2026-04-18
 quarantine_criteria_met:
@@ -135,6 +137,21 @@ Isso é implementação do princípio de compactação documentado em claude-cod
 - refines: [[claude-code-architecture-analysis]] ON "worktree isolation por agente + GitHub-native workflow estende o padrão de worktree do Claude Code para coordenação multi-agente"
 - refines: [[agentic-coding-failure-taxonomy]] ON "role specialization (Manager/Researcher/Engineer/Reviewer) como resposta arquitetural a tarefas heterogêneas que overwhelm single-agent setups"
 - validates: [[agentops-mas-failure-management]] ON "failure concentration: reviewer agent como gate específico para classe de falhas de 'completion hallucination'"
+
+> [!patch]
+> id: patch-2026-04-23-002
+> status: pending
+> trigger: ingest/llm-automated-code-review
+> impact_type: scope_expansion
+> materiality: medium
+> affected_claims: [reviewer-agent, pr-acceptance-signal]
+> summary: Zhong 2026 (278K conversações) adiciona dado importante: human reviewers fazem 11.8% mais rounds ao revisar código AI-gerado vs. código humano. Isso significa que o reviewer agent no pipeline Agyn enfrenta um problema específico: quando o Engineer agent produz código, o Reviewer agent precisa de mais iterações — não é bug, é padrão documentado empiricamente. Adalsteinsson 2025 complementa: reviewers não-familiarizados preferem AI review upfront; experientes preferem on-demand — sugere especialização do reviewer agent por tipo de PR.
+> action: Adicionar seção "Dinâmica de review de código AI-gerado" com dados de Zhong 2026. Considerar se o reviewer agent do Agyn deveria ser calibrado diferentemente para PRs de agentes vs. PRs humanos.
+> sources:
+>   - wiki/concepts/llm-automated-code-review.md
+>   - raw/papers/zhong-2026-human-ai-synergy-code-review.md
+>   - raw/papers/adalsteinsson-2025-rethinking-code-review-llm.md
+> created_at: 2026-04-23
 
 ## Fontes
 

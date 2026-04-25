@@ -39,4 +39,5 @@
 - [AgentOps — MAS Failure Management](concepts/agentops-mas-failure-management.md) — EAGER: falhas em MAS fixos são concentradas (top-2 cobrem 75-95%); BGE-M3 falha em traces (NDCG@10=14.5%); step-wise detection F1 63-86%
 - [Uncertainty-Aware Workflow Denoising](concepts/uncertainty-aware-workflow-denoising.md) — DenoiseFlow KDD2026: Noisy MDP; Sensing→Regulating→Correcting; 83.3% avg 6 benchmarks; 40-56% cost reduction via adaptive branching
 - [[ticket-pre-validation-agentic-planning]] — AMBIG-SWE + Ask or Assume: +74% em SWE-bench com detecção de underspecification pré-execução; gargalo é detectar, não perguntar (ICLR 2026)
-- [[pr-creation-orchestration]] — Agyn 72.2% SWE-bench 500: PR aprovado por reviewer agent como acceptance signal; 4 roles; automation-first prompting; produção-deployed
+- [[pr-creation-orchestration]] — Agyn 72.2% SWE-bench 500: PR aprovado por reviewer agent como acceptance signal; 4 roles; automation-first prompting; produção-deployed · **IMPACTED** (patch: review dinâmico de código AI-gerado, Zhong 2026)
+- [[llm-automated-code-review]] — 9 fontes (2024-26): AI sugestões 16.6% adoção vs 56.5% humano; 92.3% CRAs < 60% signal; industrial: BitsAI-CR, RovoDev, LAURA, SGCR convergem em filtro de ruído antes de output

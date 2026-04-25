@@ -114,6 +114,7 @@ Tishby, Pereira e Bialek mencionam aplicações a: clustering semântico de pala
 - complementsAt: [[complexity-emergence]] — ambos tratam compressão e estrutura emergente, em níveis diferentes
 - validates: [[curation-anti-bias]] — princípio IB formaliza por que curação deve preservar relevância, não apenas volume
 - partOf: [[requisite-variety]] — compressão com preservação de variedade relevante é instância do princípio de Beer
+- emerge-para: [[ib-optimal-context-selection-review]] ON "L[p(x̃|x)] = I(X̃;X) − β·I(X̃;Y) como princípio de compressão ótima para context selection"
 
 ## Fontes
 - [Tishby, Pereira, Bialek (2000)](../../raw/papers/tishby-information-bottleneck.md) — paper primário: formalização do princípio IB, solução variacional, algoritmo iterativo, estrutura das soluções

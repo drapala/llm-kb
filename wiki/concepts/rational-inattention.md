@@ -122,6 +122,7 @@ Sims formaliza V(R) em termos de Shannon channel capacity C. A Predição D de A
 
 - instancia: [[fast-frugal-heuristics]] ON "⚠️ regime onde heurísticas frugais ganham = regime onde constraint I(X;Y)≤C é binding; ecological rationality ≈ optimal attention allocation (nossa interpretação, L1)"
 - emerge-para: [[binding-attention-regime]] ON "binding regime como conceito unificador entre Sims e Gigerenzer"
+- emerge-para: [[rational-inattention-llm-context-failure]] ON "I(X;Y) ≤ C como constraint de capacidade — attention dilution é falha de optimal allocation dado C"
 
 ## Verificação adversarial
 

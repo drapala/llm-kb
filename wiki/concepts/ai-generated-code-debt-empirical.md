@@ -22,7 +22,7 @@ sources:
     quality: primary
     stance: confirming
 created: 2026-04-11
-updated: 2026-04-11
+updated: 2026-04-23
 tags: [technical-debt, ai-generated-code, code-quality, empirical, security, code-smells]
 source_quality: high
 interpretation_confidence: high
@@ -30,7 +30,9 @@ resolved_patches: []
 provenance: synthesis
 status: promoted
 promoted_date: 2026-04-11
-freshness_status: current
+freshness_status: impacted
+pending_patch_count: 1
+last_impact_at: 2026-04-23
 synthesis_sources:
   - raw/papers/liu-2026-debt-behind-ai-boom.md
   - raw/articles/ox-security-2025-army-of-juniors.md
@@ -141,6 +143,21 @@ Achado central (Ox Security, análise qualitativa): AI code não teria mais vuln
 ## Conexões
 - ai-technical-debt-taxonomy partOf ai-generated-code-debt-empirical (framework conceitual para interpretar estes dados)
 - ai-productivity-paradox derivedFrom ai-generated-code-debt-empirical (a velocidade que gera debt é o mesmo mecanismo que cria a ilusão de produtividade)
+
+> [!patch]
+> id: patch-2026-04-23-001
+> status: pending
+> trigger: ingest/llm-automated-code-review
+> impact_type: scope_expansion
+> materiality: medium
+> affected_claims: [review-quality, pr-supervision]
+> summary: Zhong 2026 (278K conversações) e Chowdhury 2026 (3.109 PRs) expandem o escopo do artigo: além de AI code introduzir dívida técnica, o review desse mesmo código por agentes AI tem qualidade significativamente menor (16.6% adoção vs 56.5% humanos; 92.3% dos CRAs com signal ratio < 60%). O claim de Watanabe 2025 ("45.1% dos PRs requerem revisão humana") ganha um complemento: mesmo quando revisados, a qualidade do review automatizado é baixa se não houver filtragem de ruído.
+> action: Adicionar seção "Qualidade do review de código AI-gerado" com dados de Zhong 2026 e Chowdhury 2026. O loop completo é: AI gera código com dívida → AI revisa com baixa qualidade → dívida persiste (41.1% de survival em security issues).
+> sources:
+>   - wiki/concepts/llm-automated-code-review.md
+>   - raw/papers/zhong-2026-human-ai-synergy-code-review.md
+>   - raw/papers/chowdhury-2026-cra-signal-noise-empirical.md
+> created_at: 2026-04-23
 
 ## Fontes
 - [Liu et al. 2026](../../raw/papers/liu-2026-debt-behind-ai-boom.md) — 304K commits, 5 tools, survival rates, growth trajectory

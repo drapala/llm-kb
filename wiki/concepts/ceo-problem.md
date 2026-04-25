@@ -174,6 +174,7 @@ O CEO problem diz que a rate region ótima requer coordenação implícita via q
 - derivedFrom: [[network-information-theory]] ON "Slepian-Wolf (lossless) é caso especial D=0 do CEO"
 - complementsAt: [[team-decision-theory]] ON "CEO = framework de informação para o problema que Ho & Chu modela como decisão"
 - complementsAt: [[partial-information-decomposition]] ON "PID diagnóstica unique/shared/synergistic de dois compiladores; CEO determina a taxa ótima para recuperá-las"
+- emerge-para: [[ceo-architecture-code-review-filter]] ON "Berger-Tung bound como design target para two-stage filter de code review"
 
 ## Fontes
 

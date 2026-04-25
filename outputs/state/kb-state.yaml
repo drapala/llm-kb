@@ -4,6 +4,31 @@
 # Lido por session-start e exibido antes de qualquer check.
 
 next_actions:
+  # [CHALLENGE COMPLETO 2026-04-23] attention-dilution-llm-context — PUBLICÁVEL após correções
+  - priority: 2
+    action: "/promote attention-dilution-llm-context"
+    why: "challenge PUBLICÁVEL 2026-04-23: 3 claims avaliados, 2 weakened e corrigidos (hedges), 0 invalidated. Prior work verificado — 4 papers CONFIRMA, 1 REFINA em queue."
+    blocked_by: null
+    added_by: challenge
+    added_on: "2026-04-23"
+  - priority: 3
+    action: "ingest arXiv:2509.01494 (Benchmarking LLM-based Code Review)"
+    why: "REFINA claim 1 de attention-dilution-llm-context. SPRT: CHAIN_QUEUED, auto_trigger: false."
+    blocked_by: null
+    added_by: challenge
+    added_on: "2026-04-23"
+  - priority: 2
+    action: "/refresh-promoted ai-generated-code-debt-empirical"
+    why: "patch-2026-04-23-001 pendente: adicionar seção de qualidade de review de código AI-gerado (Zhong 2026, Chowdhury 2026)"
+    blocked_by: null
+    added_by: ingest
+    added_on: "2026-04-23"
+  - priority: 2
+    action: "/refresh-promoted pr-creation-orchestration"
+    why: "patch-2026-04-23-002 pendente: dinâmica de review de código AI-gerado (11.8% mais rounds, Zhong 2026)"
+    blocked_by: null
+    added_by: ingest
+    added_on: "2026-04-23"
   # [PROMOVIDO 2026-04-06] meta-harness-optimization
   # [PROMOVIDO 2026-04-06] natural-language-agent-harness
   # [CHALLENGE COMPLETO 2026-04-06] raw-design-constraints — PRECISA_CORREÇÃO → correções aplicadas → Gate 1 emergence: /promote manual necessário
@@ -139,15 +164,87 @@ readiness_signal:
   warning: "stance 18% — abaixo de 20%; busque fonte challenging"
 # ── Estado do ciclo rápido ──────────────────────────────────────────────────────
 emerge_queue: []
-# resetado após sessão 9 (2026-04-06) — 4 artigos processados, 3 GENUINE: vsm×CLS, debate×JA, block×CLS
+# resetado 2026-04-23 — 6 pares code-review × info-theory/sistemas/economics — todos confirmados via /ask e sintetizados
+synthesize:
+  pending_from_ask: []
+  completed_2026_04_23:
+    - ib-optimal-context-selection-review
+    - variety-amplification-llm-review
+    - code-review-lemons-market
+    - rational-inattention-llm-context-failure
+    - ceo-architecture-code-review-filter
+    - vsm-blast-radius-routing-calibration
+  archived_pending:
+    - pair: [attention-dilution-llm-context, information-bottleneck]
+      ask_session: outputs/logs/sessions/2026-04-23/ask-emerge-pairs.md
+      connection_type: ANÁLOGO-A
+      emergent_concept: "IB-Optimal Context Selection for LLM Code Review"
+    - pair: [specification-grounded-review, requisite-variety]
+      ask_session: outputs/logs/sessions/2026-04-23/ask-emerge-pairs.md
+      connection_type: INSTANCIA
+      emergent_concept: "Variety Amplification em LLM Review — implicit path como variety residual"
+    - pair: [llm-automated-code-review, market-for-lemons]
+      ask_session: outputs/logs/sessions/2026-04-23/ask-emerge-pairs.md
+      connection_type: ANÁLOGO-A
+      emergent_concept: "Code Review AI como Lemons Market — Signaling Infrastructure"
+    - pair: [attention-dilution-llm-context, rational-inattention]
+      ask_session: outputs/logs/sessions/2026-04-23/ask-emerge-pairs.md
+      connection_type: ANÁLOGO-A
+      emergent_concept: "Attention Dilution como Falha de Rational Inattention"
+    - pair: [llm-automated-code-review, ceo-problem]
+      ask_session: outputs/logs/sessions/2026-04-23/ask-emerge-pairs.md
+      connection_type: ANÁLOGO-A
+      emergent_concept: "CEO Problem Architecture para Two-Stage Code Review Filter"
+    - pair: [specification-grounded-review, viable-system-model-beer]
+      ask_session: outputs/logs/sessions/2026-04-23/ask-emerge-pairs.md
+      connection_type: ANÁLOGO-A
+      emergent_concept: "VSM-Grounded Blast-Radius Routing — calibração como variety attenuation S1"
+emerge_top_pairs:
+  - pair: [attention-dilution-llm-context, information-bottleneck]
+    connection_type: ANÁLOGO-A
+    pearl_level: L2
+    espurio: baixo
+    custo: baixo
+    ask_session: null
+  - pair: [specification-grounded-review, requisite-variety]
+    connection_type: INSTANCIA
+    pearl_level: L2
+    espurio: baixo
+    custo: baixo
+    ask_session: null
+  - pair: [llm-automated-code-review, market-for-lemons]
+    connection_type: ANÁLOGO-A
+    pearl_level: L2
+    espurio: médio
+    custo: baixo
+    ask_session: null
+  - pair: [attention-dilution-llm-context, rational-inattention]
+    connection_type: ANÁLOGO-A
+    pearl_level: L2
+    espurio: médio
+    custo: baixo
+    ask_session: null
+  - pair: [llm-automated-code-review, ceo-problem]
+    connection_type: ANÁLOGO-A
+    pearl_level: L2
+    espurio: médio
+    custo: baixo
+    ask_session: null
+  - pair: [specification-grounded-review, viable-system-model-beer]
+    connection_type: ANÁLOGO-A
+    pearl_level: L2
+    espurio: médio
+    custo: médio
+    ask_session: null
+last_emerge: "2026-04-23"
 
 ingest_chain:
   depth: 0
   status: open
   origin_article: null
-  last_challenge: "2026-04-20"
-sessions_since_last_dream: 18
-ingest_count_since_last_lint: 13
+  last_challenge: "2026-04-23"
+sessions_since_last_dream: 19
+ingest_count_since_last_lint: 24
 last_session_documented: 2026-04-12
 ask:
   articles_with_recent_gaps:
@@ -191,8 +288,8 @@ slow_cycle:
     context_before_pct: 89.1
     triggered_by: context
   scout:
-    last_run: "2026-04-20"
-    last_gap_focus: e39-multitenancy-isolation
+    last_run: "2026-04-23"
+    last_gap_focus: llm-code-review
     candidates_pending:
       - title: SafeKV — Selective KV-Cache Sharing
         arxiv_id: "2508.08438"

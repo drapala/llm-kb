@@ -94,6 +94,7 @@ Mercados desenvolvem mecanismos para reduzir assimetria:
 - [[market-failure-procurement]] — lemons como mecanismo subjacente de falha em procurement público
 - [[information-asymmetry-b2g]] — assimetria vendedor/comprador em licitações
 - [[tirole-procurement-renegotiation]] — renegociação como consequência de contratos incompletos com info assimétrica
+- emerge-para: [[code-review-lemons-market]] ON "assimetria de informação sobre qualidade de sugestões AI → adverse selection → desconto sistêmico"
 
 ## Fontes
 
